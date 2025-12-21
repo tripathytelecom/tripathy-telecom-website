@@ -6,45 +6,20 @@
 <title>TRIPATHY TELECOM | Recharge • PAN Card • Cyber Cafe</title>
 
 <style>
+/* HEADER BASE */
 .top-header{
   background:#000;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:12px 25px;
+  padding:12px 15px;
+  position:sticky;
+  top:0;
+  z-index:999;
 }
 
-/* LOGO */
-.header-left img{
+.logo img{
   height:55px;
-}
-.menu-toggle{
-  display:none;
-  font-size:26px;
-  color:#ffd400;
-  cursor:pointer;
-}
-
-@media(max-width:768px){
-  .header-menu{
-    display:none;
-    position:absolute;
-    top:65px;
-    left:0;
-    width:100%;
-    background:#000;
-    flex-direction:column;
-    align-items:center;
-    padding:15px 0;
-  }
-
-  .header-menu a{
-    padding:10px 0;
-  }
-
-  .menu-toggle{
-    display:block;
-  }
 }
 
 /* MENU */
@@ -57,27 +32,52 @@
   color:#ffd400;
   text-decoration:none;
   font-weight:600;
-  font-size:16px;
-}
-
-.header-menu a:hover{
-  border-bottom:2px solid #ffd400;
 }
 
 /* SOCIAL ICONS */
-.header-social{
+.social-icons{
   display:flex;
-  gap:15px;
+  gap:12px;
 }
 
-.header-social img{
-  width:26px;
+.social-icons img{
   height:26px;
-  transition:0.3s;
 }
 
-.header-social img:hover{
-  transform:scale(1.15);
+/* HAMBURGER */
+.menu-toggle{
+  display:none;
+  font-size:30px;
+  color:#ffd400;
+  cursor:pointer;
+}
+
+/* 📱 MOBILE VIEW */
+@media(max-width:768px){
+  .menu-toggle{
+    display:block;
+  }
+
+  .header-menu{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background:#000;
+    flex-direction:column;
+    text-align:center;
+    padding:20px 0;
+  }
+
+  .header-menu a{
+    padding:12px;
+    font-size:18px;
+  }
+
+  .header-menu.show{
+    display:flex;
+  }
 }
   
 .hero{
@@ -182,29 +182,25 @@ footer{
 
 <header>
 <header class="top-header">
-  <div class="header-left">
-    <img src="logo.png" alt="Tripathy Telecom Logo">
+  <div class="logo">
+    <img src="logo.png" alt="Tripathy Telecom">
   </div>
-<div class="menu-toggle" onclick="toggleMenu()">☰</div>
-  <nav class="header-menu">
-    <a href="index.html">Home</a>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav class="header-menu" id="navMenu">
+    <a href="#home">Home</a>
     <a href="#services">Services</a>
-    <a href="products.html">Products</a>
+    <a href="#products">Products</a>
     <a href="recharge.html">Recharge</a>
     <a href="pan-card.html">PAN Card</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <div class="header-social">
-    <a href="https://wa.me/918670244552" target="_blank" title="WhatsApp">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
-    </a>
-    <a href="#" title="Facebook">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
-    </a>
-    <a href="https://www.youtube.com/tripathytelecom" title="YouTube">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
-    </a>
+  <div class="social-icons">
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
   </div>
 </header>
 
@@ -255,8 +251,7 @@ footer{
 <a class="float-whatsapp" href="https://wa.me/918670244552" target="_blank">💬</a>
 <script>
 function toggleMenu(){
-  const menu = document.querySelector('.header-menu');
-  menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+  document.getElementById("navMenu").classList.toggle("show");
 }
 </script>
 

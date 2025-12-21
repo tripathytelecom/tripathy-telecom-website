@@ -6,34 +6,59 @@
 <title>TRIPATHY TELECOM | Recharge • PAN Card • Cyber Cafe</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:#f4f6f8;
-    color:#333;
+.main-header{
+  background:#ffcc00;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
 }
-header{
-    background:#000;
-    color:#ffd400;
-    padding:15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+
+/* Logo */
+.header-left img{
+  height:70px;
 }
-header img{
-    height:50px;
+
+/* Center Menu */
+.header-menu{
+  display:flex;
+  gap:20px;
 }
-header h1{
-    margin:0;
-    font-size:22px;
+
+.header-menu a{
+  color:#000;
+  font-weight:700;
+  text-decoration:none;
+  padding:6px 12px;
+  border-radius:6px;
 }
-.whatsapp-btn{
-    background:#25D366;
-    color:#fff;
-    padding:10px 14px;
-    text-decoration:none;
-    border-radius:5px;
-    font-weight:bold;
+
+.header-menu a:hover{
+  background:#000;
+  color:#ffcc00;
+}
+
+/* Right buttons */
+.header-right{
+  display:flex;
+  gap:10px;
+}
+
+.social{
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:14px;
+}
+
+.whatsapp{ background:#25D366; }
+.facebook{ background:#1877f2; }
+.youtube{ background:#ff0000; }
+
+.social:hover{
+  opacity:0.85;
 }
 
 .hero{

@@ -213,6 +213,20 @@ footer{
     font-size:22px;
     text-decoration:none;
 }
+  .notify-btn{
+  padding:12px 22px;
+  background:#ffd400;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+.notify-btn:hover{
+  background:#ffcc00;
+}
+
 </style>
 <!-- OneSignal Push Notification -->
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
@@ -304,7 +318,10 @@ footer{
 </section>
 
 <footer>
-    © 2025 TRIPATHY TELECOM | All Rights Reserved
+    © 2025 TRIPATHY TELECOM | All Rights Reserved <button onclick="OneSignal.showSlidedownPrompt()" class="notify-btn">
+🔔 Enable Notifications
+</button>
+
 </footer>
 
 <a class="float-whatsapp" href="https://wa.me/918670244552" target="_blank">💬</a>

@@ -100,6 +100,11 @@ footer{
     <a href="recharge.html">Recharge</a>
     <a href="pan-card.html">PAN Card</a>
     <a href="contact.html">Contact</a>
+
+    <a href="cart.html" style="color:#ffd400;font-weight:bold;">
+  🛒 Cart (<span id="cartCount">0</span>)
+</a>
+
   </nav>
 </header>
 
@@ -144,6 +149,22 @@ footer{
 <footer>
 © 2025 TRIPATHY TELECOM
 </footer>
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function addToCart(name, price){
+  cart.push({name, price});
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+  alert("Added to Cart");
+}
+
+function updateCartCount(){
+  document.getElementById("cartCount").innerText = cart.length;
+}
+
+updateCartCount();
+</script>
 
 </body>
 </html>

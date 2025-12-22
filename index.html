@@ -213,7 +213,7 @@ footer{
     font-size:22px;
     text-decoration:none;
 }
-  .notify-btn{
+.notify-btn{
   padding:12px 22px;
   background:#ffd400;
   color:#000;
@@ -221,28 +221,23 @@ footer{
   border:none;
   border-radius:6px;
   cursor:pointer;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
-}
-.notify-btn:hover{
-  background:#ffcc00;
 }
 
 </style>
-<!-- OneSignal Push Notification -->
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+
 <script>
   window.OneSignal = window.OneSignal || [];
   OneSignal.push(function() {
     OneSignal.init({
       appId: "030ab637-e25e-4a1f-8193-cdac0c397245",
       notifyButton: {
-        enable: true
+        enable: false
       },
       allowLocalhostAsSecureOrigin: true
     });
   });
 </script>
-<!-- End OneSignal -->
 
 </head>
 <header>
@@ -318,10 +313,7 @@ footer{
 </section>
 
 <footer>
-    © 2025 TRIPATHY TELECOM | All Rights Reserved <button onclick="OneSignal.showSlidedownPrompt()" class="notify-btn">
-🔔 Enable Notifications
-</button>
-
+    © 2025 TRIPATHY TELECOM | All Rights Reserved 
 </footer>
 
 <a class="float-whatsapp" href="https://wa.me/918670244552" target="_blank">💬</a>
@@ -329,6 +321,20 @@ footer{
 function toggleMenu(){
   document.getElementById("navMenu").classList.toggle("show");
 }
+</script>
+<button id="notifyBtn" class="notify-btn">
+🔔 Enable Notifications
+</button>
+<script>
+document.getElementById("notifyBtn").addEventListener("click", function () {
+  if (window.OneSignal) {
+    OneSignal.push(function() {
+      OneSignal.showSlidedownPrompt();
+    });
+  } else {
+    alert("Notification service not loaded. Refresh page.");
+  }
+});
 </script>
 
 </body>

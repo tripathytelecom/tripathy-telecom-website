@@ -24,34 +24,55 @@ nav a{
   font-weight:bold;
 }
 
-/* PRODUCTS */
+/* PAGE */
 .section{
   padding:60px 20px;
   text-align:center;
 }
 .section h1{color:#ffd400}
 
+/* PRODUCT GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-  max-width:1000px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:25px;
+  max-width:1100px;
   margin:40px auto;
 }
 
 .card{
   background:#111;
+  border-radius:12px;
   padding:20px;
-  border-radius:10px;
-  box-shadow:0 0 12px rgba(255,212,0,0.25);
+  box-shadow:0 0 15px rgba(255,212,0,0.25);
 }
-.card h3{margin:10px 0}
-.price{color:#ffd400;font-weight:bold}
 
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:contain;
+  background:#000;
+  border-radius:8px;
+}
+
+.card h3{margin:12px 0}
+.price{color:#ffd400;font-weight:bold;font-size:18px}
+
+/* QUANTITY */
+.qty{
+  margin:10px 0;
+}
+.qty input{
+  width:60px;
+  padding:6px;
+  text-align:center;
+}
+
+/* BUTTONS */
 .btn{
   display:inline-block;
-  margin:8px;
-  padding:10px 18px;
+  margin:8px 4px;
+  padding:10px 16px;
   background:#ffd400;
   color:#000;
   text-decoration:none;
@@ -72,12 +93,9 @@ footer{
 <body>
 
 <header>
-  <a href="index.html">
-  <img src="logo.png" alt="Tripathy Telecom Logo">
-</a>
+  <a href="index.html"><img src="logo.png"></a>
   <nav>
     <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
     <a href="products.html">Products</a>
     <a href="recharge.html">Recharge</a>
     <a href="pan-card.html">PAN Card</a>
@@ -92,16 +110,28 @@ footer{
 
     <!-- PRODUCT 1 -->
     <div class="card">
+      <img src="https://via.placeholder.com/300x200?text=Mobile+Charger">
       <h3>Mobile Charger</h3>
       <p class="price">₹399</p>
+
+      <div class="qty">
+        Qty: <input type="number" value="1" min="1">
+      </div>
+
       <a class="btn" href="#">Add to Cart</a>
       <a class="btn" href="checkout.html?product=Mobile%20Charger&price=399">Buy Now</a>
     </div>
 
     <!-- PRODUCT 2 -->
     <div class="card">
+      <img src="https://via.placeholder.com/300x200?text=Earphone">
       <h3>Earphone</h3>
       <p class="price">₹299</p>
+
+      <div class="qty">
+        Qty: <input type="number" value="1" min="1">
+      </div>
+
       <a class="btn" href="#">Add to Cart</a>
       <a class="btn" href="checkout.html?product=Earphone&price=299">Buy Now</a>
     </div>

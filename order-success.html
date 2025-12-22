@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Successful | Tripathy Telecom</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+.section{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+
+.box{
+  background:#111;
+  padding:40px;
+  border-radius:14px;
+  max-width:500px;
+  box-shadow:0 0 20px rgba(255,212,0,0.35);
+}
+
+.box h1{
+  color:#00e676;
+  margin-bottom:15px;
+}
+
+.box p{
+  font-size:16px;
+  margin-bottom:25px;
+}
+
+.btn{
+  display:inline-block;
+  margin:10px;
+  padding:12px 24px;
+  background:#ffd400;
+  color:#000;
+  text-decoration:none;
+  font-weight:bold;
+  border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<section class="section">
+  <div class="box">
+    <h1>✅ Order Placed Successfully!</h1>
+    <p>
+      Thank you for your order.<br>
+      We have received your request and will contact you shortly.
+    </p>
+
+    <a href="index.html" class="btn">🏠 Back to Home</a>
+    <a href="products.html" class="btn">🛒 Continue Shopping</a>
+  </div>
+</section>
+
+<script>
+/* Clear cart after success */
+localStorage.removeItem("cart");
+</script>
+
+</body>
+</html>

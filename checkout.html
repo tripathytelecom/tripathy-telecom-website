@@ -127,6 +127,9 @@ Payment: Cash on Delivery`;
     "https://wa.me/918670244552?text="+encodeURIComponent(msg),
     "_blank"
   );
+  localStorage.removeItem("cart");
+window.location.href = "order-success.html";
+
 }
 
 loadCart();

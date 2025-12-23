@@ -213,28 +213,14 @@ footer{
     font-size:22px;
     text-decoration:none;
 }
-.notify-btn{
-  padding:12px 22px;
-  background:#ffd400;
-  color:#000;
-  font-weight:bold;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
 
 </style>
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
-
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
       appId: "030ab637-e25e-4a1f-8193-cdac0c397245",
-      notifyButton: {
-        enable: false
-      },
-      allowLocalhostAsSecureOrigin: true
     });
   });
 </script>
@@ -321,20 +307,6 @@ footer{
 function toggleMenu(){
   document.getElementById("navMenu").classList.toggle("show");
 }
-</script>
-<button id="notifyBtn" class="notify-btn">
-🔔 Enable Notifications
-</button>
-<script>
-document.getElementById("notifyBtn").addEventListener("click", function () {
-  if (window.OneSignal) {
-    OneSignal.push(function() {
-      OneSignal.showSlidedownPrompt();
-    });
-  } else {
-    alert("Notification service not loaded. Refresh page.");
-  }
-});
 </script>
 
 </body>

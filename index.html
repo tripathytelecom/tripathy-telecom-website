@@ -213,6 +213,27 @@ footer{
     font-size:22px;
     text-decoration:none;
 }
+.blink-job{
+  animation: blinkGlow 1.2s infinite;
+  border:2px solid #ffd400;
+  padding:6px 12px;
+  border-radius:6px;
+}
+
+@keyframes blinkGlow {
+  0%{
+    background:#000;
+    color:#ffd400;
+  }
+  50%{
+    background:#ffd400;
+    color:#000;
+  }
+  100%{
+    background:#000;
+    color:#ffd400;
+  }
+}
 
 </style>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -243,7 +264,7 @@ footer{
     <a href="recharge.html">Recharge</a>
     <a href="pan-card.html">PAN Card</a>
     <a href="contact.html">Contact</a>
-    <a href="jobs.html">Jobs</a>
+    <a href="jobs.html" class="blink-job">Jobs</a>
   </nav>
   
 <div class="social-icons">

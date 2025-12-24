@@ -1,0 +1,7 @@
+<div class="job">
+  <h2>Job Name</h2>
+  <p class="date">Posted on: DATE</p>
+  <p>Qualification:</p>
+  <p>Last Date:</p>
+  <a class="btn" href="#">View Details</a>
+</div>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Job Post Generator</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#f2f2f2;
+  padding:20px;
+}
+.box{
+  background:#fff;
+  padding:20px;
+  max-width:500px;
+  margin:auto;
+  border-radius:6px;
+}
+input{
+  width:100%;
+  padding:8px;
+  margin:8px 0;
+}
+button{
+  padding:10px 20px;
+  background:#007bff;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+textarea{
+  width:100%;
+  height:280px;
+  margin-top:15px;
+}
+.live{
+  color:red;
+  font-weight:bold;
+  animation:blink 1s infinite;
+}
+@keyframes blink{
+  0%{opacity:1}
+  50%{opacity:0}
+  100%{opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>🧠 AI Job Post Generator</h2>
+
+<input id="job" placeholder="Job Name">
+<input id="qual" placeholder="Qualification">
+<input id="last" type="date">
+<input id="link" placeholder="Apply Online Link">
+
+<button onclick="generate()">Generate Job Post</button>
+
+<textarea id="output" placeholder="Generated HTML Code here..."></textarea>
+</div>
+
+<script>
+function generate(){
+  let job = document.getElementById("job").value;
+  let qual = document.getElementById("qual").value;
+  let last = document.getElementById("last").value;
+  let link = document.getElementById("link").value;
+
+  let html = `
+<div class="job-card" data-lastdate="${last}">
+  <h3>${job} <span class="live">LIVE</span></h3>
+  <p><b>Qualification:</b> ${qual}</p>
+  <p><b>Last Date:</b> ${last}</p>
+  <a href="${link}" target="_blank" class="apply-btn">Apply Online</a>
+</div>
+
+<style>
+.job-card{
+  border:1px solid #ddd;
+  padding:15px;
+  width:300px;
+  margin:10px;
+}
+.live{
+  color:red;
+  animation:blink 1s infinite;
+}
+@keyframes blink{
+  0%{opacity:1;}
+  50%{opacity:0;}
+  100%{opacity:1;}
+}
+.apply-btn{
+  display:inline-block;
+  padding:8px 15px;
+  background:green;
+  color:#fff;
+  text-decoration:none;
+}
+</style>
+
+<script>
+const job = document.currentScript.previousElementSibling;
+const lastDate = new Date(job.dataset.lastdate);
+const today = new Date();
+if(today > lastDate){
+  job.querySelector(".live").style.display="none";
+}
+<\/script>
+`;
+
+  document.getElementById("output").value = html;
+}
+</script>
+
+</body>
+</html>

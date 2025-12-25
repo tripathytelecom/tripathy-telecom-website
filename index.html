@@ -241,7 +241,22 @@ footer{
     color:#ffd400;
   }
 }
-
+.festival-banner{
+  margin:15px auto;
+  padding:18px;
+  max-width:700px;
+  text-align:center;
+  border-radius:10px;
+  font-size:20px;
+  font-weight:bold;
+  color:#fff;
+  background:linear-gradient(135deg,#ff512f,#dd2476);
+  animation:fadeIn 1.2s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(-10px)}
+  to{opacity:1; transform:translateY(0)}
+}
 </style>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
@@ -296,6 +311,8 @@ footer{
 </header>
 
 <section class="hero">
+  <div id="festivalBanner" class="festival-banner"></div>
+
     <h2>All Recharge, PAN Card & Digital Services</h2>
     <p>Fast • Secure • Trusted Local Service</p>
     <a href="recharge.html">Recharge Now</a>
@@ -336,7 +353,25 @@ footer{
 function toggleMenu(){
   document.getElementById("navMenu").classList.toggle("show");
 }
+
 </script>
+  <script>
+const today = new Date();
+const day = today.getDate();
+const month = today.getMonth() + 1; // January = 1
+
+let message = "🙏 Welcome to Tripathy Telecom – Recharge, PAN Card & Cyber Cafe Services";
+
+if(day === 25 && month === 12){
+  message = "🎄 Merry Christmas! Welcome to Tripathy Telecom 🎁";
+}
+else if(day === 1 && month === 1){
+  message = "🎉 Happy New Year! Welcome to Tripathy Telecom ✨";
+}
+
+document.getElementById("festivalBanner").innerText = message;
+</script>
+
 
 </body>
 </html>

@@ -99,6 +99,94 @@
     text-align:center;
     padding:50px 20px;
 }
+  
+.hero-layout{
+  display:grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap:20px;
+  max-width:1200px;
+  margin:auto;
+  padding:30px 15px;
+}
+
+/* 🔴 Sponsor Section */
+.sponsor-section{
+  background:#ffffff;
+  border:1px solid #e0e0e0;
+  border-radius:12px;
+  padding:15px;
+}
+
+.sponsor-section h3{
+  text-align:center;
+  margin-bottom:15px;
+  color:#333;
+}
+
+.sponsor-box{
+  border:1px solid #f0f0f0;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:12px;
+  background:#fafafa;
+}
+
+.sponsor-box h4{
+  margin:0;
+  color:#0a58ca;
+}
+
+.sponsor-box p,
+.sponsor-box li{
+  font-size:14px;
+  margin:4px 0;
+}
+
+.sponsor-box ul{
+  padding-left:18px;
+}
+
+.address{
+  font-size:13px;
+  color:#555;
+}
+
+/* 🔵 Center (already styled by you) */
+.hero-center{
+  text-align:center;
+}
+
+/* 🟢 Google Ads */
+.ads-section{
+  background:#ffffff;
+  border:1px solid #e0e0e0;
+  border-radius:12px;
+  padding:15px;
+  text-align:center;
+}
+
+.ads-section h3{
+  margin-bottom:10px;
+}
+
+.google-ad-box{
+  height:250px;
+  background:#f4f4f4;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+  font-size:14px;
+}
+
+/* 📱 Mobile Responsive */
+@media(max-width:992px){
+  .hero-layout{
+    grid-template-columns:1fr;
+  }
+}
+
 .hero h2{
     font-size:30px;
 }
@@ -312,6 +400,61 @@ footer{
 
 <section class="hero">
   <div id="festivalBanner" class="festival-banner"></div>
+<div class="hero-layout">
+
+  <!-- 🔴 LEFT : SPONSOR SECTION -->
+  <div class="sponsor-section">
+
+    <h3>🤝 Our Sponsors</h3>
+
+    <!-- Sponsor 1 -->
+    <div class="sponsor-box">
+      <h4>Tripathy Telecom</h4>
+      <p>PAN, Recharge & Cyber Cafe</p>
+      <p class="address">
+        Dherua, Gurguripal,<br>
+        Paschim Medinipur – 721102<br>
+        Near Dherua Airtel Tower
+      </p>
+    </div>
+
+    <!-- Sponsor 2 -->
+    <div class="sponsor-box">
+      <h4>PNB Customer Service Point</h4>
+      <ul>
+        <li>Account Opening</li>
+        <li>Cash Withdrawal</li>
+        <li>Cash Deposit</li>
+        <li>Passbook Print</li>
+      </ul>
+      <p class="address">
+        Dherua, Gurguripal,<br>
+        Paschim Medinipur – 721102<br>
+        Near Dherua Airtel Tower
+      </p>
+    </div>
+
+    <!-- 👉 Future sponsor এখানে add করবেন -->
+
+  </div>
+
+  <!-- 🔵 CENTER : MAIN CONTENT -->
+  <div class="hero-center">
+    <!-- আপনার existing hero content এখানেই থাকবে -->
+  </div>
+
+  <!-- 🟢 RIGHT : GOOGLE ADS -->
+  <div class="ads-section">
+    <h3>Sponsored Ads</h3>
+
+    <div class="google-ad-box">
+      <!-- 🔻 Google AdSense code এখানে বসাবেন -->
+      Google AdSense Space
+    </div>
+
+  </div>
+
+</div>
 
     <h2>All Recharge, PAN Card & Digital Services</h2>
     <p>Fast • Secure • Trusted Local Service</p>

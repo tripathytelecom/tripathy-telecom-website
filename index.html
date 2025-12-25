@@ -345,51 +345,47 @@ footer{
   from{opacity:0; transform:translateY(-10px)}
   to{opacity:1; transform:translateY(0)}
 }
-  /* ================= FIX 1: SIDE SECTIONS TO PAGE EDGE ================= */
+/* =========================================================
+   HERO LAYOUT FIX — ONLY SPONSOR / CENTER / ADS
+   (No existing design will break)
+   ========================================================= */
 
-/* hero-layout কে চওড়া করা */
+/* ---------- MAIN HERO WIDTH & SPACING ---------- */
 .hero-layout{
-  max-width: 1400px !important;
-  padding-left: 30px !important;
-  padding-right: 30px !important;
-  gap: 40px !important;
+  max-width:1500px !important;     /* full width feel */
+  padding-left:10px !important;
+  padding-right:10px !important;
+  gap:60px !important;             /* more space for center */
 }
 
-/* Left sponsor + Right ads fixed width */
+/* ---------- LEFT & RIGHT SIDE SECTIONS ---------- */
 .sponsor-section,
 .ads-section{
-  width: 280px;
+  width:280px;
+  flex-shrink:0;
 }
 
-/* ================= FIX 2: CENTER CONTENT BIG & PROMINENT ================= */
-
-.hero-center h2{
-  font-size: 42px !important;
-  font-weight: 800 !important;
-  line-height: 1.3;
+/* ---------- SPONSOR VISIBILITY FIX ---------- */
+.sponsor-section{
+  background:#ffffff !important;
 }
-
-.hero-center p{
-  font-size: 18px !important;
-  margin-top: 8px;
-  margin-bottom: 22px;
-}
-
-.hero-center a{
-  font-size: 16px !important;
-  padding: 14px 24px !important;
-}
-
-/* ================= FIX 3: SPONSOR TEXT VISIBILITY ================= */
 
 .sponsor-box{
   background:#f2f6ff !important;
   border:1px solid #cdd9ff !important;
 }
 
+.sponsor-box h4{
+  color:#0a58ca !important;
+}
+
 .sponsor-box p,
 .sponsor-box li{
   color:#222 !important;
+}
+
+.sponsor-box ul{
+  padding-left:0;
 }
 
 .sponsor-box li{
@@ -399,16 +395,54 @@ footer{
   padding:6px 10px;
   border-radius:6px;
   margin-bottom:6px;
+  font-size:13px;
 }
 
-/* ================= MOBILE SAFE ================= */
+/* ---------- CENTER CONTENT BIG & PROMINENT ---------- */
+.hero-center{
+  padding:0 10px;
+}
+
+.hero-center h2{
+  white-space:nowrap;              /* ONE LINE */
+  font-size:42px !important;
+  font-weight:800 !important;
+  line-height:1.25;
+}
+
+.hero-center p{
+  font-size:18px !important;
+  margin:10px 0 22px;
+}
+
+.hero-center a{
+  font-size:16px !important;
+  padding:14px 26px !important;
+}
+
+/* ---------- GOOGLE ADS BOX ---------- */
+.google-ad-box{
+  height:250px;
+}
+
+/* ---------- MOBILE SAFETY ---------- */
 @media(max-width:992px){
+  .hero-layout{
+    grid-template-columns:1fr !important;
+    gap:20px !important;
+  }
+
   .sponsor-section,
   .ads-section{
     width:100%;
   }
-}
 
+  .hero-center h2{
+    white-space:normal;             /* mobile e line break allow */
+    font-size:32px !important;
+  }
+}
+  
 </style>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>

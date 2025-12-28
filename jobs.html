@@ -105,44 +105,36 @@ footer{
 </header>
 
 <div class="container">
-  <h1>🧾 Latest Job Notifications</h1>
-<div id="jobs"></div>
 
-  <!-- JOB 1 -->
+  <h1 style="text-align:center">📢 Job Updates – Tripathy Telecom</h1>
 
-<style>
-.job-card{
-  border:1px solid #ddd;
-  padding:15px;
-  width:300px;
-  margin:10px;
-}
-.live{
-  color:red;
-  animation:blink 1s infinite;
-}
-@keyframes blink{
-  0%{opacity:1;}
-  50%{opacity:0;}
-  100%{opacity:1;}
-}
-.apply-btn{
-  display:inline-block;
-  padding:8px 15px;
-  background:green;
-  color:#fff;
-  text-decoration:none;
-}
-</style>
+  <div style="display:flex;gap:15px;flex-wrap:wrap">
 
-<script>
-const job = document.currentScript.previousElementSibling;
-const lastDate = new Date(job.dataset.lastdate);
-const today = new Date();
-if(today > lastDate){
-  job.querySelector(".live").style.display="none";
-}
-</script>
+    <!-- Latest Jobs -->
+    <div style="flex:1;min-width:280px;border:2px solid #800040">
+      <h3 style="background:#800040;color:#fff;padding:8px;text-align:center">
+        Latest Jobs
+      </h3>
+      <ul id="latest-jobs"></ul>
+    </div>
+
+    <!-- Latest Result -->
+    <div style="flex:1;min-width:280px;border:2px solid #003366">
+      <h3 style="background:#003366;color:#fff;padding:8px;text-align:center">
+        Latest Result
+      </h3>
+      <ul id="latest-results"></ul>
+    </div>
+
+    <!-- Admit Card -->
+    <div style="flex:1;min-width:280px;border:2px solid #006600">
+      <h3 style="background:#006600;color:#fff;padding:8px;text-align:center">
+        Admit Card
+      </h3>
+      <ul id="latest-admit"></ul>
+    </div>
+
+  </div>
 
 </div>
 

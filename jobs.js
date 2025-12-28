@@ -1,40 +1,18 @@
 fetch("jobs.json?v=" + new Date().getTime())
 .then(res => res.json())
 .then(data => {
-  let html = "";
 
-  data.forEach(j => {
+  const jobs = document.getElementById("latest-jobs");
+  const results = document.getElementById("latest-results");
+  const admit = document.getElementById("latest-admit");
 
-    html += `
-    <div class="job">
+  data.forEach((j, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="job-details.html?id=${i}">${j.job}</a>`;
 
-      <h2>🆕 ${j.job}</h2>
-      <p class="date">Posted on: ${new Date(j.date).toDateString()}</p>
-
-      <hr>
-
-      <h3>📌 বিস্তারিত (বাংলা)</h3>
-      <p>
-      <b>${j.job}</b> নিয়োগের জন্য <b>${j.org}</b> কর্তৃপক্ষ আবেদন আহ্বান করেছে।
-      যেসব প্রার্থীর <b>${j.qua}</b> যোগ্যতা রয়েছে তারা আবেদন করতে পারবেন।
-      আবেদনকারীর বয়স হতে হবে <b>${j.age}</b>।
-      অনলাইন আবেদন করার শেষ তারিখ <b>${j.last}</b>।
-      </p>
-
-      <h3>📌 Details (English)</h3>
-      <p>
-      <b>${j.org}</b> has invited applications for the post of
-      <b>${j.job}</b>.
-      Candidates who have <b>${j.qua}</b> qualification are eligible.
-      Age limit for applicants is <b>${j.age}</b>.
-      The last date to apply online is <b>${j.last}</b>.
-      </p>
-
-      <a class="btn" href="${j.link}" target="_blank">Apply Online</a>
-
-    </div>
-    `;
+    if (j.type === "job") jobs.appendChild(li);
+    if (j.type === "result") results.appendChild(li);
+    if (j.type === "admit") admit.appendChild(li);
   });
 
-  document.getElementById("jobs").innerHTML = html;
 });

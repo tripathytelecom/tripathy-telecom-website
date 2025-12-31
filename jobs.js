@@ -1,36 +1,57 @@
-fetch("jobs.json?v=" + new Date().getTime())
+fetch("jobs.json?v=" + Date.now())
 .then(res => res.json())
 .then(data => {
 
-  const jobs = document.getElementById("latest-jobs");
-  const results = document.getElementById("latest-results");
-  const admit = document.getElementById("latest-admit");
+  const jobBox = document.getElementById("latest-jobs");
+  const resultBox = document.getElementById("latest-results");
+  const admitBox = document.getElementById("latest-admit");
 
-  jobs.innerHTML = "";
-  results.innerHTML = "";
-  admit.innerHTML = "";
+  jobBox.innerHTML = "";
+  resultBox.innerHTML = "";
+  admitBox.innerHTML = "";
 
-  let jobCount = 0, resultCount = 0, admitCount = 0;
+  let jc=0, rc=0, ac=0;
 
   data.forEach((j, i) => {
 
-    if (!j.type || !j.job || !j.link) return; // safety
+    if (!j.type || !j.title) return;
 
+    /* JOB */
     if (j.type === "job") {
-      jobs.innerHTML += `<li><a href="job-details.html?id=${i}">${j.job}</a></li>`;
-      jobCount++;
+      jobBox.innerHTML += `
+        <li>
+          <a href="job-details.html?id=${i}">
+            ${j.title}
+          </a>
+        </li>`;
+      jc++;
     }
-    else if (j.type === "result") {
-      results.innerHTML += `<li><a href="job-details.html?id=${i}">${j.job}</a></li>`;
-      resultCount++;
+
+    /* RESULT */
+    if (j.type === "result") {
+      resultBox.innerHTML += `
+        <li>
+          <a href="result-details.html?id=${i}">
+            ${j.title}
+          </a>
+        </li>`;
+      rc++;
     }
-    else if (j.type === "admit") {
-      admit.innerHTML += `<li><a href="job-details.html?id=${i}">${j.job}</a></li>`;
-      admitCount++;
+
+    /* ADMIT */
+    if (j.type === "admit") {
+      admitBox.innerHTML += `
+        <li>
+          <a href="admit-details.html?id=${i}">
+            ${j.title}
+          </a>
+        </li>`;
+      ac++;
     }
+
   });
 
-  if (jobCount === 0) jobs.innerHTML = "<li>No Job Available</li>";
-  if (resultCount === 0) results.innerHTML = "<li>No Result Available</li>";
-  if (admitCount === 0) admit.innerHTML = "<li>No Admit Card Available</li>";
+  if (jc===0) jobBox.innerHTML="<li>No Job Available</li>";
+  if (rc===0) resultBox.innerHTML="<li>No Result Available</li>";
+  if (ac===0) admitBox.innerHTML="<li>No Admit Card Available</li>";
 });

@@ -10,13 +10,32 @@ fetch("jobs.json?v=" + new Date().getTime())
   results.innerHTML = "";
   admit.innerHTML = "";
 
-  data.forEach((j, i) => {
-    const li = document.createElement("li");
-    li.innerHTML = `<a href="job-details.html?id=${i}">${j.job}</a>`;
+  let jobCount = 0, resultCount = 0, admitCount = 0;
 
-    if (j.type === "job") jobs.appendChild(li);
-    else if (j.type === "result") results.appendChild(li);
-    else if (j.type === "admit") admit.appendChild(li);
+  data.forEach((j, i) => {
+    if (j.type === "job") {
+      jobs.innerHTML += `<li><a href="job-details.html?id=${i}">${j.job}</a></li>`;
+      jobCount++;
+    }
+    else if (j.type === "result") {
+      results.innerHTML += `<li><a href="job-details.html?id=${i}">${j.job}</a></li>`;
+      resultCount++;
+    }
+    else if (j.type === "admit") {
+      admit.innerHTML += `<li><a href="job-details.html?id=${i}">${j.job}</a></li>`;
+      admitCount++;
+    }
   });
+
+  // EMPTY MESSAGE
+  if (jobCount === 0) {
+    jobs.innerHTML = "<li>No Job Available</li>";
+  }
+  if (resultCount === 0) {
+    results.innerHTML = "<li>No Result Available</li>";
+  }
+  if (admitCount === 0) {
+    admit.innerHTML = "<li>No Admit Card Available</li>";
+  }
 
 });

@@ -13,6 +13,9 @@ fetch("jobs.json?v=" + new Date().getTime())
   let jobCount = 0, resultCount = 0, admitCount = 0;
 
   data.forEach((j, i) => {
+
+    if (!j.type || !j.job || !j.link) return; // safety
+
     if (j.type === "job") {
       jobs.innerHTML += `<li><a href="job-details.html?id=${i}">${j.job}</a></li>`;
       jobCount++;
@@ -27,15 +30,7 @@ fetch("jobs.json?v=" + new Date().getTime())
     }
   });
 
-  // EMPTY MESSAGE
-  if (jobCount === 0) {
-    jobs.innerHTML = "<li>No Job Available</li>";
-  }
-  if (resultCount === 0) {
-    results.innerHTML = "<li>No Result Available</li>";
-  }
-  if (admitCount === 0) {
-    admit.innerHTML = "<li>No Admit Card Available</li>";
-  }
-
+  if (jobCount === 0) jobs.innerHTML = "<li>No Job Available</li>";
+  if (resultCount === 0) results.innerHTML = "<li>No Result Available</li>";
+  if (admitCount === 0) admit.innerHTML = "<li>No Admit Card Available</li>";
 });

@@ -1,154 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Job Updates | TRIPATHY TELECOM</title>
+<title>Job Updates | Tripathy Telecom</title>
 
 <style>
-body{
-  margin:0;
-  font-family: Arial, Helvetica, sans-serif;
-  background:#f4f6f8;
-}
-
-/* HEADER */
-header{
-  background:#000;
-  padding:12px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-header img{
-  height:55px;
-}
-nav a{
-  color:#ffd400;
-  text-decoration:none;
-  margin:0 12px;
-  font-weight:bold;
-}
-nav a:hover{
-  text-decoration:underline;
-}
-
-/* PAGE */
-.container{
-  max-width:1100px;
-  margin:30px auto;
-  padding:0 15px;
-}
-h1{
-  text-align:center;
-  color:#222;
-  margin-bottom:30px;
-}
-
-/* REMOVE DOTS COMPLETELY */
-ul{
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-ul li{
-  padding:6px 10px;
-  border-bottom:1px dashed #ddd;
-}
-ul li:last-child{
-  border-bottom:none;
-}
-ul li a{
-  text-decoration:none;
-  color:#0b4db8;
-  font-weight:600;
-}
-ul li a:hover{
-  text-decoration:underline;
-}
-
-/* BOX STYLE */
-.box{
-  flex:1;
-  min-width:300px;
-  background:#fff;
-  border-radius:6px;
-  overflow:hidden;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-.box h3{
-  margin:0;
-  padding:10px;
-  color:#fff;
-  text-align:center;
-  font-size:18px;
-}
-.jobs h3{background:#800040;}
-.results h3{background:#003366;}
-.admit h3{background:#006600;}
-
-/* FOOTER */
-footer{
-  background:#000;
-  color:#ffd400;
-  text-align:center;
-  padding:15px;
-  margin-top:40px;
-}
+body{font-family:Arial;background:#f5f5f5}
+.container{max-width:1100px;margin:auto;padding:20px}
+.row{display:flex;gap:15px}
+.box{flex:1;background:#fff;border:1px solid #ccc}
+.box h3{margin:0;padding:10px;color:#fff}
+.job{background:#8b0051}
+.result{background:#0a3d62}
+.admit{background:#1e7e34}
+.box ul{list-style:none;padding:10px;margin:0}
+.box li{margin-bottom:6px}
+.box a{text-decoration:none;color:#0033cc;font-weight:bold}
 </style>
+
 </head>
 
 <body>
-
-<header>
-  <a href="index.html">
-    <img src="logo.png" alt="Tripathy Telecom">
-  </a>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="products.html">Products</a>
-    <a href="jobs.html">Jobs</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
-
 <div class="container">
+<h2>📢 Job Updates – Tripathy Telecom</h2>
 
-  <h1>📢 Job Updates – Tripathy Telecom</h1>
-
-  <div style="display:flex;gap:20px;flex-wrap:wrap">
-
-    <!-- Latest Jobs -->
-    <div class="box jobs">
-      <h3>Latest Jobs</h3>
-      <ul id="latest-jobs">
-        <li>Loading...</li>
-      </ul>
-    </div>
-
-    <!-- Latest Result -->
-    <div class="box results">
-      <h3>Latest Result</h3>
-      <ul id="latest-results">
-        <li>No Result Available</li>
-      </ul>
-    </div>
-
-    <!-- Admit Card -->
-    <div class="box admit">
-      <h3>Admit Card</h3>
-      <ul id="latest-admit">
-        <li>No Admit Card Available</li>
-      </ul>
-    </div>
-
+<div class="row">
+  <div class="box">
+    <h3 class="job">Latest Jobs</h3>
+    <ul id="latest-jobs"></ul>
   </div>
 
-</div>
+  <div class="box">
+    <h3 class="result">Latest Result</h3>
+    <ul id="latest-results"></ul>
+  </div>
 
-<footer>
-© 2025 TRIPATHY TELECOM
-</footer>
+  <div class="box">
+    <h3 class="admit">Admit Card</h3>
+    <ul id="latest-admit"></ul>
+  </div>
+</div>
+</div>
 
 <script src="jobs.js"></script>
 </body>

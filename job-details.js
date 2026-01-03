@@ -10,7 +10,6 @@ fetch("/jobs.json?v=" + Date.now())
   document.getElementById("details").innerHTML = `
     <h1>${j.title}</h1>
 
-    <p><b>Updated:</b> ${j.updateDate}</p>
     <p><b>Total Vacancy:</b> ${j.vacancy}</p>
     <p><b>Qualification:</b> ${j.qualification}</p>
     <p><b>Age Limit:</b> ${j.age}</p>
@@ -19,15 +18,15 @@ fetch("/jobs.json?v=" + Date.now())
 
     <h3>Job Description (English)</h3>
     <p>
-      This recruitment has been officially released.
-      Candidates are advised to apply after reading
-      the official notification from the official website.
+      This recruitment notification has been officially released.
+      Candidates are advised to read the official notification carefully
+      before applying online through the official website.
     </p>
 
     <h3>চাকরির বিবরণ (বাংলা)</h3>
     <p>
-      এই নিয়োগটি অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
-      অফিসিয়াল নোটিফিকেশন ও ওয়েবসাইট দেখে আবেদন করুন।
+      এই নিয়োগ বিজ্ঞপ্তিটি অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
+      অফিসিয়াল নোটিফিকেশন দেখে আবেদন করার জন্য অনুরোধ করা হচ্ছে।
     </p>
 
     <p>

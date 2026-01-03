@@ -1,16 +1,31 @@
-fetch("jobs.json").then(r=>r.json()).then(d=>{
-const j=d[id];
-details.innerHTML=`
-<h1>${j.title}</h1>
-<p><b>Result Date:</b> ${j.resultDate}</p>
+const id = new URLSearchParams(location.search).get("id");
 
-<h3>Result Info (English)</h3>
-<p>The result has been officially released. Please check the result from official website.</p>
+fetch("/jobs.json?v=" + Date.now())
+.then(r => r.json())
+.then(d => {
 
-<h3>ফলাফল তথ্য (বাংলা)</h3>
-<p>ফলাফল অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে। অফিসিয়াল ওয়েবসাইট থেকে ফলাফল দেখুন।</p>
+  const j = d[id];
+  if (!j || j.type !== "result") return;
 
-<a href="${j.link}">Check Result</a> |
-<a href="${j.website}">Official Website</a>
-`;
+  document.getElementById("details").innerHTML = `
+    <h1>${j.title}</h1>
+    <p><b>Result Date:</b> ${j.resultDate}</p>
+
+    <h3>Result Information (English)</h3>
+    <p>
+      The examination result has been officially released.
+      Candidates should check the result only from the official website.
+    </p>
+
+    <h3>ফলাফল সংক্রান্ত তথ্য (বাংলা)</h3>
+    <p>
+      পরীক্ষার ফলাফল অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
+      অফিসিয়াল ওয়েবসাইট দেখে ফলাফল যাচাই করুন।
+    </p>
+
+    <p>
+      <a href="${j.link}" target="_blank">Check Result</a> |
+      <a href="${j.website}" target="_blank">Official Website</a>
+    </p>
+  `;
 });

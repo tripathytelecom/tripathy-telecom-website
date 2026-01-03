@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Result Details | Tripathy Telecom</title>
+<title>Job Details | Tripathy Telecom</title>
+
+<link rel="stylesheet" href="style.css">
 
 <style>
 body{
@@ -24,7 +26,7 @@ body{
   cursor:pointer;
 }
 .menu{
-  margin-left:auto;
+  margin-left:auto;   /* 🔑 menu ডানদিকে যাবে */
 }
 .menu a{
   color:#ffd400;
@@ -66,7 +68,7 @@ body{
 
 <body>
 
-<!-- HEADER -->
+<!-- ===== HEADER ===== -->
 <div class="header">
   <img src="/logo.png" alt="Tripathy Telecom" onclick="location.href='/'">
 
@@ -79,6 +81,18 @@ body{
   </div>
 </div>
 
-<!-- CONTENT -->
+<!-- ===== CONTENT ===== -->
 <div class="container">
-  <div
+  <div id="details"></div>
+
+  <a class="back-btn" href="/jobs">← Back to Jobs</a>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  © 2025 TRIPATHY TELECOM
+</div>
+
+<script src="result-details.js"></script>
+</body>
+</html>

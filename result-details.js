@@ -9,17 +9,19 @@ fetch("/jobs.json?v=" + Date.now())
 
   document.getElementById("details").innerHTML = `
     <h1>${j.title}</h1>
+
     <p><b>Result Date:</b> ${j.resultDate}</p>
 
-    <h3>Result Information (English)</h3>
+    <h3>Result Details (English)</h3>
     <p>
-      The examination result has been officially released.
-      Candidates should check the result only from the official website.
+      The result has been officially declared.
+      Candidates should check the result only
+      from the official website.
     </p>
 
     <h3>ফলাফল সংক্রান্ত তথ্য (বাংলা)</h3>
     <p>
-      পরীক্ষার ফলাফল অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
+      ফলাফল অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
       অফিসিয়াল ওয়েবসাইট দেখে ফলাফল যাচাই করুন।
     </p>
 

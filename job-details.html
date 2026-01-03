@@ -1,32 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Job Details | Tripathy Telecom</title>
+const id = new URLSearchParams(location.search).get("id");
 
-<style>
-body{margin:0;font-family:Arial;background:#f5f5f5}
-.header{background:#000;color:#ffd400;padding:10px 20px;display:flex;align-items:center}
-.header img{height:45px;cursor:pointer}
-.menu{margin-left:auto}
-.menu a{color:#ffd400;margin:0 10px;text-decoration:none;font-weight:bold}
+fetch("jobs.json?v=" + Date.now())
+.then(res => res.json())
+.then(data => {
 
-.container{max-width:1000px;margin:30px auto;background:#fff;padding:25px}
-.back-btn{display:inline-block;background:#ffd400;color:#000;
-padding:10px 18px;font-weight:bold;text-decoration:none;margin-top:20px}
+  const j = data[id];
+  if (!j || j.type !== "job") return;
 
-.footer{background:#000;color:#ffd400;text-align:center;padding:12px;margin-top:40px}
-</style>
-</head>
+  document.getElementById("details").innerHTML = `
+    <h1>${j.title}</h1>
 
-<body>
+    <p><b>Total Vacancy:</b> ${j.vacancy}</p>
+    <p><b>Qualification:</b> ${j.qualification}</p>
+    <p><b>Age Limit:</b> ${j.age}</p>
+    <p><b>Application Fee:</b> ${j.fee}</p>
+    <p><b>Last Date:</b> ${j.lastDate}</p>
 
-<!-- HEADER -->
-<div class="header">
-  <img src="/logo.png" onclick="location.href='/'">
-  <div class="menu">
-    <a href="/">Home</a>
-    <a href="/services">Services</a>
-    <a href="/products">Products</a>
-    <a href="/jobs">Jobs</a>
-    <a href="/con
+    <h3>Job Description (English)</h3>
+    <p>
+      This recruitment notification has been officially released.
+      Candidates must read the official notification carefully
+      before applying online.
+    </p>
+
+    <h3>চাকরির বিবরণ (বাংলা)</h3>
+    <p>
+      এই নিয়োগ বিজ্ঞপ্তিটি অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
+      অফিসিয়াল নোটিফিকেশন দেখে আবেদন করুন।
+    </p>
+
+    <p>
+      <a href="${j.applyLink}" target="_blank">Apply Online</a> |
+      <a href="${j.notification}" target="_blank">Notification</a> |
+      <a href="${j.website}" target="_blank">Official Website</a>
+    </p>
+  `;
+});

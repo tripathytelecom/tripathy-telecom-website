@@ -1,38 +1,36 @@
-const id = new URLSearchParams(location.search).get("id");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Job Details | Tripathy Telecom</title>
 
-fetch("jobs.json?v=" + Date.now())
-.then(res => res.json())
-.then(data => {
+<link rel="stylesheet" href="style.css">
+<style>
+body{font-family:Arial;background:#f5f5f5}
+.header{background:#000;color:#ffd400;padding:10px}
+.header img{height:50px;vertical-align:middle}
+.menu a{color:#ffd400;margin:0 10px;text-decoration:none;font-weight:bold}
+.container{max-width:900px;margin:20px auto;background:#fff;padding:20px}
+.back{margin-top:20px;display:inline-block}
+</style>
+</head>
 
-  const j = data[id];
-  if (!j || j.type !== "job") return;
+<body>
 
-  document.getElementById("details").innerHTML = `
-    <h1>${j.title}</h1>
+<div class="header">
+  <img src="logo.png">
+  <span class="menu">
+    <a href="/index.html">Home</a>
+    <a href="/jobs">Jobs</a>
+    <a href="/contact.html">Contact</a>
+  </span>
+</div>
 
-    <p><b>Total Vacancy:</b> ${j.vacancy}</p>
-    <p><b>Qualification:</b> ${j.qualification}</p>
-    <p><b>Age Limit:</b> ${j.age}</p>
-    <p><b>Application Fee:</b> ${j.fee}</p>
-    <p><b>Last Date:</b> ${j.lastDate}</p>
+<div class="container">
+  <div id="details"></div>
+  <a class="back" href="/jobs">← Back to Jobs</a>
+</div>
 
-    <h3>Job Description (English)</h3>
-    <p>
-      This recruitment notification has been officially released.
-      Candidates must read the official notification carefully
-      before applying online.
-    </p>
-
-    <h3>চাকরির বিবরণ (বাংলা)</h3>
-    <p>
-      এই নিয়োগ বিজ্ঞপ্তিটি অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
-      অফিসিয়াল নোটিফিকেশন দেখে আবেদন করুন।
-    </p>
-
-    <p>
-      <a href="${j.applyLink}" target="_blank">Apply Online</a> |
-      <a href="${j.notification}" target="_blank">Notification</a> |
-      <a href="${j.website}" target="_blank">Official Website</a>
-    </p>
-  `;
-});
+<script src="job-details.js"></script>
+</body>
+</html>

@@ -4,36 +4,30 @@ fetch("/jobs.json?v=" + Date.now())
 .then(r => r.json())
 .then(d => {
 
-  const j = d[id];
-  if (!j || j.type !== "job") return;
+  const rdata = d[id];
+  if (!rdata || rdata.type !== "result") return;
 
   document.getElementById("details").innerHTML = `
-    <h1>${j.title}</h1>
+    <h1>${rdata.title}</h1>
 
-    <p><b>Updated:</b> ${j.updateDate}</p>
-    <p><b>Total Vacancy:</b> ${j.vacancy}</p>
-    <p><b>Qualification:</b> ${j.qualification}</p>
-    <p><b>Age Limit:</b> ${j.age}</p>
-    <p><b>Application Fee:</b> ${j.fee}</p>
-    <p><b>Last Date:</b> ${j.lastDate}</p>
+    <p><b>Result Date:</b> ${rdata.resultDate}</p>
 
-    <h3>Job Description (English)</h3>
+    <h3>Result Information (English)</h3>
     <p>
-      This recruitment has been officially released.
-      Candidates are advised to apply after reading
-      the official notification from the official website.
+      The examination result has been officially released.
+      Candidates are advised to check the result only
+      from the official website.
     </p>
 
-    <h3>চাকরির বিবরণ (বাংলা)</h3>
+    <h3>ফলাফল সংক্রান্ত তথ্য (বাংলা)</h3>
     <p>
-      এই নিয়োগটি অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
-      অফিসিয়াল নোটিফিকেশন ও ওয়েবসাইট দেখে আবেদন করুন।
+      পরীক্ষার ফলাফল অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
+      শুধুমাত্র অফিসিয়াল ওয়েবসাইট দেখে ফলাফল যাচাই করুন।
     </p>
 
     <p>
-      <a href="${j.applyLink}" target="_blank">Apply Online</a> |
-      <a href="${j.notification}" target="_blank">Notification</a> |
-      <a href="${j.website}" target="_blank">Official Website</a>
+      <a href="${rdata.link}" target="_blank">Check Result</a> |
+      <a href="${rdata.website}" target="_blank">Official Website</a>
     </p>
   `;
 });

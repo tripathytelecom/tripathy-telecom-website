@@ -1,16 +1,34 @@
-fetch("jobs.json").then(r=>r.json()).then(d=>{
-const j=d[id];
-details.innerHTML=`
-<h1>${j.title}</h1>
-<p><b>Exam Date:</b> ${j.examDate}</p>
+const id = new URLSearchParams(location.search).get("id");
 
-<h3>Admit Card Info (English)</h3>
-<p>Admit card is released. Download it from official website.</p>
+fetch("/jobs.json?v=" + Date.now())
+  .then(res => res.json())
+  .then(data => {
 
-<h3>অ্যাডমিট কার্ড তথ্য (বাংলা)</h3>
-<p>অ্যাডমিট কার্ড প্রকাশিত হয়েছে। অফিসিয়াল ওয়েবসাইট থেকে ডাউনলোড করুন।</p>
+    const ad = data[id];
+    if (!ad || ad.type !== "admit") return;
 
-<a href="${j.link}">Download Admit Card</a> |
-<a href="${j.website}">Official Website</a>
-`;
-});
+    document.getElementById("details").innerHTML = `
+      <h1>${ad.title}</h1>
+
+      <p><b>Exam Date:</b> ${ad.examDate}</p>
+
+      <h3>Admit Card Information (English)</h3>
+      <p>
+        Admit card has been officially released.
+        Candidates are advised to download the admit card
+        only from the official website before the examination.
+      </p>
+
+      <h3>অ্যাডমিট কার্ড সংক্রান্ত তথ্য (বাংলা)</h3>
+      <p>
+        অ্যাডমিট কার্ড অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
+        পরীক্ষার আগে অফিসিয়াল ওয়েবসাইট থেকে অ্যাডমিট কার্ড
+        ডাউনলোড করার জন্য অনুরোধ করা হচ্ছে।
+      </p>
+
+      <p>
+        <a href="${ad.link}" target="_blank">Download Admit Card</a> |
+        <a href="${ad.website}" target="_blank">Official Website</a>
+      </p>
+    `;
+  });

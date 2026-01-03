@@ -1,44 +1,39 @@
-const index = new URLSearchParams(window.location.search).get("index");
+const id = new URLSearchParams(location.search).get("id");
 
-fetch("jobs.json?v=" + Date.now())
-  .then(res => res.json())
-  .then(data => {
+fetch("/jobs.json?v=" + Date.now())
+.then(r => r.json())
+.then(d => {
 
-    if (index === null || !data[index]) {
-      document.getElementById("details").innerHTML =
-        "<p>Result not found.</p>";
-      return;
-    }
+  const j = d[id];
+  if (!j || j.type !== "job") return;
 
-    const r = data[index];
+  document.getElementById("details").innerHTML = `
+    <h1>${j.title}</h1>
 
-    if (r.type !== "result") {
-      document.getElementById("details").innerHTML =
-        "<p>Invalid result data.</p>";
-      return;
-    }
+    <p><b>Updated:</b> ${j.updateDate}</p>
+    <p><b>Total Vacancy:</b> ${j.vacancy}</p>
+    <p><b>Qualification:</b> ${j.qualification}</p>
+    <p><b>Age Limit:</b> ${j.age}</p>
+    <p><b>Application Fee:</b> ${j.fee}</p>
+    <p><b>Last Date:</b> ${j.lastDate}</p>
 
-    document.getElementById("details").innerHTML = `
-      <h1>${r.title}</h1>
+    <h3>Job Description (English)</h3>
+    <p>
+      This recruitment has been officially released.
+      Candidates are advised to apply after reading
+      the official notification from the official website.
+    </p>
 
-      <p><b>Result Date:</b> ${r.resultDate}</p>
+    <h3>চাকরির বিবরণ (বাংলা)</h3>
+    <p>
+      এই নিয়োগটি অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
+      অফিসিয়াল নোটিফিকেশন ও ওয়েবসাইট দেখে আবেদন করুন।
+    </p>
 
-      <h3>Result Information (English)</h3>
-      <p>
-        The examination result has been officially released.
-        Candidates are advised to check the result only
-        from the official website.
-      </p>
-
-      <h3>ফলাফল সংক্রান্ত তথ্য (বাংলা)</h3>
-      <p>
-        পরীক্ষার ফলাফল অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়েছে।
-        শুধুমাত্র অফিসিয়াল ওয়েবসাইট দেখে ফলাফল যাচাই করুন।
-      </p>
-
-      <p>
-        <a href="${r.link}" target="_blank">Check Result</a> |
-        <a href="${r.website}" target="_blank">Official Website</a>
-      </p>
-    `;
-  });
+    <p>
+      <a href="${j.applyLink}" target="_blank">Apply Online</a> |
+      <a href="${j.notification}" target="_blank">Notification</a> |
+      <a href="${j.website}" target="_blank">Official Website</a>
+    </p>
+  `;
+});

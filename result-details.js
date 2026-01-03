@@ -1,11 +1,22 @@
-const id = new URLSearchParams(window.location.search).get("id");
+const index = new URLSearchParams(window.location.search).get("index");
 
 fetch("jobs.json?v=" + Date.now())
   .then(res => res.json())
   .then(data => {
 
-    const r = data[id];
-    if (!r || r.type !== "result") return;
+    if (index === null || !data[index]) {
+      document.getElementById("details").innerHTML =
+        "<p>Result not found.</p>";
+      return;
+    }
+
+    const r = data[index];
+
+    if (r.type !== "result") {
+      document.getElementById("details").innerHTML =
+        "<p>Invalid result data.</p>";
+      return;
+    }
 
     document.getElementById("details").innerHTML = `
       <h1>${r.title}</h1>

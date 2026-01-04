@@ -55,3 +55,24 @@ fetch("jobs.json?v=" + Date.now())
   if (rc===0) resultBox.innerHTML="<li>No Result Available</li>";
   if (ac===0) admitBox.innerHTML="<li>No Admit Card Available</li>";
 });
+const searchInput = document.getElementById("jobSearch");
+
+searchInput.addEventListener("keyup", function () {
+  const keyword = this.value.toLowerCase();
+
+  filterList("jobList", keyword);
+  filterList("resultList", keyword);
+  filterList("admitList", keyword);
+});
+
+function filterList(listId, keyword) {
+  const list = document.getElementById(listId);
+  if (!list) return;
+
+  const items = list.getElementsByTagName("li");
+
+  for (let i = 0; i < items.length; i++) {
+    const text = items[i].innerText.toLowerCase();
+    items[i].style.display = text.includes(keyword) ? "" : "none";
+  }
+}

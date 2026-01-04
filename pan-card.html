@@ -97,144 +97,6 @@ footer{
     padding:15px;
     font-size:14px;
 }
-    /* Hide mobile header on desktop */
-.mobile-header{display:none;}
-
-/* MOBILE VIEW */
-@media(max-width:768px){
-
-  .desktop-header{display:none;} /* আপনার desktop menu wrapper */
-
-  .mobile-header{
-    display:block;
-    background:#000;
-    color:#fff;
-  }
-
-  .mobile-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px 12px;
-  }
-
-  .mobile-logo{
-    height:40px;
-    cursor:pointer;
-  }
-
-  .mobile-social a{
-    margin-left:10px;
-    font-size:22px;
-    text-decoration:none;
-  }
-
-  .mobile-menu{
-    display:flex;
-    justify-content:space-around;
-    background:#111;
-    padding:8px 0;
-  }
-
-  .m-item{
-    color:#ffcc00;
-    text-decoration:none;
-    font-size:12px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .dropdown{
-    position:relative;
-    cursor:pointer;
-  }
-
-  .dropdown-box{
-    display:none;
-    position:absolute;
-    top:45px;
-    left:-20px;
-    background:#222;
-    border-radius:6px;
-    overflow:hidden;
-    z-index:999;
-  }
-
-  .dropdown-box a{
-    display:block;
-    padding:8px 12px;
-    color:#fff;
-    text-decoration:none;
-    font-size:13px;
-  }
-
-  .dropdown:hover .dropdown-box{
-    display:block;
-  }
-}
-/* 📱 MOBILE STICKY BOTTOM MENU */
-.mobile-bottom-menu{
-  display:none;
-}
-
-@media(max-width:768px){
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    align-items:center;
-    padding:10px 0;
-    z-index:9999;
-  }
-
-  .mobile-bottom-menu a,
-  .mobile-service{
-    color:#ffd400;
-    font-size:28px;          /* 🔥 বড় icon */
-    text-decoration:none;
-    text-align:center;
-    position:relative;
-  }
-
-  .mobile-service{
-    cursor:pointer;
-  }
-
-  .service-popup{
-    display:none;
-    position:absolute;
-    bottom:55px;
-    left:-25px;
-    background:#111;
-    border:1px solid #ffd400;
-    border-radius:8px;
-    overflow:hidden;
-  }
-
-  .service-popup a{
-    display:block;
-    padding:8px 12px;
-    font-size:14px;
-    color:#ffd400;
-    white-space:nowrap;
-  }
-
-  .mobile-service:hover .service-popup{
-    display:block;
-  }
-
-  /* bottom menu জায়গা রাখার জন্য */
-  body{
-    padding-bottom:70px;
-  }
-}
-
 </style>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
 <script>
@@ -280,33 +142,6 @@ footer{
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg">
         </a>
     </div>
-    <!-- Mobile Header -->
-<div class="mobile-header">
-  <div class="mobile-top">
-    <img src="logo.png" class="mobile-logo" onclick="location.href='/'">
-
-    <div class="mobile-social">
-      <a href="https://wa.me/91XXXXXXXXXX">🟢</a>
-      <a href="https://facebook.com">🔵</a>
-      <a href="https://youtube.com">🔴</a>
-    </div>
-  </div>
-
-  <div class="mobile-menu">
-    <a href="/" class="m-item">🏠<span>Home</span></a>
-
-    <div class="m-item dropdown">
-      🛠<span>Services</span>
-      <div class="dropdown-box">
-        <a href="/recharge.html">🔁 Recharge</a>
-        <a href="/pan-card.html">🪪 PAN Card</a>
-      </div>
-    </div>
-
-    <a href="/products.html" class="m-item">📦<span>Products</span></a>
-    <a href="/jobs.html" class="m-item">💼<span>Jobs</span></a>
-  </div>
-</div>
 </header>
 
 <!-- PAN CARD CONTENT -->
@@ -339,28 +174,6 @@ footer{
 <footer>
     © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
 </footer>
-<!-- 📱 Mobile Sticky Bottom Menu -->
-<div class="mobile-bottom-menu">
-  <a href="index.html">
-    <span>🏠</span>
-  </a>
-
-  <div class="mobile-service">
-    <span>🛠️</span>
-    <div class="service-popup">
-      <a href="recharge.html">🔁 Recharge</a>
-      <a href="pan-card.html">🪪 PAN Card</a>
-    </div>
-  </div>
-
-  <a href="products.html">
-    <span>📦</span>
-  </a>
-
-  <a href="jobs.html">
-    <span>💼</span>
-  </a>
-</div>
 
 </body>
 </html>

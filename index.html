@@ -455,138 +455,46 @@ footer{
     font-size:32px !important;
   }
 }
-  /* ================= MOBILE VIEW ONLY ================= */
+/* ===== MOBILE TOP HEADER FIX ===== */
+@media (max-width: 768px){
 
-/* hide mobile elements by default */
-.mobile-top-header,
-.mobile-bottom-menu{
-  display:none;
-}
+  .mobile-top-header{
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;              /* 🔴 full screen width */
+    margin: 0;
+    padding: 10px 12px;
 
-/* ===== MOBILE SCREEN ===== */
-@media (max-width:768px){
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  /* hide desktop header */
-  .desktop-header{
-    display:none !important;
+    background: #000;          /* black bg */
+    z-index: 9999;
   }
 
-  /* ===== TOP HEADER ===== */
-  .mobile-top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#000;
-    padding:10px 12px;
-    position:sticky;
-    top:0;
-    z-index:9999;
+  /* body side gap remove */
+  body{
+    margin: 0;
+    padding: 0;
+  }
+
+  html{
+    margin: 0;
+    padding: 0;
   }
 
   .mobile-logo{
-    height:38px;
-    cursor:pointer;
+    height: 38px;
   }
 
   .mobile-social a{
-    font-size:22px;
-    margin-left:10px;
-    text-decoration:none;
-  }
-
-  /* ===== BOTTOM MENU ===== */
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    padding:10px 0;
-    z-index:9999;
-  }
-
-  .mobile-bottom-menu a,
-  .mobile-service{
-    font-size:28px;
-    color:#ffd400;
-    position:relative;
-    text-decoration:none;
-  }
-
-  .mobile-service{
-    cursor:pointer;
-  }
-
-  .service-popup{
-    display:none;
-    position:absolute;
-    bottom:55px;
-    left:-25px;
-    background:#111;
-    border:1px solid #ffd400;
-    border-radius:8px;
-  }
-
-  .service-popup a{
-    display:block;
-    padding:8px 12px;
-    font-size:14px;
-    white-space:nowrap;
-  }
-
-  .mobile-service:hover .service-popup{
-    display:block;
-  }
-
-  /* space for bottom menu */
-  body{
-    padding-bottom:70px;
+    font-size: 22px;
+    margin-left: 10px;
+    text-decoration: none;
   }
 }
-/* ================= MOBILE VIEW ONLY ================= */
-@media (max-width:768px){
-
-  /* 🔴 DESKTOP / WEB MENU HIDE */
-  header,
-  nav,
-  .desktop-header,
-  .menu,
-  .navbar,
-  .top-menu{
-    display:none !important;
-  }
-
-  /* ===== MOBILE TOP HEADER ===== */
-  .mobile-top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#000;
-    padding:10px 12px;
-    position:sticky;
-    top:0;
-    z-index:9999;
-  }
-
-  /* ===== MOBILE BOTTOM MENU ===== */
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100vw;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    padding:10px 0;
-    z-index:9999;
-  }
-}
-
-
 </style>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>

@@ -91,3 +91,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 });
+function handleSearchEnter(e){
+  if(e.key === "Enter"){
+    const value = e.target.value.toLowerCase();
+
+    document.querySelectorAll(
+      "#latest-jobs li, #latest-results li, #latest-admit li"
+    ).forEach(li=>{
+      li.style.display = li.innerText.toLowerCase().includes(value)
+        ? "list-item"
+        : "none";
+    });
+  }
+}

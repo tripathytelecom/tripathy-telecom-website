@@ -57,15 +57,17 @@ fetch("jobs.json?v=" + Date.now())
 });
 const searchInput = document.getElementById("jobSearch");
 
-searchInput.addEventListener("keyup", function () {
-  const keyword = this.value.toLowerCase();
+if (searchInput) {
+  searchInput.addEventListener("keyup", function () {
+    const keyword = this.value.toLowerCase();
 
-  filterList("jobList", keyword);
-  filterList("resultList", keyword);
-  filterList("admitList", keyword);
-});
+    filterListById("latest-jobs", keyword);
+    filterListById("latest-results", keyword);
+    filterListById("latest-admit", keyword);
+  });
+}
 
-function filterList(listId, keyword) {
+function filterListById(listId, keyword) {
   const list = document.getElementById(listId);
   if (!list) return;
 

@@ -455,7 +455,81 @@ footer{
     font-size:32px !important;
   }
 }
-  
+  /* ========== MOBILE HEADER ONLY ========== */
+.mobile-header{display:none;}
+
+@media(max-width:768px){
+
+  .top-header{display:none;} /* desktop header hide */
+
+  .mobile-header{
+    display:block;
+    background:#000;
+    color:#fff;
+  }
+
+  .mobile-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 12px;
+  }
+
+  .mobile-logo{
+    height:42px;
+    cursor:pointer;
+  }
+
+  .mobile-social a{
+    margin-left:10px;
+    font-size:22px;
+    text-decoration:none;
+  }
+
+  .mobile-menu{
+    display:flex;
+    justify-content:space-around;
+    background:#111;
+    padding:8px 0;
+  }
+
+  .m-item{
+    color:#ffd400;
+    text-decoration:none;
+    font-size:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .dropdown{
+    position:relative;
+  }
+
+  .dropdown-box{
+    display:none;
+    position:absolute;
+    top:45px;
+    left:-20px;
+    background:#222;
+    border-radius:6px;
+    overflow:hidden;
+    z-index:999;
+  }
+
+  .dropdown-box a{
+    display:block;
+    padding:8px 12px;
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+  }
+
+  .dropdown:hover .dropdown-box{
+    display:block;
+  }
+}
+
 </style>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
@@ -508,6 +582,36 @@ footer{
 </header>
 
 </header>
+<!-- 📱 MOBILE HEADER START -->
+<div class="mobile-header">
+
+  <div class="mobile-top">
+    <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
+
+    <div class="mobile-social">
+      <a href="https://wa.me/918670244552">🟢</a>
+      <a href="https://facebook.com/tripathytelecom">🔵</a>
+      <a href="https://youtube.com/@tripathytelecom">🔴</a>
+    </div>
+  </div>
+
+  <div class="mobile-menu">
+    <a href="index.html" class="m-item">🏠<span>Home</span></a>
+
+    <div class="m-item dropdown">
+      🛠<span>Services</span>
+      <div class="dropdown-box">
+        <a href="recharge.html">🔁 Recharge</a>
+        <a href="pan-card.html">🪪 PAN Card</a>
+      </div>
+    </div>
+
+    <a href="products.html" class="m-item">📦<span>Products</span></a>
+    <a href="jobs.html" class="m-item">💼<span>Jobs</span></a>
+  </div>
+
+</div>
+<!-- 📱 MOBILE HEADER END -->
 
 <section class="hero">
 

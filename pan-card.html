@@ -97,6 +97,83 @@ footer{
     padding:15px;
     font-size:14px;
 }
+    /* Hide mobile header on desktop */
+.mobile-header{display:none;}
+
+/* MOBILE VIEW */
+@media(max-width:768px){
+
+  .desktop-header{display:none;} /* আপনার desktop menu wrapper */
+
+  .mobile-header{
+    display:block;
+    background:#000;
+    color:#fff;
+  }
+
+  .mobile-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 12px;
+  }
+
+  .mobile-logo{
+    height:40px;
+    cursor:pointer;
+  }
+
+  .mobile-social a{
+    margin-left:10px;
+    font-size:22px;
+    text-decoration:none;
+  }
+
+  .mobile-menu{
+    display:flex;
+    justify-content:space-around;
+    background:#111;
+    padding:8px 0;
+  }
+
+  .m-item{
+    color:#ffcc00;
+    text-decoration:none;
+    font-size:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .dropdown{
+    position:relative;
+    cursor:pointer;
+  }
+
+  .dropdown-box{
+    display:none;
+    position:absolute;
+    top:45px;
+    left:-20px;
+    background:#222;
+    border-radius:6px;
+    overflow:hidden;
+    z-index:999;
+  }
+
+  .dropdown-box a{
+    display:block;
+    padding:8px 12px;
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+  }
+
+  .dropdown:hover .dropdown-box{
+    display:block;
+  }
+}
+
 </style>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
 <script>
@@ -174,6 +251,33 @@ footer{
 <footer>
     © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
 </footer>
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <div class="mobile-top">
+    <img src="logo.png" class="mobile-logo" onclick="location.href='/'">
+
+    <div class="mobile-social">
+      <a href="https://wa.me/91XXXXXXXXXX">🟢</a>
+      <a href="https://facebook.com">🔵</a>
+      <a href="https://youtube.com">🔴</a>
+    </div>
+  </div>
+
+  <div class="mobile-menu">
+    <a href="/" class="m-item">🏠<span>Home</span></a>
+
+    <div class="m-item dropdown">
+      🛠<span>Services</span>
+      <div class="dropdown-box">
+        <a href="/recharge.html">🔁 Recharge</a>
+        <a href="/pan-card.html">🪪 PAN Card</a>
+      </div>
+    </div>
+
+    <a href="/products.html" class="m-item">📦<span>Products</span></a>
+    <a href="/jobs.html" class="m-item">💼<span>Jobs</span></a>
+  </div>
+</div>
 
 </body>
 </html>

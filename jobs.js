@@ -55,26 +55,39 @@ fetch("jobs.json?v=" + Date.now())
   if (rc===0) resultBox.innerHTML="<li>No Result Available</li>";
   if (ac===0) admitBox.innerHTML="<li>No Admit Card Available</li>";
 });
-const searchInput = document.getElementById("jobSearch");
+document.addEventListener("DOMContentLoaded", function () {
 
-if (searchInput) {
-  searchInput.addEventListener("keyup", function () {
-    const keyword = this.value.toLowerCase();
+  const searchInput = document.getElementById("jobSearch");
 
-    filterListById("latest-jobs", keyword);
-    filterListById("latest-results", keyword);
-    filterListById("latest-admit", keyword);
-  });
-}
-
-function filterListById(listId, keyword) {
-  const list = document.getElementById(listId);
-  if (!list) return;
-
-  const items = list.getElementsByTagName("li");
-
-  for (let i = 0; i < items.length; i++) {
-    const text = items[i].innerText.toLowerCase();
-    items[i].style.display = text.includes(keyword) ? "" : "none";
+  if (!searchInput) {
+    console.log("Search box not found");
+    return;
   }
-}
+
+  searchInput.addEventListener("keydown", function (e) {
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      const keyword = searchInput.value.toLowerCase().trim();
+
+      filterList("latest-jobs", keyword);
+      filterList("latest-results", keyword);
+      filterList("latest-admit", keyword);
+    }
+
+  });
+
+  function filterList(listId, keyword) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+
+    const items = list.getElementsByTagName("li");
+
+    for (let i = 0; i < items.length; i++) {
+      const text = items[i].innerText.toLowerCase();
+      items[i].style.display = text.includes(keyword) ? "" : "none";
+    }
+  }
+
+});

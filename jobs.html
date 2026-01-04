@@ -129,6 +129,46 @@ footer{
   padding:15px;
   margin-top:40px;
 }
+  /* ===== Job page header layout ===== */
+.job-header{
+  position: relative;
+  display: flex;
+  justify-content: center;   /* title center */
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* Title in center */
+.job-title{
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Search box on right */
+#jobSearch{
+  position: absolute;
+  right: 0;
+  padding: 6px 10px;
+  width: 180px;              /* chotto size */
+  border: 2px solid #f1c40f;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Mobile responsive */
+@media(max-width:768px){
+  .job-header{
+    flex-direction: column;
+  }
+
+  #jobSearch{
+    position: static;
+    margin-top: 10px;
+    width: 90%;
+  }
+}
+
 </style>
 </head>
 
@@ -150,13 +190,15 @@ footer{
 
 <div class="container">
 
-  <div class="job-header">
-  <h1>📢 Job Updates – Tripathy Telecom</h1>
+<!-- JOB PAGE TITLE + SEARCH BAR -->
+<div class="job-header">
+  <h2 class="job-title">📢 Job Updates – Tripathy Telecom</h2>
 
-  <input
-    type="text"
-    id="jobSearch"
-    placeholder="Search job / result / admit..."
+  <input 
+    type="text" 
+    id="jobSearch" 
+    placeholder="Search..." 
+    onkeypress="handleSearchEnter(event)"
   >
 </div>
 

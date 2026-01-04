@@ -106,12 +106,46 @@ footer{
   padding:15px;
   font-size:14px;
 }
-  /* 📱 MOBILE STICKY BOTTOM MENU */
+  /* ================= MOBILE VIEW ONLY ================= */
+
+/* hide mobile elements by default */
+.mobile-top-header,
 .mobile-bottom-menu{
   display:none;
 }
 
-@media(max-width:768px){
+/* ===== MOBILE SCREEN ===== */
+@media (max-width:768px){
+
+  /* hide desktop header */
+  .desktop-header{
+    display:none !important;
+  }
+
+  /* ===== TOP HEADER ===== */
+  .mobile-top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#000;
+    padding:10px 12px;
+    position:sticky;
+    top:0;
+    z-index:9999;
+  }
+
+  .mobile-logo{
+    height:38px;
+    cursor:pointer;
+  }
+
+  .mobile-social a{
+    font-size:22px;
+    margin-left:10px;
+    text-decoration:none;
+  }
+
+  /* ===== BOTTOM MENU ===== */
   .mobile-bottom-menu{
     display:flex;
     position:fixed;
@@ -121,18 +155,16 @@ footer{
     background:#000;
     border-top:2px solid #ffd400;
     justify-content:space-around;
-    align-items:center;
     padding:10px 0;
     z-index:9999;
   }
 
   .mobile-bottom-menu a,
   .mobile-service{
+    font-size:28px;
     color:#ffd400;
-    font-size:28px;          /* 🔥 বড় icon */
-    text-decoration:none;
-    text-align:center;
     position:relative;
+    text-decoration:none;
   }
 
   .mobile-service{
@@ -147,14 +179,12 @@ footer{
     background:#111;
     border:1px solid #ffd400;
     border-radius:8px;
-    overflow:hidden;
   }
 
   .service-popup a{
     display:block;
     padding:8px 12px;
     font-size:14px;
-    color:#ffd400;
     white-space:nowrap;
   }
 
@@ -162,16 +192,66 @@ footer{
     display:block;
   }
 
-  /* bottom menu জায়গা রাখার জন্য */
+  /* space for bottom menu */
   body{
     padding-bottom:70px;
   }
 }
+/* ================= MOBILE VIEW ONLY ================= */
+@media (max-width:768px){
+
+  /* 🔴 DESKTOP / WEB MENU HIDE */
+  header,
+  nav,
+  .desktop-header,
+  .menu,
+  .navbar,
+  .top-menu{
+    display:none !important;
+  }
+
+  /* ===== MOBILE TOP HEADER ===== */
+  .mobile-top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#000;
+    padding:10px 12px;
+    position:sticky;
+    top:0;
+    z-index:9999;
+  }
+
+  /* ===== MOBILE BOTTOM MENU ===== */
+  .mobile-bottom-menu{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#000;
+    border-top:2px solid #ffd400;
+    justify-content:space-around;
+    padding:10px 0;
+    z-index:9999;
+  }
+}
+
 
 </style>
 </head>
 
 <body>
+<!-- 📱 MOBILE TOP HEADER -->
+<div class="mobile-top-header">
+  <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
+
+  <div class="mobile-social">
+    <a href="https://wa.me/918670244552" target="_blank">🟢</a>
+    <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>
+    <a href="https://youtube.com/tripathytelecom" target="_blank">🔴</a>
+  </div>
+</div>
 
 <!-- HEADER -->
 <header>
@@ -223,27 +303,20 @@ footer{
 <footer>
 © 2025 TRIPATHY TELECOM
 </footer>
-<!-- 📱 Mobile Sticky Bottom Menu -->
+<!-- 📱 MOBILE BOTTOM MENU -->
 <div class="mobile-bottom-menu">
-  <a href="index.html">
-    <span>🏠</span>
-  </a>
+  <a href="index.html">🏠</a>
 
   <div class="mobile-service">
-    <span>🛠️</span>
+    🛠️
     <div class="service-popup">
       <a href="recharge.html">🔁 Recharge</a>
       <a href="pan-card.html">🪪 PAN Card</a>
     </div>
   </div>
 
-  <a href="products.html">
-    <span>📦</span>
-  </a>
-
-  <a href="jobs.html">
-    <span>💼</span>
-  </a>
+  <a href="products.html">📦</a>
+  <a href="jobs.html">💼</a>
 </div>
 
 </body>

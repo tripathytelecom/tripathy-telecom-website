@@ -486,12 +486,25 @@ footer{
     text-decoration:none;
   }
 
-  .mobile-menu{
-    display:flex;
-    justify-content:space-around;
-    background:#111;
-    padding:8px 0;
-  }
+.mobile-menu{
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:#111;
+  padding:8px 0;
+
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  z-index:9999;
+  border-top:2px solid #333;
+}
+
+/* Body bottom space so content not hidden */
+body{
+  padding-bottom:65px;
+}
 
   .m-item{
     color:#ffd400;

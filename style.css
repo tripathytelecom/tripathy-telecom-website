@@ -1,0 +1,56 @@
+<style>
+/* HEADER BASE */
+.top-header{
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 22px;
+  position:sticky;
+  top:0;
+  z-index:999;
+}
+
+.logo img{
+  height:55px;
+}
+
+@media(max-width:768px){
+  .logo img{
+    height:60px;
+  }
+}
+
+/* MENU */
+.header-menu{
+  display:flex;
+  gap:25px;
+}
+
+.header-menu a{
+  color:#ffd400;
+  text-decoration:none;
+  font-weight:700;
+}
+/* Header menu text size increase */
+nav ul li a,
+.navbar a {
+    font-size: 36px;        /* চাইলে 20px / 22px করতে পারেন */
+    font-weight: 1000;       /* লেখাকে মোটা করবে */
+    padding: 24px 28px;     /* ক্লিক করার জায়গা বড় হবে */
+}
+
+/* Hover effect আরও সুন্দর করতে */
+nav ul li a:hover,
+.navbar a:hover {
+    color: #ffd700;         /* হলুদ রঙ */
+}
+
+/* SOCIAL ICONS */
+.social-icons{
+  display:flex;
+  gap:12px;
+}
+
+.social-icons img{
+</style>

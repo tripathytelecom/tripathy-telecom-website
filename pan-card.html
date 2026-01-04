@@ -97,75 +97,18 @@ footer{
     padding:15px;
     font-size:14px;
 }
-    /* 📱 MOBILE STICKY BOTTOM MENU */
-.mobile-bottom-menu{
-  display:none;
-}
+/* ===== MOBILE TOP HEADER ===== */
 
-@media(max-width:768px){
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    align-items:center;
-    padding:10px 0;
-    z-index:9999;
-  }
-
-  .mobile-bottom-menu a,
-  .mobile-service{
-    color:#ffd400;
-    font-size:28px;          /* 🔥 বড় icon */
-    text-decoration:none;
-    text-align:center;
-    position:relative;
-  }
-
-  .mobile-service{
-    cursor:pointer;
-  }
-
-  .service-popup{
-    display:none;
-    position:absolute;
-    bottom:55px;
-    left:-25px;
-    background:#111;
-    border:1px solid #ffd400;
-    border-radius:8px;
-    overflow:hidden;
-  }
-
-  .service-popup a{
-    display:block;
-    padding:8px 12px;
-    font-size:14px;
-    color:#ffd400;
-    white-space:nowrap;
-  }
-
-  .mobile-service:hover .service-popup{
-    display:block;
-  }
-
-  /* bottom menu জায়গা রাখার জন্য */
-  body{
-    padding-bottom:70px;
-  }
-}
-/* 📱 MOBILE TOP HEADER */
+/* Default: hide everywhere */
 .mobile-top-header{
-  display:none;
+  display:none !important;
 }
 
-@media(max-width:768px){
+/* Only mobile screen */
+@media screen and (max-width: 768px){
+
   .mobile-top-header{
-    display:flex;
+    display:flex !important;
     justify-content:space-between;
     align-items:center;
     background:#000;
@@ -184,6 +127,11 @@ footer{
     font-size:22px;
     margin-left:10px;
     text-decoration:none;
+  }
+
+  /* Desktop header hide on mobile */
+  .desktop-header{
+    display:none !important;
   }
 }
 

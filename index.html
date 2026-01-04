@@ -455,103 +455,46 @@ footer{
     font-size:32px !important;
   }
 }
-  /* ========== MOBILE HEADER ONLY ========== */
-.mobile-header{display:none;}
+  /* ================= MOBILE VIEW ONLY ================= */
 
-@media(max-width:768px){
-
-  .top-header{display:none;} /* desktop header hide */
-
-  .mobile-header{
-    display:block;
-    background:#000;
-    color:#fff;
-  }
-
-  .mobile-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px 12px;
-  }
-
-  .mobile-logo{
-    height:42px;
-    cursor:pointer;
-  }
-
-  .mobile-social a{
-    margin-left:10px;
-    font-size:22px;
-    text-decoration:none;
-  }
-
-.mobile-menu{
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  background:#111;
-  padding:8px 0;
-
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  z-index:9999;
-  border-top:2px solid #333;
-}
-
-/* Body bottom space so content not hidden */
-body{
-  padding-bottom:65px;
-}
-
-.m-item{
-  color:#ffd400;
-  text-decoration:none;
-  font-size:11px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-.m-item span{
-  margin-top:2px;
-}
-
-  .dropdown{
-    position:relative;
-  }
-
-  .dropdown-box{
-    display:none;
-    position:absolute;
-    top:45px;
-    left:-20px;
-    background:#222;
-    border-radius:6px;
-    overflow:hidden;
-    z-index:999;
-  }
-
-  .dropdown-box a{
-    display:block;
-    padding:8px 12px;
-    color:#fff;
-    text-decoration:none;
-    font-size:13px;
-  }
-
-  .dropdown:hover .dropdown-box{
-    display:block;
-  }
-}
-/* 📱 MOBILE STICKY BOTTOM MENU */
+/* hide mobile elements by default */
+.mobile-top-header,
 .mobile-bottom-menu{
   display:none;
 }
 
-@media(max-width:768px){
+/* ===== MOBILE SCREEN ===== */
+@media (max-width:768px){
+
+  /* hide desktop header */
+  .desktop-header{
+    display:none !important;
+  }
+
+  /* ===== TOP HEADER ===== */
+  .mobile-top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#000;
+    padding:10px 12px;
+    position:sticky;
+    top:0;
+    z-index:9999;
+  }
+
+  .mobile-logo{
+    height:38px;
+    cursor:pointer;
+  }
+
+  .mobile-social a{
+    font-size:22px;
+    margin-left:10px;
+    text-decoration:none;
+  }
+
+  /* ===== BOTTOM MENU ===== */
   .mobile-bottom-menu{
     display:flex;
     position:fixed;
@@ -561,18 +504,16 @@ body{
     background:#000;
     border-top:2px solid #ffd400;
     justify-content:space-around;
-    align-items:center;
     padding:10px 0;
     z-index:9999;
   }
 
   .mobile-bottom-menu a,
   .mobile-service{
+    font-size:28px;
     color:#ffd400;
-    font-size:28px;          /* 🔥 বড় icon */
-    text-decoration:none;
-    text-align:center;
     position:relative;
+    text-decoration:none;
   }
 
   .mobile-service{
@@ -587,14 +528,12 @@ body{
     background:#111;
     border:1px solid #ffd400;
     border-radius:8px;
-    overflow:hidden;
   }
 
   .service-popup a{
     display:block;
     padding:8px 12px;
     font-size:14px;
-    color:#ffd400;
     white-space:nowrap;
   }
 
@@ -602,11 +541,51 @@ body{
     display:block;
   }
 
-  /* bottom menu জায়গা রাখার জন্য */
+  /* space for bottom menu */
   body{
     padding-bottom:70px;
   }
 }
+/* ================= MOBILE VIEW ONLY ================= */
+@media (max-width:768px){
+
+  /* 🔴 DESKTOP / WEB MENU HIDE */
+  header,
+  nav,
+  .desktop-header,
+  .menu,
+  .navbar,
+  .top-menu{
+    display:none !important;
+  }
+
+  /* ===== MOBILE TOP HEADER ===== */
+  .mobile-top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#000;
+    padding:10px 12px;
+    position:sticky;
+    top:0;
+    z-index:9999;
+  }
+
+  /* ===== MOBILE BOTTOM MENU ===== */
+  .mobile-bottom-menu{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#000;
+    border-top:2px solid #ffd400;
+    justify-content:space-around;
+    padding:10px 0;
+    z-index:9999;
+  }
+}
+
 
 </style>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -620,6 +599,18 @@ body{
 </script>
 
 </head>
+  <body>
+    <!-- 📱 MOBILE TOP HEADER -->
+<div class="mobile-top-header">
+  <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
+
+  <div class="mobile-social">
+    <a href="https://wa.me/918670244552" target="_blank">🟢</a>
+    <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>
+    <a href="https://youtube.com/tripathytelecom" target="_blank">🔴</a>
+  </div>
+</div>
+
 <header>
 <header class="top-header">
   <div class="logo">
@@ -660,36 +651,6 @@ body{
 </header>
 
 </header>
-<!-- 📱 MOBILE HEADER START -->
-<div class="mobile-header">
-
-  <div class="mobile-top">
-    <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
-
-    <div class="mobile-social">
-      <a href="https://wa.me/918670244552">🟢</a>
-      <a href="https://facebook.com/tripathytelecom">🔵</a>
-      <a href="https://youtube.com/@tripathytelecom">🔴</a>
-    </div>
-  </div>
-
-  <div class="mobile-menu">
-    <a href="index.html" class="m-item">🏠<span>Home</span></a>
-
-    <div class="m-item dropdown">
-      🛠<span>Services</span>
-      <div class="dropdown-box">
-        <a href="recharge.html">🔁 Recharge</a>
-        <a href="pan-card.html">🪪 PAN Card</a>
-      </div>
-    </div>
-
-    <a href="products.html" class="m-item">📦<span>Products</span></a>
-    <a href="jobs.html" class="m-item">💼<span>Jobs</span></a>
-  </div>
-
-</div>
-<!-- 📱 MOBILE HEADER END -->
 
 <section class="hero">
 
@@ -804,29 +765,21 @@ else if(day === 1 && month === 1){
 
 document.getElementById("festivalBanner").innerText = message;
 </script>
-<!-- 📱 Mobile Sticky Bottom Menu -->
+<!-- 📱 MOBILE BOTTOM MENU -->
 <div class="mobile-bottom-menu">
-  <a href="index.html">
-    <span>🏠</span>
-  </a>
+  <a href="index.html">🏠</a>
 
   <div class="mobile-service">
-    <span>🛠️</span>
+    🛠️
     <div class="service-popup">
       <a href="recharge.html">🔁 Recharge</a>
       <a href="pan-card.html">🪪 PAN Card</a>
     </div>
   </div>
 
-  <a href="products.html">
-    <span>📦</span>
-  </a>
-
-  <a href="jobs.html">
-    <span>💼</span>
-  </a>
+  <a href="products.html">📦</a>
+  <a href="jobs.html">💼</a>
 </div>
-
 
 </body>
 </html>

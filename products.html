@@ -6,15 +6,20 @@
 <title>Products | Tripathy Telecom</title>
 
 <style>
-/* ===== BASIC STYLE (আগের মতোই) ===== */
-body{
+/* ===== BASIC STYLE ===== */
+html, body{
   margin:0;
+  padding:0;
+}
+
+body{
   font-family:Arial, Helvetica, sans-serif;
   background:#f5f5f5;
 }
 
 a{text-decoration:none;}
 
+/* ===== HEADER ===== */
 header{
   background:#000;
   color:#ffd400;
@@ -22,6 +27,8 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  position:relative;
+  z-index:100;
 }
 
 header img{
@@ -39,11 +46,13 @@ header nav a{
   font-weight:bold;
 }
 
+/* ===== PAGE ===== */
 h2{
   text-align:center;
   margin:20px 0;
 }
 
+/* ===== GRID ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -51,12 +60,15 @@ h2{
   padding:15px;
 }
 
+/* ===== CARD ===== */
 .card{
   background:#fff;
   border-radius:6px;
   padding:15px;
   box-shadow:0 0 5px rgba(0,0,0,0.1);
   text-align:center;
+  position:relative;
+  z-index:5;
 }
 
 .card img{
@@ -85,24 +97,27 @@ h2{
   width:50px;
 }
 
-/* ===== BUTTON FIX ===== */
+/* ===== BUTTON (CLICK FIX) ===== */
 .btn{
   display:block;
   width:100%;
   margin:6px 0;
-  padding:8px;
+  padding:10px;
   background:#ffd400;
   color:#000;
   border:none;
   border-radius:4px;
   font-weight:bold;
   cursor:pointer;
+  position:relative;
+  z-index:10;
 }
 
 .btn:active{
   transform:scale(0.98);
 }
 
+/* ===== FOOTER ===== */
 footer{
   background:#000;
   color:#ffd400;
@@ -134,12 +149,12 @@ footer{
   </div>
 </header>
 
-<!-- ===== PAGE TITLE ===== -->
+<!-- ===== TITLE ===== -->
 <h2>🛒 Our Products</h2>
 
 <!-- ===== PRODUCT GRID ===== -->
 <div class="grid" id="productGrid">
-  <!-- Admin panel থেকে product auto load হবে -->
+  <!-- products.json থেকে auto load হবে -->
 </div>
 
 <!-- ===== FOOTER ===== -->
@@ -153,7 +168,8 @@ footer{
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function updateCartCount(){
-  document.getElementById("cartCount").innerText = cart.length;
+  const c = document.getElementById("cartCount");
+  if(c) c.innerText = cart.length;
 }
 updateCartCount();
 
@@ -164,7 +180,7 @@ function addToCart(name, price){
   alert("Product added to cart");
 }
 
-/* ===== LOAD PRODUCTS FROM ADMIN ===== */
+/* ===== LOAD PRODUCTS (SAFE CLICK BINDING) ===== */
 fetch("products.json?v=" + Date.now())
 .then(res => res.json())
 .then(data => {
@@ -177,34 +193,39 @@ fetch("products.json?v=" + Date.now())
   }
 
   data.forEach(p => {
-    grid.innerHTML += `
-      <div class="card">
-        <img src="${p.image}" alt="${p.name}">
-        <h3>${p.name}</h3>
 
-        ${p.desc ? `<p>${p.desc}</p>` : ""}
+    const card = document.createElement("div");
+    card.className = "card";
 
-        <div class="price">₹ ${p.price}</div>
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      ${p.desc ? `<p>${p.desc}</p>` : ""}
+      <div class="price">₹ ${p.price}</div>
 
-        <div class="qty">
-          Qty:
-          <input type="number" value="1" min="1">
-        </div>
-
-        <button class="btn"
-          onclick="addToCart('${p.name}', '${p.price}')">
-          Add to Cart
-        </button>
-
-        <a class="btn"
-          href="https://wa.me/918670244552?text=${encodeURIComponent(
-            'I want to buy ' + p.name + ' (Price: ₹' + p.price + ')'
-          )}"
-          target="_blank">
-          Buy on WhatsApp
-        </a>
+      <div class="qty">
+        Qty: <input type="number" value="1" min="1">
       </div>
+
+      <button class="btn add-cart-btn">Add to Cart</button>
+
+      <a class="btn"
+        href="https://wa.me/918670244552?text=${encodeURIComponent(
+          'I want to buy ' + p.name + ' (Price: ₹' + p.price + ')'
+        )}"
+        target="_blank">
+        Buy on WhatsApp
+      </a>
     `;
+
+    grid.appendChild(card);
+
+    /* 🔥 CLICK FIX */
+    card.querySelector(".add-cart-btn")
+        .addEventListener("click", function(e){
+          e.stopPropagation();
+          addToCart(p.name, p.price);
+        });
   });
 
 });

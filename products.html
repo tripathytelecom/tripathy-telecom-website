@@ -22,18 +22,13 @@ header{
   display:flex;
   align-items:center;
 }
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
 .logo img{height:45px}
 
 .header-right{
   margin-left:auto;
   display:flex;
   align-items:center;
-  gap:20px;
+  gap:18px;
 }
 nav a{
   color:#ffd400;
@@ -131,35 +126,49 @@ nav a{
   border-radius:4px;
 }
 
-/* ===== BUTTON ===== */
-.btn{
-  width:100%;
-  padding:10px;
-  margin:5px 0;
+/* ===== BUTTONS ===== */
+.cart-btn{
   background:#ffd400;
   border:none;
-  border-radius:4px;
+  border-radius:6px;
+  padding:10px;
+  margin-top:8px;
   font-weight:bold;
   cursor:pointer;
+  width:100%;
 }
-.btn:disabled{
+.cart-btn:disabled{
   background:#ccc;
   cursor:not-allowed;
 }
 
+.whatsapp-btn{
+  display:block;
+  background:#25D366;
+  color:#000;
+  text-align:center;
+  padding:10px;
+  border-radius:6px;
+  margin-top:6px;
+  font-weight:bold;
+}
+
 /* ===== FOOTER ===== */
-footer{
+.site-footer{
   background:#000;
   color:#ffd400;
-  display:flex;
-  justify-content:space-between;
+  padding:14px 15px;
+  display:grid;
+  grid-template-columns:1fr auto;
   align-items:center;
-  padding:12px 15px;
-  flex-wrap:wrap;
+}
+.footer-center{
+  text-align:center;
+  font-weight:bold;
 }
 .footer-social a{
   color:#ffd400;
-  font-size:20px;
+  font-size:22px;
   margin-left:12px;
 }
 
@@ -220,14 +229,14 @@ footer{
 
 <div class="grid" id="productGrid"></div>
 
-<footer>
-  <div>
+<footer class="site-footer">
+  <div class="footer-center">
     © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
   </div>
   <div class="footer-social">
     <a href="https://wa.me/918670244552" target="_blank">🟢</a>
-    <a href="#" target="_blank">🔵</a>
-    <a href="#" target="_blank">🔴</a>
+    <a href="https://facebook.com/tripathytelecom" target="_blank">📘</a>
+    <a href="https://youtube.com/@tripathytelecom" target="_blank">▶️</a>
   </div>
 </footer>
 
@@ -270,13 +279,13 @@ function renderProducts(){
       <p>${p.desc||""}</p>
       ${p.oldPrice?`<div class="old-price">₹ ${p.oldPrice}</div>`:""}
       <div class="price">₹ ${p.price}</div>
-      <button class="btn" ${p.stock===0?"disabled":""}>Add to Cart</button>
-      <a class="btn" target="_blank"
+      <button class="cart-btn" ${p.stock===0?"disabled":""}>🛒 Add to Cart</button>
+      <a class="whatsapp-btn" target="_blank"
         href="https://wa.me/918670244552?text=${encodeURIComponent('Buy '+p.name+' ₹'+p.price)}">
-        Buy on WhatsApp
+        📲 Buy on WhatsApp
       </a>
     `;
-    card.querySelector(".btn").onclick=()=>addToCart(p);
+    card.querySelector(".cart-btn").onclick=()=>addToCart(p);
     grid.appendChild(card);
   });
 }
@@ -287,7 +296,7 @@ document.querySelectorAll(".filters button").forEach(btn=>{
     btn.classList.add("active");
     currentCategory = btn.dataset.cat;
     renderProducts();
-  }
+  };
 });
 
 document.getElementById("searchInput").addEventListener("input",renderProducts);

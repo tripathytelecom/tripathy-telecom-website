@@ -6,7 +6,7 @@
 <title>Products | Tripathy Telecom</title>
 
 <style>
-/* ===== BASIC STYLE (আপনার আগের মতোই রাখা হয়েছে) ===== */
+/* ===== BASIC STYLE (আগের design same) ===== */
 body{
   margin:0;
   font-family:Arial, Helvetica, sans-serif;
@@ -31,6 +31,11 @@ header img{
 header nav a{
   color:#ffd400;
   margin:0 10px;
+  font-weight:bold;
+}
+
+.cart-box{
+  color:#ffd400;
   font-weight:bold;
 }
 
@@ -88,6 +93,7 @@ h2{
   color:#000;
   border-radius:4px;
   font-weight:bold;
+  cursor:pointer;
 }
 
 footer{
@@ -102,7 +108,7 @@ footer{
 
 <body>
 
-<!-- ===== HEADER (UNCHANGED DESIGN) ===== -->
+<!-- ===== HEADER ===== -->
 <header>
   <a href="index.html">
     <img src="logo.png" alt="Tripathy Telecom">
@@ -115,14 +121,18 @@ footer{
     <a href="jobs.html">Jobs</a>
     <a href="contact.html">Contact</a>
   </nav>
+
+  <div class="cart-box">
+    🛒 Cart: <span id="cartCount">0</span>
+  </div>
 </header>
 
 <!-- ===== PAGE TITLE ===== -->
 <h2>🛒 Our Products</h2>
 
-<!-- ===== PRODUCT GRID (DYNAMIC) ===== -->
+<!-- ===== PRODUCT GRID ===== -->
 <div class="grid" id="productGrid">
-  <!-- Admin panel থেকে product এখানে auto load হবে -->
+  <!-- products.json থেকে auto load -->
 </div>
 
 <!-- ===== FOOTER ===== -->
@@ -132,7 +142,22 @@ footer{
 
 <!-- ===== JAVASCRIPT ===== -->
 <script>
-/* ===== LOAD PRODUCTS FROM ADMIN (products.json) ===== */
+/* ===== CART SYSTEM (LOCAL STORAGE) ===== */
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function updateCartCount(){
+  document.getElementById("cartCount").innerText = cart.length;
+}
+updateCartCount();
+
+function addToCart(name, price){
+  cart.push({name, price});
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+  alert("Product added to cart");
+}
+
+/* ===== LOAD PRODUCTS FROM ADMIN ===== */
 fetch("products.json?v=" + Date.now())
 .then(res => res.json())
 .then(data => {
@@ -157,6 +182,10 @@ fetch("products.json?v=" + Date.now())
         <div class="qty">
           Qty:
           <input type="number" value="1" min="1">
+        </div>
+
+        <div class="btn" onclick="addToCart('${p.name}', '${p.price}')">
+          Add to Cart
         </div>
 
         <a class="btn" href="https://wa.me/918670244552?text=${encodeURIComponent(

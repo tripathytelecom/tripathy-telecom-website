@@ -1,5 +1,14 @@
 [
   {
+    "name": "Charger",
+    "price": 349,
+    "oldPrice": 999,
+    "category": "charger",
+    "stock": 5,
+    "image": "images/charger 0001.jpeg",
+    "desc": "Super Speed Branded Charger All Type"
+  },
+  {
     "name": "Data Cable",
     "price": 80,
     "oldPrice": 199,

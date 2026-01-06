@@ -20,16 +20,30 @@ header{
   color:#ffd400;
   padding:10px 15px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
 }
-header img{height:45px}
-header nav a{
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.logo img{height:45px}
+
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+nav a{
   color:#ffd400;
-  margin:0 8px;
+  font-weight:bold;
+  margin:0 6px;
+}
+.cart-box a{
+  color:#ffd400;
   font-weight:bold;
 }
-.cart-box a{color:#ffd400;font-weight:bold}
 
 /* ===== TITLE + SEARCH ===== */
 .top-bar{
@@ -137,9 +151,16 @@ header nav a{
 footer{
   background:#000;
   color:#ffd400;
-  text-align:center;
-  padding:12px;
-  margin-top:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 15px;
+  flex-wrap:wrap;
+}
+.footer-social a{
+  color:#ffd400;
+  font-size:20px;
+  margin-left:12px;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -151,7 +172,7 @@ footer{
 }
 @media(max-width:480px){
   .grid{grid-template-columns:1fr}
-  header nav{display:none}
+  nav{display:none}
 }
 </style>
 </head>
@@ -159,16 +180,21 @@ footer{
 <body>
 
 <header>
-  <a href="index.html"><img src="logo.png"></a>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="products.html">Products</a>
-    <a href="jobs.html">Jobs</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-  <div class="cart-box">
-    <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
+  <div class="logo">
+    <a href="index.html"><img src="logo.png"></a>
+  </div>
+
+  <div class="header-right">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="products.html">Products</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="cart-box">
+      <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
+    </div>
   </div>
 </header>
 
@@ -179,12 +205,30 @@ footer{
   </div>
 </div>
 
-<div class="filters" id="categoryFilters"></div>
+<div class="filters" id="categoryFilters">
+  <button class="active" data-cat="all">ALL</button>
+  <button data-cat="mobile">MOBILE</button>
+  <button data-cat="charger">CHARGER</button>
+  <button data-cat="earphone">EARPHONE</button>
+  <button data-cat="battery">BATTERY</button>
+  <button data-cat="data cable">DATA CABLE</button>
+  <button data-cat="glass">GLASS</button>
+  <button data-cat="speaker">SPEAKER</button>
+  <button data-cat="computer parts">COMPUTER PARTS</button>
+  <button data-cat="repearing parts">REPEARING PARTS</button>
+</div>
 
 <div class="grid" id="productGrid"></div>
 
 <footer>
-  © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
+  <div>
+    © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
+  </div>
+  <div class="footer-social">
+    <a href="https://wa.me/918670244552" target="_blank">🟢</a>
+    <a href="#" target="_blank">🔵</a>
+    <a href="#" target="_blank">🔴</a>
+  </div>
 </footer>
 
 <script>
@@ -205,27 +249,8 @@ fetch("products.json?v="+Date.now())
 .then(res=>res.json())
 .then(data=>{
   allProducts = data;
-  buildCategoryFilters();
   renderProducts();
 });
-
-function buildCategoryFilters(){
-  const cats = ["all", ...new Set(allProducts.map(p=>p.category))];
-  const box = document.getElementById("categoryFilters");
-  box.innerHTML="";
-  cats.forEach(c=>{
-    const btn = document.createElement("button");
-    btn.innerText = c.toUpperCase();
-    btn.className = c==="all"?"active":"";
-    btn.onclick = ()=>{
-      document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-      currentCategory = c;
-      renderProducts();
-    };
-    box.appendChild(btn);
-  });
-}
 
 function renderProducts(){
   const q = document.getElementById("searchInput").value.toLowerCase();
@@ -238,7 +263,6 @@ function renderProducts(){
   }).forEach(p=>{
     const card = document.createElement("div");
     card.className="card";
-
     card.innerHTML=`
       ${p.stock===0?'<div class="badge">Out of Stock</div>':""}
       <img src="${p.image}">
@@ -256,6 +280,15 @@ function renderProducts(){
     grid.appendChild(card);
   });
 }
+
+document.querySelectorAll(".filters button").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCategory = btn.dataset.cat;
+    renderProducts();
+  }
+});
 
 document.getElementById("searchInput").addEventListener("input",renderProducts);
 </script>

@@ -41,7 +41,13 @@ header nav a{
   font-weight:bold;
 }
 
+/* ===== CART LINK ===== */
 .cart-box{
+  color:#ffd400;
+  font-weight:bold;
+}
+
+.cart-box a{
   color:#ffd400;
   font-weight:bold;
 }
@@ -97,7 +103,7 @@ h2{
   width:50px;
 }
 
-/* ===== BUTTON (CLICK FIX) ===== */
+/* ===== BUTTON ===== */
 .btn{
   display:block;
   width:100%;
@@ -109,8 +115,6 @@ h2{
   border-radius:4px;
   font-weight:bold;
   cursor:pointer;
-  position:relative;
-  z-index:10;
 }
 
 .btn:active{
@@ -144,8 +148,11 @@ footer{
     <a href="contact.html">Contact</a>
   </nav>
 
+  <!-- ✅ CART CLICKABLE -->
   <div class="cart-box">
-    🛒 Cart: <span id="cartCount">0</span>
+    <a href="cart.html">
+      🛒 Cart (<span id="cartCount">0</span>)
+    </a>
   </div>
 </header>
 
@@ -153,9 +160,7 @@ footer{
 <h2>🛒 Our Products</h2>
 
 <!-- ===== PRODUCT GRID ===== -->
-<div class="grid" id="productGrid">
-  <!-- products.json থেকে auto load হবে -->
-</div>
+<div class="grid" id="productGrid"></div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
@@ -173,14 +178,14 @@ function updateCartCount(){
 }
 updateCartCount();
 
-function addToCart(name, price){
-  cart.push({name, price});
+function addToCart(product){
+  cart.push(product);
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
   alert("Product added to cart");
 }
 
-/* ===== LOAD PRODUCTS (SAFE CLICK BINDING) ===== */
+/* ===== LOAD PRODUCTS ===== */
 fetch("products.json?v=" + Date.now())
 .then(res => res.json())
 .then(data => {
@@ -220,12 +225,15 @@ fetch("products.json?v=" + Date.now())
 
     grid.appendChild(card);
 
-    /* 🔥 CLICK FIX */
     card.querySelector(".add-cart-btn")
-        .addEventListener("click", function(e){
-          e.stopPropagation();
-          addToCart(p.name, p.price);
+      .addEventListener("click", function(){
+        addToCart({
+          name: p.name,
+          price: p.price,
+          image: p.image,
+          qty: 1
         });
+      });
   });
 
 });

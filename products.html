@@ -6,10 +6,7 @@
 <title>Products | Tripathy Telecom</title>
 
 <style>
-/* ===== RESET ===== */
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 body{
   margin:0;
   font-family:Arial, Helvetica, sans-serif;
@@ -21,97 +18,103 @@ a{text-decoration:none}
 header{
   background:#000;
   color:#ffd400;
-  padding:10px 20px;
+  padding:10px 15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header img{height:45px}
+header nav a{
+  color:#ffd400;
+  margin:0 8px;
+  font-weight:bold;
+}
+.cart-box a{color:#ffd400;font-weight:bold}
+
+/* ===== TITLE + SEARCH ===== */
+.top-bar{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  padding:15px;
+  gap:10px;
 }
-
-header img{
-  height:45px;
-}
-
-header nav a{
-  color:#ffd400;
-  margin:0 10px;
+.title{
+  font-size:22px;
   font-weight:bold;
 }
+.search-box input{
+  padding:8px;
+  width:220px;
+  border:2px solid #ffd400;
+  border-radius:5px;
+}
 
-.cart-box a{
-  color:#ffd400;
+/* ===== CATEGORY FILTER ===== */
+.filters{
+  padding:10px 15px;
+}
+.filters button{
+  margin:5px;
+  padding:7px 12px;
+  border:none;
+  border-radius:20px;
+  background:#ddd;
+  cursor:pointer;
   font-weight:bold;
 }
-
-/* ===== PAGE TITLE ===== */
-.page-title{
-  text-align:center;
-  margin:20px 0;
-  font-size:24px;
+.filters button.active{
+  background:#ffd400;
 }
 
-/* ===== PRODUCT GRID (5 PER ROW) ===== */
+/* ===== GRID ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:20px;
-  padding:20px;
+  padding:15px;
 }
 
-/* Responsive */
-@media(max-width:1200px){
-  .grid{grid-template-columns:repeat(4,1fr);}
-}
-@media(max-width:992px){
-  .grid{grid-template-columns:repeat(3,1fr);}
-}
-@media(max-width:768px){
-  .grid{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:480px){
-  .grid{grid-template-columns:repeat(1,1fr);}
-}
-
-/* ===== PRODUCT CARD ===== */
+/* ===== CARD ===== */
 .card{
   background:#fff;
   border-radius:6px;
   padding:15px;
   text-align:center;
   box-shadow:0 0 6px rgba(0,0,0,0.1);
+  position:relative;
 }
-
 .card img{
   width:100%;
-  height:180px;
+  height:170px;
   object-fit:contain;
   background:#f7f7f7;
   border-radius:4px;
 }
+.card h3{margin:8px 0;font-size:17px}
+.card p{font-size:14px;color:#555}
 
-.card h3{
-  margin:10px 0 5px;
-  font-size:18px;
-}
-
-.card p{
-  font-size:14px;
-  color:#555;
-  margin:4px 0;
-}
-
+/* ===== PRICE ===== */
 .price{
   font-size:18px;
   font-weight:bold;
-  margin:6px 0;
+}
+.old-price{
+  text-decoration:line-through;
+  color:#888;
+  font-size:14px;
 }
 
-.qty{
-  margin:6px 0;
-}
-
-.qty input{
-  width:60px;
-  padding:4px;
+/* ===== BADGE ===== */
+.badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:red;
+  color:#fff;
+  padding:4px 7px;
+  font-size:12px;
+  border-radius:4px;
 }
 
 /* ===== BUTTON ===== */
@@ -120,15 +123,14 @@ header nav a{
   padding:10px;
   margin:5px 0;
   background:#ffd400;
-  color:#000;
   border:none;
   border-radius:4px;
   font-weight:bold;
   cursor:pointer;
 }
-
-.btn:active{
-  transform:scale(0.97);
+.btn:disabled{
+  background:#ccc;
+  cursor:not-allowed;
 }
 
 /* ===== FOOTER ===== */
@@ -139,17 +141,25 @@ footer{
   padding:12px;
   margin-top:20px;
 }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1200px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:992px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .search-box input{width:160px}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
+  header nav{display:none}
+}
 </style>
 </head>
 
 <body>
 
-<!-- ===== HEADER ===== -->
 <header>
-  <a href="index.html">
-    <img src="logo.png" alt="Tripathy Telecom">
-  </a>
-
+  <a href="index.html"><img src="logo.png"></a>
   <nav>
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
@@ -157,91 +167,97 @@ footer{
     <a href="jobs.html">Jobs</a>
     <a href="contact.html">Contact</a>
   </nav>
-
   <div class="cart-box">
     <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
   </div>
 </header>
 
-<!-- ===== TITLE ===== -->
-<div class="page-title">🛒 Our Products</div>
+<div class="top-bar">
+  <div class="title">🛒 Our Products</div>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search product...">
+  </div>
+</div>
 
-<!-- ===== PRODUCTS ===== -->
+<div class="filters" id="categoryFilters"></div>
+
 <div class="grid" id="productGrid"></div>
 
-<!-- ===== FOOTER ===== -->
 <footer>
   © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
 </footer>
 
-<!-- ===== SCRIPT ===== -->
 <script>
-/* ===== CART ===== */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+document.getElementById("cartCount").innerText = cart.length;
 
-function updateCartCount(){
-  document.getElementById("cartCount").innerText = cart.length;
-}
-updateCartCount();
-
-function addToCart(item){
-  cart.push(item);
+function addToCart(p){
+  cart.push(p);
   localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
-  alert("Product added to cart");
+  document.getElementById("cartCount").innerText = cart.length;
+  alert("Added to cart");
 }
 
-/* ===== LOAD PRODUCTS ===== */
-fetch("products.json?v=" + Date.now())
-.then(res => res.json())
-.then(products => {
+let allProducts = [];
+let currentCategory = "all";
 
+fetch("products.json?v="+Date.now())
+.then(res=>res.json())
+.then(data=>{
+  allProducts = data;
+  buildCategoryFilters();
+  renderProducts();
+});
+
+function buildCategoryFilters(){
+  const cats = ["all", ...new Set(allProducts.map(p=>p.category))];
+  const box = document.getElementById("categoryFilters");
+  box.innerHTML="";
+  cats.forEach(c=>{
+    const btn = document.createElement("button");
+    btn.innerText = c.toUpperCase();
+    btn.className = c==="all"?"active":"";
+    btn.onclick = ()=>{
+      document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      currentCategory = c;
+      renderProducts();
+    };
+    box.appendChild(btn);
+  });
+}
+
+function renderProducts(){
+  const q = document.getElementById("searchInput").value.toLowerCase();
   const grid = document.getElementById("productGrid");
+  grid.innerHTML="";
 
-  if(!products.length){
-    grid.innerHTML = "<p>No products available</p>";
-    return;
-  }
-
-  products.forEach(p => {
-
+  allProducts.filter(p=>{
+    return (currentCategory==="all" || p.category===currentCategory) &&
+           (p.name.toLowerCase().includes(q) || (p.desc||"").toLowerCase().includes(q));
+  }).forEach(p=>{
     const card = document.createElement("div");
-    card.className = "card";
+    card.className="card";
 
-    card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
+    card.innerHTML=`
+      ${p.stock===0?'<div class="badge">Out of Stock</div>':""}
+      <img src="${p.image}">
       <h3>${p.name}</h3>
-      ${p.desc ? `<p>${p.desc}</p>` : ""}
+      <p>${p.desc||""}</p>
+      ${p.oldPrice?`<div class="old-price">₹ ${p.oldPrice}</div>`:""}
       <div class="price">₹ ${p.price}</div>
-
-      <div class="qty">
-        Qty:
-        <input type="number" value="1" min="1">
-      </div>
-
-      <button class="btn add-cart">Add to Cart</button>
-
-      <a class="btn"
-        href="https://wa.me/918670244552?text=${encodeURIComponent(
-          'I want to buy ' + p.name + ' (₹' + p.price + ')'
-        )}"
-        target="_blank">
+      <button class="btn" ${p.stock===0?"disabled":""}>Add to Cart</button>
+      <a class="btn" target="_blank"
+        href="https://wa.me/918670244552?text=${encodeURIComponent('Buy '+p.name+' ₹'+p.price)}">
         Buy on WhatsApp
       </a>
     `;
-
+    card.querySelector(".btn").onclick=()=>addToCart(p);
     grid.appendChild(card);
-
-    card.querySelector(".add-cart").addEventListener("click",()=>{
-      addToCart({
-        name:p.name,
-        price:p.price,
-        image:p.image,
-        qty:1
-      });
-    });
   });
-});
+}
+
+document.getElementById("searchInput").addEventListener("input",renderProducts);
 </script>
 
 </body>

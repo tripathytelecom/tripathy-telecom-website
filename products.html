@@ -1,28 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Products | Tripathy Telecom</title>
+
 <style>
-.product-box{
-  border:1px solid #ccc;
-  padding:15px;
-  margin:15px;
-  width:250px;
+/* ===== BASIC STYLE (আপনার আগের মতোই রাখা হয়েছে) ===== */
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f5f5f5;
 }
-.product-box img{
+
+a{text-decoration:none;}
+
+header{
+  background:#000;
+  color:#ffd400;
+  padding:10px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header img{
+  height:45px;
+}
+
+header nav a{
+  color:#ffd400;
+  margin:0 10px;
+  font-weight:bold;
+}
+
+h2{
+  text-align:center;
+  margin:20px 0;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  padding:15px;
+}
+
+.card{
+  background:#fff;
+  border-radius:6px;
+  padding:15px;
+  box-shadow:0 0 5px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+.card img{
   width:100%;
   height:180px;
   object-fit:cover;
+  border-radius:4px;
+}
+
+.card h3{
+  margin:10px 0 5px;
+}
+
+.card p{
+  font-size:14px;
+  color:#555;
+}
+
+.price{
+  font-size:18px;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.qty input{
+  width:50px;
+}
+
+.btn{
+  display:block;
+  margin:6px 0;
+  padding:8px;
+  background:#ffd400;
+  color:#000;
+  border-radius:4px;
+  font-weight:bold;
+}
+
+footer{
+  background:#000;
+  color:#ffd400;
+  text-align:center;
+  padding:12px;
+  margin-top:20px;
 }
 </style>
 </head>
 
 <body>
+
+<!-- ===== HEADER (UNCHANGED DESIGN) ===== -->
+<header>
+  <a href="index.html">
+    <img src="logo.png" alt="Tripathy Telecom">
+  </a>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="products.html">Products</a>
+    <a href="jobs.html">Jobs</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- ===== PAGE TITLE ===== -->
 <h2>🛒 Our Products</h2>
 
-<div id="product-list" style="display:flex;flex-wrap:wrap"></div>
+<!-- ===== PRODUCT GRID (DYNAMIC) ===== -->
+<div class="grid" id="productGrid">
+  <!-- Admin panel থেকে product এখানে auto load হবে -->
+</div>
 
-<script src="products.js"></script>
+<!-- ===== FOOTER ===== -->
+<footer>
+  © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+/* ===== LOAD PRODUCTS FROM ADMIN (products.json) ===== */
+fetch("products.json?v=" + Date.now())
+.then(res => res.json())
+.then(data => {
+
+  const grid = document.getElementById("productGrid");
+
+  if(!data.length){
+    grid.innerHTML = "<p style='text-align:center'>No products available</p>";
+    return;
+  }
+
+  data.forEach(p => {
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+
+        ${p.desc ? `<p>${p.desc}</p>` : ""}
+
+        <div class="price">₹ ${p.price}</div>
+
+        <div class="qty">
+          Qty:
+          <input type="number" value="1" min="1">
+        </div>
+
+        <a class="btn" href="https://wa.me/918670244552?text=${encodeURIComponent(
+          'I want to buy ' + p.name + ' (Price: ₹' + p.price + ')'
+        )}" target="_blank">
+          Buy on WhatsApp
+        </a>
+      </div>
+    `;
+  });
+
+});
+</script>
+
 </body>
 </html>

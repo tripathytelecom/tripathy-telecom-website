@@ -1,5 +1,14 @@
 [
   {
+    "name": "Battery",
+    "price": 249,
+    "oldPrice": 399,
+    "category": "battery",
+    "stock": 3,
+    "image": "images/battery 0001.jpeg",
+    "desc": "Jio Battery Low Price"
+  },
+  {
     "name": "Charger",
     "price": 349,
     "oldPrice": 999,

@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "name": "charger",
+    "price": 180,
+    "oldPrice": 500,
+    "category": "charger",
+    "stock": 10,
+    "image": "no",
+    "desc": "low price"
+  }
+]

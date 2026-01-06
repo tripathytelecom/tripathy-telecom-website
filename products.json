@@ -12,5 +12,12 @@
     "image": "no",
     "desc": "type c",
     "date": "2026-01-06T16:11:39.412Z"
+  },
+  {
+    "name": "earphone",
+    "price": "110",
+    "image": "no",
+    "desc": "all support",
+    "date": "2026-01-06T17:16:02.750Z"
   }
 ]

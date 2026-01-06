@@ -1,5 +1,14 @@
 [
   {
+    "name": "Oneplus Earphone",
+    "price": 99,
+    "oldPrice": 299,
+    "category": "earphone",
+    "stock": 5,
+    "image": "images/earphone 0001.jpeg",
+    "desc": "Earphone"
+  },
+  {
     "name": "JIO PHONE",
     "price": 799,
     "oldPrice": 999,

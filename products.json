@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "name": "JIO PHONE",
+    "price": 799,
+    "oldPrice": 999,
+    "category": "mobile",
+    "stock": 1,
+    "image": "images/jio phone 0001.jpeg",
+    "desc": "Jio Phone OLD Model"
+  }
+]

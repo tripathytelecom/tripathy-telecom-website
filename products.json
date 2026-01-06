@@ -1,5 +1,14 @@
 [
   {
+    "name": "Data Cable",
+    "price": 80,
+    "oldPrice": 199,
+    "category": "data cable",
+    "stock": 10,
+    "image": "images/data cable 0001.jpeg",
+    "desc": "All Type Data Cable Available"
+  },
+  {
     "name": "Speaker",
     "price": 239,
     "oldPrice": 499,

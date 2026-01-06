@@ -1,5 +1,14 @@
 [
   {
+    "name": "Speaker",
+    "price": 239,
+    "oldPrice": 499,
+    "category": "speaker",
+    "stock": 1,
+    "image": "images/speaker 0001.jpeg",
+    "desc": "Speaker Bluetooth"
+  },
+  {
     "name": "Oneplus Earphone",
     "price": 99,
     "oldPrice": 299,

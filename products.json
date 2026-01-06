@@ -26,5 +26,12 @@
     "image": "no",
     "desc": "all android",
     "date": "2026-01-06T17:28:34.699Z"
+  },
+  {
+    "name": "glass",
+    "price": "80",
+    "image": "no",
+    "desc": "all mobile",
+    "date": "2026-01-06T17:29:26.078Z"
   }
 ]

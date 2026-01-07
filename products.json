@@ -1,13 +1,3 @@
-[
-  {
-    "name": "abc",
-    "price": 130,
-    "oldPrice": 200,
-    "category": "charger",
-    "stock": 2,
-    "image": "no",
-    "desc": "gfds"
-  },
   {
     "name": "High Speed Data Cable",
     "price": 99,

@@ -1,44 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>My Cart | Tripathy Telecom</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:Arial;background:#000;color:#fff;margin:0}
-.section{padding:60px 20px;text-align:center}
+/* ===== BASIC ===== */
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+/* ===== HEADER ===== */
+header{
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+}
+
+header img{
+  height:40px;
+}
+
+nav a{
+  color:#ffd400;
+  margin:0 10px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+nav a:hover{
+  text-decoration:underline;
+}
+
+/* ===== CART SECTION ===== */
+.section{
+  padding:60px 20px;
+  text-align:center;
+}
+
 .box{
   background:#111;
   max-width:600px;
   margin:auto;
   padding:30px;
-  border-radius:10px;
+  border-radius:12px;
+  box-shadow:0 0 15px rgba(0,0,0,0.7);
 }
+
 .item{
   display:flex;
   justify-content:space-between;
-  margin:10px 0;
+  align-items:center;
+  margin:12px 0;
+  padding-bottom:8px;
+  border-bottom:1px solid #333;
 }
+
 .btn{
+  display:inline-block;
   background:#ffd400;
   color:#000;
-  padding:10px 16px;
+  padding:12px 20px;
   text-decoration:none;
   font-weight:bold;
-  border-radius:5px;
+  border-radius:6px;
+  margin:5px;
 }
+
+.btn:hover{
+  background:#ffea00;
+}
+
 .remove{
   color:red;
   cursor:pointer;
+  font-size:18px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:#000;
+  color:#ffd400;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.footer-center{
+  width:100%;
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.social a{
+  color:#ffd400;
+  margin-left:12px;
+  font-size:22px;
+  text-decoration:none;
+}
+
+.social a:hover{
+  color:#fff;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:600px){
+  nav{
+    width:100%;
+    text-align:center;
+    margin-top:10px;
+  }
+  footer{
+    text-align:center;
+  }
+  .social{
+    width:100%;
+    margin-top:10px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- ===== HEADER ===== -->
+<header>
+  <a href="index.html">
+    <img src="logo.png" alt="Tripathy Telecom">
+  </a>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="products.html">Products</a>
+    <a href="jobs.html">Jobs</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- ===== CART CONTENT ===== -->
 <section class="section">
   <div class="box">
-    <h2>My Cart</h2>
+    <h2>🛒 My Cart</h2>
     <div id="cartItems"></div>
 
     <br>
@@ -48,12 +159,26 @@ body{font-family:Arial;background:#000;color:#fff;margin:0}
   </div>
 </section>
 
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-center">
+    © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
+  </div>
+
+  <div class="social">
+    <a href="https://wa.me/91XXXXXXXXXX" target="_blank">🟢</a>
+    <a href="https://facebook.com/tripathytelecom" target="_blank">📘</a>
+    <a href="https://youtube.com/@tripathytelecom" target="_blank">▶️</a>
+  </div>
+</footer>
+
+<!-- ===== CART SCRIPT ===== -->
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let cartDiv = document.getElementById("cartItems");
 
 function renderCart(){
-  if(cart.length===0){
+  if(cart.length === 0){
     cartDiv.innerHTML = "<p>Your cart is empty</p>";
     return;
   }

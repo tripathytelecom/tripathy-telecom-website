@@ -86,43 +86,50 @@ nav a:hover{
 /* ===== FOOTER ===== */
 footer{
   background:#000;
-  color:#ffd400;
   padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
+  position:relative;
 }
 
-.footer-center{
-  width:100%;
+/* Center text */
+.footer-text{
   text-align:center;
-  margin-bottom:10px;
+  color:#ffd400;
+  font-weight:bold;
 }
 
-.social a{
+/* Right social icons */
+.footer-social{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.footer-social a{
   color:#ffd400;
   margin-left:12px;
   font-size:22px;
   text-decoration:none;
 }
 
-.social a:hover{
+.footer-social a:hover{
   color:#fff;
 }
 
 /* ===== MOBILE ===== */
 @media(max-width:600px){
+  header{
+    flex-direction:column;
+  }
+
   nav{
-    width:100%;
-    text-align:center;
-    margin-top:10px;
+    margin-top:8px;
   }
-  footer{
+
+  .footer-social{
+    position:static;
+    transform:none;
     text-align:center;
-  }
-  .social{
-    width:100%;
     margin-top:10px;
   }
 }
@@ -161,11 +168,11 @@ footer{
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <div class="footer-center">
+  <div class="footer-text">
     © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
   </div>
 
-  <div class="social">
+  <div class="footer-social">
     <a href="https://wa.me/91XXXXXXXXXX" target="_blank">🟢</a>
     <a href="https://facebook.com/tripathytelecom" target="_blank">📘</a>
     <a href="https://youtube.com/@tripathytelecom" target="_blank">▶️</a>

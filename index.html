@@ -59,6 +59,29 @@ nav ul li a:hover,
 .navbar a:hover {
     color: #ffd700;         /* হলুদ রঙ */
 }
+/* ===== DOWNLOAD APP BLINK BUTTON ===== */
+.download-app-btn{
+  background:#25D366;      /* green */
+  color:#000 !important;
+  padding:6px 12px;
+  border-radius:20px;
+  font-weight:bold;
+  margin-left:6px;
+  animation:blinkApp 1.2s infinite;
+}
+
+/* blink animation */
+@keyframes blinkApp{
+  0%{opacity:1}
+  50%{opacity:0.4}
+  100%{opacity:1}
+}
+
+/* hover effect */
+.download-app-btn:hover{
+  background:#1ebe5d;
+  animation:none;
+}
 
 /* SOCIAL ICONS */
 .social-icons{
@@ -629,6 +652,11 @@ footer{
     <a href="pan-card.html">PAN Card</a>
     <a href="contact.html">Contact</a>
     <a href="jobs.html" class="blink-job">Jobs</a>
+    <a href="https://play.google.com/store/apps/details?id=com.tripathytelecom.app"
+   target="_blank"
+   class="download-app-btn">
+   📲 Download App
+</a>
   </nav>
   
 <div class="social-icons">

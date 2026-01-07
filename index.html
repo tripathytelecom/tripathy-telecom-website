@@ -619,6 +619,27 @@ footer{
       appId: "030ab637-e25e-4a1f-8193-cdac0c397245",
     });
   });
+/* 📲 APP DOWNLOAD ICON */
+.mobile-app-btn{
+  font-size:26px;
+  text-decoration:none;
+  animation:appBlink 1.2s infinite;
+}
+
+/* blink animation */
+@keyframes appBlink{
+  0%{opacity:1}
+  50%{opacity:0.4}
+  100%{opacity:1}
+}
+
+/* ===== SHOW ONLY ON MOBILE ===== */
+@media (min-width: 769px){
+  .mobile-top-header{
+    display:none;
+  }
+}
+
 </script>
 
 </head>
@@ -626,7 +647,12 @@ footer{
     <!-- 📱 MOBILE TOP HEADER -->
 <div class="mobile-top-header">
   <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
-
+<!-- 📲 Download App (MOBILE ONLY) -->
+  <a href="https://play.google.com/store/apps/details?id=com.tripathytelecom.app"
+     target="_blank"
+     class="mobile-app-btn">
+     📲
+  </a>
   <div class="mobile-social">
     <a href="https://wa.me/918670244552" target="_blank">🟢</a>
     <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>

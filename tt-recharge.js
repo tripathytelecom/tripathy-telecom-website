@@ -16,17 +16,15 @@ function sendRecharge(){
 
   msg.innerText = "⏳ Processing...";
 
-  fetch("https://ttrecharge.tripathytelecom.store/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      mobile: mobile,
-      amount: amount,
-      operator: "AT"
-    })
+  fetch("https://tripathytelecom.store/api/recharge/", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    mobile: mobile,
+    amount: amount,
+    operator: "AT"
   })
+})
   .then(res => res.text())
   .then(data => {
     msg.innerText = "✅ Response: " + data;

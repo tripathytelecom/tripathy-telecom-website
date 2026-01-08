@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>TT RECHARGE – Tripathy Telecom</title>
 
 <style>
 body{
-  font-family:Arial;
+  font-family: Arial;
   background:#f2f4f7;
 }
 .card{
@@ -21,27 +21,25 @@ input,select,button{
   width:100%;
   padding:12px;
   margin:10px 0;
+  font-size:16px;
 }
 button{
   background:#0a7cff;
   color:#fff;
   border:none;
+  cursor:pointer;
 }
 .operator-box{
   font-weight:bold;
+  margin-top:5px;
+}
+#operatorSelect{
+  display:none;
 }
 #msg{
   margin-top:10px;
   text-align:center;
   font-weight:bold;
-}
-.logout{
-  text-align:right;
-}
-.logout a{
-  text-decoration:none;
-  color:red;
-  font-size:14px;
 }
 </style>
 
@@ -56,20 +54,18 @@ if(localStorage.getItem("tt_logged_in")!=="yes"){
 <body>
 
 <div class="card">
-  <div class="logout">
-    <a href="#" onclick="logout()">Logout</a>
-  </div>
-
   <h2 style="text-align:center">TT RECHARGE</h2>
 
-  <input type="text" id="mobile" placeholder="Mobile Number"
-         maxlength="10" onkeyup="detectOperator()">
+  <input type="text" id="mobile"
+         placeholder="Mobile Number"
+         maxlength="10">
 
   <div class="operator-box">
     Operator: <span id="operatorName">—</span>
   </div>
 
-  <select id="operatorSelect" onchange="manualOperator()" style="display:none">
+  <!-- ✅ MANUAL OPERATOR SELECT -->
+  <select id="operatorSelect">
     <option value="">Select Operator</option>
     <option value="2">Airtel</option>
     <option value="5">Jio</option>
@@ -85,11 +81,5 @@ if(localStorage.getItem("tt_logged_in")!=="yes"){
 </div>
 
 <script src="tt-recharge.js"></script>
-<script>
-function logout(){
-  localStorage.removeItem("tt_logged_in");
-  window.location.href="tt-login.html";
-}
-</script>
 </body>
 </html>

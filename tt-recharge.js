@@ -1,7 +1,18 @@
 function sendRecharge(){
+
   let mobile = document.getElementById("mobile").value.trim();
   let amount = document.getElementById("amount").value.trim();
   let msg = document.getElementById("msg");
+
+  if(mobile.length !== 10){
+    msg.innerText = "Invalid Mobile Number";
+    return;
+  }
+
+  if(!amount || amount <= 0){
+    msg.innerText = "Invalid Amount";
+    return;
+  }
 
   msg.innerText = "⏳ Processing...";
 

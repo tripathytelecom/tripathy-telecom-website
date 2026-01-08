@@ -5,22 +5,65 @@
 <title>TT RECHARGE – Tripathy Telecom</title>
 
 <style>
-body{font-family:Arial;background:#f2f2f2;padding:20px}
-.box{max-width:400px;margin:auto;background:#fff;padding:20px;border-radius:8px}
-input,button{width:100%;padding:10px;margin:8px 0}
-button{background:#0a7cff;color:#fff;border:none}
+body{
+  font-family: Arial, sans-serif;
+  background:#f2f4f7;
+}
+.card{
+  max-width:420px;
+  margin:40px auto;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+input,select,button{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  font-size:16px;
+}
+.operator-box{
+  font-weight:bold;
+  margin-top:5px;
+}
+button{
+  background:#0a7cff;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+button:hover{
+  background:#055ec2;
+}
+#msg{
+  margin-top:15px;
+  text-align:center;
+  font-weight:bold;
+}
 </style>
 </head>
+
 <body>
 
-<div class="box">
-<h2>TT RECHARGE</h2>
+<div class="card">
+  <h2>TT RECHARGE</h2>
 
-<input id="mobile" placeholder="Mobile Number">
-<input id="amount" placeholder="Amount">
+  <input type="text" id="mobile" placeholder="Mobile Number" maxlength="10" onkeyup="detectOperator()">
 
-<button onclick="sendRecharge()">Recharge Now</button>
-<p id="msg"></p>
+  <div class="operator-box">
+    Operator: <span id="operatorName">—</span>
+  </div>
+
+  <input type="number" id="amount" placeholder="Amount">
+
+  <button onclick="sendRecharge()">Recharge Now</button>
+
+  <div id="msg"></div>
 </div>
 
 <script src="tt-recharge.js"></script>

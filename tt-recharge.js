@@ -11,20 +11,16 @@ function sendRecharge(){
 
   msg.innerText = "Processing...";
 
-  fetch("https://YOUR_FIREBASE_URL/recharge", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      mobile: mobile,
-      amount: amount,
-      operator: "AT"
+  fetch("https://ttrecharge.tripathytelecom.store/recharge", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      mobile:mobile,
+      amount:amount,
+      operator:"AT"
     })
   })
-  .then(res => res.json())
-  .then(data => {
-    msg.innerText = data.message;
-  })
-  .catch(err => {
-    msg.innerText = "Server Error";
-  });
+  .then(r=>r.json())
+  .then(d=> msg.innerText = d.message)
+  .catch(()=> msg.innerText="Server Error");
 }

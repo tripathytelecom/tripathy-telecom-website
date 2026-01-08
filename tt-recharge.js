@@ -1,4 +1,4 @@
-let detectedOperatorCode = "";
+let operatorId = "";
 
 function detectOperator(){
   const mobile = document.getElementById("mobile").value;
@@ -6,31 +6,32 @@ function detectOperator(){
 
   if(mobile.length < 4){
     opName.innerText = "—";
+    operatorId = "";
     return;
   }
 
-  const prefix = mobile.substring(0,4);
+  const prefix = mobile.substring(0,3);
 
-  // 🔹 Simple Indian prefix logic (Demo – 95% correct)
-  if(["987","986","976","915"].includes(prefix.substring(0,3))){
+  // ✅ Demo prefix logic (India)
+  if(["987","986","915","916","814"].includes(prefix)){
     opName.innerText = "Airtel";
-    detectedOperatorCode = "AT";
+    operatorId = "2";   // Airtel Company ID
   }
-  else if(["909","900","898","897"].includes(prefix.substring(0,3))){
+  else if(["909","900","898","897"].includes(prefix)){
     opName.innerText = "Jio";
-    detectedOperatorCode = "RJ";
+    operatorId = "5";
   }
-  else if(["988","989","799"].includes(prefix.substring(0,3))){
-    opName.innerText = "Vi";
-    detectedOperatorCode = "VI";
+  else if(["988","989","799"].includes(prefix)){
+    opName.innerText = "VI";
+    operatorId = "3";
   }
-  else if(["943","947","948"].includes(prefix.substring(0,3))){
+  else if(["943","947","948"].includes(prefix)){
     opName.innerText = "BSNL";
-    detectedOperatorCode = "BS";
+    operatorId = "4";
   }
   else{
     opName.innerText = "Unknown";
-    detectedOperatorCode = "";
+    operatorId = "";
   }
 }
 
@@ -45,12 +46,12 @@ function sendRecharge(){
     return;
   }
 
-  if(!detectedOperatorCode){
+  if(!operatorId){
     msg.innerText = "❌ Operator not detected";
     return;
   }
 
-  msg.innerText = "⏳ Processing...";
+  msg.innerText = "⏳ Processing Recharge...";
 
   fetch("https://tripathytelecom.store/api/recharge/", {
     method:"POST",
@@ -58,14 +59,14 @@ function sendRecharge(){
     body:JSON.stringify({
       mobile: mobile,
       amount: amount,
-      operator: detectedOperatorCode
+      operator: operatorId   // ✅ Company ID sent
     })
   })
   .then(res => res.text())
   .then(data => {
     msg.innerText = data;
   })
-  .catch(err => {
+  .catch(() => {
     msg.innerText = "❌ Server Error";
   });
 }

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>TT RECHARGE – Tripathy Telecom</title>
 
 <style>
 body{
-  font-family: Arial, sans-serif;
+  font-family:Arial;
   background:#f2f4f7;
 }
 .card{
@@ -17,47 +17,65 @@ body{
   border-radius:10px;
   box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
-h2{
-  text-align:center;
-  margin-bottom:20px;
-}
 input,select,button{
   width:100%;
   padding:12px;
   margin:10px 0;
-  font-size:16px;
-}
-.operator-box{
-  font-weight:bold;
-  margin-top:5px;
 }
 button{
   background:#0a7cff;
   color:#fff;
   border:none;
-  cursor:pointer;
 }
-button:hover{
-  background:#055ec2;
+.operator-box{
+  font-weight:bold;
 }
 #msg{
-  margin-top:15px;
+  margin-top:10px;
   text-align:center;
   font-weight:bold;
 }
+.logout{
+  text-align:right;
+}
+.logout a{
+  text-decoration:none;
+  color:red;
+  font-size:14px;
+}
 </style>
+
+<script>
+// 🔐 LOGIN CHECK
+if(localStorage.getItem("tt_logged_in")!=="yes"){
+  window.location.href="tt-login.html";
+}
+</script>
 </head>
 
 <body>
 
 <div class="card">
-  <h2>TT RECHARGE</h2>
+  <div class="logout">
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
 
-  <input type="text" id="mobile" placeholder="Mobile Number" maxlength="10" onkeyup="detectOperator()">
+  <h2 style="text-align:center">TT RECHARGE</h2>
+
+  <input type="text" id="mobile" placeholder="Mobile Number"
+         maxlength="10" onkeyup="detectOperator()">
 
   <div class="operator-box">
     Operator: <span id="operatorName">—</span>
   </div>
+
+  <select id="operatorSelect" onchange="manualOperator()" style="display:none">
+    <option value="">Select Operator</option>
+    <option value="2">Airtel</option>
+    <option value="5">Jio</option>
+    <option value="3">VI</option>
+    <option value="4">BSNL</option>
+  </select>
 
   <input type="number" id="amount" placeholder="Amount">
 
@@ -67,5 +85,11 @@ button:hover{
 </div>
 
 <script src="tt-recharge.js"></script>
+<script>
+function logout(){
+  localStorage.removeItem("tt_logged_in");
+  window.location.href="tt-login.html";
+}
+</script>
 </body>
 </html>

@@ -78,7 +78,7 @@ function sendRecharge(){
 
   msg.innerText = "⏳ Processing...";
 
-  fetch("https://tripathytelecom.store/api/recharge/", {
+  fetch("https://api.tripathytelecom.store/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

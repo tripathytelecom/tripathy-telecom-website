@@ -1,85 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>TT RECHARGE – Tripathy Telecom</title>
+  <meta charset="UTF-8">
+  <title>TT Recharge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  font-family: Arial;
-  background:#f2f4f7;
-}
-.card{
-  max-width:420px;
-  margin:40px auto;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-input,select,button{
-  width:100%;
-  padding:12px;
-  margin:10px 0;
-  font-size:16px;
-}
-button{
-  background:#0a7cff;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-}
-.operator-box{
-  font-weight:bold;
-  margin-top:5px;
-}
-#operatorSelect{
-  display:none;
-}
-#msg{
-  margin-top:10px;
-  text-align:center;
-  font-weight:bold;
-}
-</style>
-
-<script>
-// 🔐 LOGIN CHECK
-if(localStorage.getItem("tt_logged_in")!=="yes"){
-  window.location.href="tt-login.html";
-}
-</script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      background: #fff;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #999;
+    }
+    #result {
+      margin-top: 15px;
+      padding: 10px;
+      background: #eee;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="card">
-  <h2 style="text-align:center">TT RECHARGE</h2>
+  <div class="box">
+    <h2>Mobile Recharge</h2>
 
-  <input type="text" id="mobile"
-         placeholder="Mobile Number"
-         maxlength="10">
+    <form id="rechargeForm">
+      <input type="text" id="number" placeholder="Mobile Number" maxlength="10" required>
 
-  <div class="operator-box">
-    Operator: <span id="operatorName">—</span>
-  </div>
+      <input type="number" id="amount" placeholder="Amount" required>
 
-  <!-- ✅ MANUAL OPERATOR SELECT -->
-  <select id="operatorSelect">
-    <option value="">Select Operator</option>
-    <option value="2">Airtel</option>
-    <option value="5">Jio</option>
-    <option value="3">VI</option>
-    <option value="4">BSNL</option>
-  </select>
-
-  <input type="number" id="amount" placeholder="Amount">
-
-  <button onclick="sendRecharge()">Recharge Now</button>
-
-  <div id="msg"></div>
-</div>
-
-<script src="tt-recharge.js"></script>
-</body>
-</html>
+      <select id="operator" required>
+        <option value="">Select Operator</option>
+        <option value="AT">Airtel</option>
+        <option value="JI">Jio</optio

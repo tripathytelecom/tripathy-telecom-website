@@ -1,840 +1,913 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Tripathy Telecom – Recharge, Pan Card, Cyber Cafe & Online Jobs Services</title>
 
-<meta name="description" content="Tripathy Telecom provides  mobile recharge, pan card, bill payment, cyber cafe services & latest government job updates, online apply help.">
-<meta name="keywords" content="tripathy telecom, recharge service, pan card, online job apply, government jobs, cyber cafe">
-<meta name="author" content="Tripathy Telecom">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Tripathy Telecom provides  mobile recharge, pan card, bill payment, cyber cafe services & latest government job updates, online apply help.">
+  <meta name="keywords"
+    content="tripathy telecom, recharge service, pan card, online job apply, government jobs, cyber cafe">
+  <meta name="author" content="Tripathy Telecom">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRIPATHY TELECOM | Recharge • PAN Card • Cyber Cafe</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRIPATHY TELECOM | Recharge • PAN Card • Cyber Cafe</title>
 
-<style>
-/* HEADER BASE */
-.top-header{
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:20px 22px;
-  position:sticky;
-  top:0;
-  z-index:999;
-}
+  <style>
+    /* GLOBAL FIX FOR HORIZONTAL SCROLL */
+    body,
+    html {
+      overflow-x: hidden;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.logo img{
-  height:55px;
-}
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
 
-@media(max-width:768px){
-  .logo img{
-    height:60px;
-  }
-}
+    /* HEADER BASE */
+    .top-header {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 22px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
 
-/* MENU */
-.header-menu{
-  display:flex;
-  gap:25px;
-}
+    .logo img {
+      height: 55px;
+    }
 
-.header-menu a{
-  color:#ffd400;
-  text-decoration:none;
-  font-weight:700;
-}
-/* Header menu text size increase */
-nav ul li a,
-.navbar a {
-    font-size: 36px;        /* চাইলে 20px / 22px করতে পারেন */
-    font-weight: 1000;       /* লেখাকে মোটা করবে */
-    padding: 24px 28px;     /* ক্লিক করার জায়গা বড় হবে */
-}
+    @media(max-width:768px) {
+      .logo img {
+        height: 60px;
+      }
+    }
 
-/* Hover effect আরও সুন্দর করতে */
-nav ul li a:hover,
-.navbar a:hover {
-    color: #ffd700;         /* হলুদ রঙ */
-}
-/* ===== DOWNLOAD APP BLINK BUTTON ===== */
-.download-app-btn{
-  background:#25D366;      /* green */
-  color:#000 !important;
-  padding:6px 12px;
-  border-radius:20px;
-  font-weight:bold;
-  margin-left:6px;
-  animation:blinkApp 1.2s infinite;
-}
+    /* MENU */
+    .header-menu {
+      display: flex;
+      gap: 25px;
+    }
 
-/* blink animation */
-@keyframes blinkApp{
-  0%{opacity:1}
-  50%{opacity:0.4}
-  100%{opacity:1}
-}
+    .header-menu a {
+      color: #ffd400;
+      text-decoration: none;
+      font-weight: 700;
+    }
 
-/* hover effect */
-.download-app-btn:hover{
-  background:#1ebe5d;
-  animation:none;
-}
+    /* Header menu text size increase */
+    nav ul li a,
+    .navbar a {
+      font-size: 36px;
+      /* চাইলে 20px / 22px করতে পারেন */
+      font-weight: 1000;
+      /* লেখাকে মোটা করবে */
+      padding: 24px 28px;
+      /* ক্লিক করার জায়গা বড় হবে */
+    }
 
-/* SOCIAL ICONS */
-.social-icons{
-  display:flex;
-  gap:12px;
-}
+    /* Hover effect আরও সুন্দর করতে */
+    nav ul li a:hover,
+    .navbar a:hover {
+      color: #ffd700;
+      /* হলুদ রঙ */
+    }
 
-.social-icons img{
-  height:26px;
-}
+    /* ===== DOWNLOAD APP BLINK BUTTON ===== */
+    .download-app-btn {
+      background: #25D366;
+      /* green */
+      color: #000 !important;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-left: 6px;
+      animation: blinkApp 1.2s infinite;
+    }
 
-/* HAMBURGER */
-.menu-toggle{
-  display:none;
-  font-size:30px;
-  color:#ffd400;
-  cursor:pointer;
-}
+    /* blink animation */
+    @keyframes blinkApp {
+      0% {
+        opacity: 1
+      }
 
-/* 📱 MOBILE VIEW */
-@media(max-width:768px){
-  .menu-toggle{
-    display:block;
-  }
+      50% {
+        opacity: 0.4
+      }
 
-  .header-menu{
-    display:none;
-    position:absolute;
-    top:100%;
-    left:0;
-    width:100%;
-    background:#000;
-    flex-direction:column;
-    text-align:center;
-    padding:20px 0;
-  }
+      100% {
+        opacity: 1
+      }
+    }
 
-  .header-menu a{
-    padding:12px;
-    font-size:18px;
-  }
+    /* hover effect */
+    .download-app-btn:hover {
+      background: #1ebe5d;
+      animation: none;
+    }
 
-  .header-menu.show{
-    display:flex;
-  }
-}
-  
-.hero{
-    background:linear-gradient(120deg,#0a58ca,#084298);
-    color:#fff;
-    text-align:center;
-    padding:50px 20px;
-}
-  
-.hero-layout{
-  display:grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap:20px;
-  max-width:1200px;
-  margin:auto;
-  padding:30px 15px;
-}
+    /* SOCIAL ICONS */
+    .social-icons {
+      display: flex;
+      gap: 12px;
+    }
 
-/* 🔴 Sponsor Section */
-.sponsor-section{
-  background:#ffffff;
-  border:1px solid #e0e0e0;
-  border-radius:12px;
-  padding:15px;
-}
+    .social-icons img {
+      height: 26px;
+    }
 
-.sponsor-section h3{
-  text-align:center;
-  margin-bottom:15px;
-  color:#333;
-}
+    /* HAMBURGER */
+    .menu-toggle {
+      display: none;
+      font-size: 30px;
+      color: #ffd400;
+      cursor: pointer;
+    }
 
-.sponsor-box{
-  border:1px solid #f0f0f0;
-  border-radius:10px;
-  padding:12px;
-  margin-bottom:12px;
-  background:#fafafa;
-}
+    /* 📱 MOBILE VIEW */
+    @media(max-width:768px) {
+      .menu-toggle {
+        display: block;
+      }
 
-.sponsor-box h4{
-  margin:0;
-  color:#0a58ca;
-}
+      .header-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #000;
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 0;
+      }
 
-.sponsor-box p,
-.sponsor-box li{
-  font-size:14px;
-  margin:4px 0;
-}
+      .header-menu a {
+        padding: 12px;
+        font-size: 18px;
+      }
 
-.sponsor-box ul{
-  padding-left:18px;
-}
+      .header-menu.show {
+        display: flex;
+      }
+    }
 
-.address{
-  font-size:13px;
-  color:#555;
-}
+    .hero {
+      background: linear-gradient(120deg, #0a58ca, #084298);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px;
+    }
 
-/* 🔵 Center (already styled by you) */
-.hero-center{
-  text-align:center;
-}
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 15px;
+    }
 
-/* 🟢 Google Ads */
-.ads-section{
-  background:#ffffff;
-  border:1px solid #e0e0e0;
-  border-radius:12px;
-  padding:15px;
-  text-align:center;
-}
+    /* 🔴 Sponsor Section */
+    .sponsor-section {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 15px;
+    }
 
-.ads-section h3{
-  margin-bottom:10px;
-}
+    .sponsor-section h3 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #333;
+    }
 
-.google-ad-box{
-  height:250px;
-  background:#f4f4f4;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#777;
-  font-size:14px;
-}
+    .sponsor-box {
+      border: 1px solid #f0f0f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #fafafa;
+    }
 
-/* 📱 Mobile Responsive */
-@media(max-width:992px){
-  .hero-layout{
-    grid-template-columns:1fr;
-  }
-}
+    .sponsor-box h4 {
+      margin: 0;
+      color: #0a58ca;
+    }
 
-.hero h2{
-    font-size:30px;
-}
-.hero p{
-    font-size:16px;
-}
-.hero a{
-    display:inline-block;
-    margin:10px;
-    padding:12px 18px;
-    background:#ffd400;
-    color:#000;
-    text-decoration:none;
-    font-weight:bold;
-    border-radius:5px;
-}
+    .sponsor-box p,
+    .sponsor-box li {
+      font-size: 14px;
+      margin: 4px 0;
+    }
 
-.section{
-    padding:40px 20px;
-    max-width:1100px;
-    margin:auto;
-}
-.section h3{
-    text-align:center;
-    margin-bottom:30px;
-    font-size:26px;
-}
+    .sponsor-box ul {
+      padding-left: 18px;
+    }
 
-.services{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
-.service-box{
-    background:#fff;
-    padding:20px;
-    border-radius:8px;
-    text-align:center;
-    box-shadow:0 0 10px rgba(0,0,0,0.08);
-}
-.service-box h4{
-    margin:10px 0;
-}
+    .address {
+      font-size: 13px;
+      color: #555;
+    }
 
-.why{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
-.why div{
-    background:#fff;
-    padding:20px;
-    border-radius:8px;
-    box-shadow:0 0 10px rgba(0,0,0,0.08);
-}
+    /* 🔵 Center (already styled by you) */
+    .hero-center {
+      text-align: center;
+    }
 
-.contact-section{
-  background:#000;
-  color:#ffd400;
-  padding:60px 20px;
-  text-align:center;
-}
+    /* 🟢 Google Ads */
+    .ads-section {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+    }
 
-.contact-section h2{
-  font-size:32px;
-  margin-bottom:30px;
-}
+    .ads-section h3 {
+      margin-bottom: 10px;
+    }
 
-.contact-box{
-  max-width:600px;
-  margin:auto;
-  background:#111;
-  padding:30px;
-  border-radius:10px;
-}
+    .google-ad-box {
+      height: 250px;
+      background: #f4f4f4;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 14px;
+    }
 
-.contact-box p{
-  font-size:16px;
-  margin-bottom:20px;
-  color:#fff;
-}
+    /* 📱 Mobile Responsive */
+    @media(max-width:992px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+    }
 
-.contact-box a{
-  color:#ffd400;
-  text-decoration:none;
-}
+    .hero h2 {
+      font-size: 30px;
+    }
 
-.whatsapp-btn{
-  display:inline-block;
-  background:#25D366;
-  color:#fff !important;
-  padding:12px 20px;
-  border-radius:6px;
-  font-weight:bold;
-  transition:0.3s;
-}
+    .hero p {
+      font-size: 16px;
+    }
 
-.whatsapp-btn:hover{
-  background:#1ebe5d;
-}
+    .hero a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 18px;
+      background: #ffd400;
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    .section {
+      padding: 40px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section h3 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 26px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .service-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .service-box h4 {
+      margin: 10px 0;
+    }
+
+    .why {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .why div {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-section {
+      background: #000;
+      color: #ffd400;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .contact-section h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+    }
+
+    .contact-box {
+      max-width: 600px;
+      margin: auto;
+      background: #111;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    .contact-box p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .contact-box a {
+      color: #ffd400;
+      text-decoration: none;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25D366;
+      color: #fff !important;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .whatsapp-btn:hover {
+      background: #1ebe5d;
+    }
 
 
-footer{
-    background:#111;
-    color:#aaa;
-    text-align:center;
-    padding:12px;
-    font-size:14px;
-}
+    footer {
+      background: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 12px;
+      font-size: 14px;
+    }
 
-.float-whatsapp{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:#25D366;
-    color:#fff;
-    padding:14px;
-    border-radius:50%;
-    font-size:22px;
-    text-decoration:none;
-}
-.blink-job{
-  animation: blinkGlow 1.2s infinite;
-  border:2px solid #ffd400;
-  padding:6px 12px;
-  border-radius:6px;
-}
+    .float-whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: #fff;
+      padding: 14px;
+      border-radius: 50%;
+      font-size: 22px;
+      text-decoration: none;
+    }
 
-@keyframes blinkGlow {
-  0%{
-    background:#000;
-    color:#ffd400;
-  }
-  50%{
-    background:#ffd400;
-    color:#000;
-  }
-  100%{
-    background:#000;
-    color:#ffd400;
-  }
-}
-.festival-banner{
-  margin:15px auto;
-  padding:18px;
-  max-width:700px;
-  text-align:center;
-  border-radius:10px;
-  font-size:20px;
-  font-weight:bold;
-  color:#fff;
-  background:linear-gradient(135deg,#ff512f,#dd2476);
-  animation:fadeIn 1.2s ease;
-}
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(-10px)}
-  to{opacity:1; transform:translateY(0)}
-}
-/* =========================================================
+    .blink-job {
+      animation: blinkGlow 1.2s infinite;
+      border: 2px solid #ffd400;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    @keyframes blinkGlow {
+      0% {
+        background: #000;
+        color: #ffd400;
+      }
+
+      50% {
+        background: #ffd400;
+        color: #000;
+      }
+
+      100% {
+        background: #000;
+        color: #ffd400;
+      }
+    }
+
+    .festival-banner {
+      margin: 15px auto;
+      padding: 18px;
+      max-width: 700px;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* =========================================================
    HERO LAYOUT FIX — ONLY SPONSOR / CENTER / ADS
    (No existing design will break)
    ========================================================= */
 
-/* ---------- MAIN HERO WIDTH & SPACING ---------- */
-.hero-layout{
-  max-width:1500px !important;     /* full width feel */
-  padding-left:10px !important;
-  padding-right:10px !important;
-  gap:60px !important;             /* more space for center */
-}
+    /* ---------- MAIN HERO WIDTH & SPACING ---------- */
+    .hero-layout {
+      max-width: 1500px !important;
+      /* full width feel */
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+      gap: 60px !important;
+      /* more space for center */
+    }
 
-/* ---------- LEFT & RIGHT SIDE SECTIONS ---------- */
-.sponsor-section,
-.ads-section{
-  width:280px;
-  flex-shrink:0;
-}
+    /* ---------- LEFT & RIGHT SIDE SECTIONS ---------- */
+    .sponsor-section,
+    .ads-section {
+      width: 280px;
+      flex-shrink: 0;
+    }
 
-/* ---------- SPONSOR VISIBILITY FIX ---------- */
-.sponsor-section{
-  background:#ffffff !important;
-}
+    /* ---------- SPONSOR VISIBILITY FIX ---------- */
+    .sponsor-section {
+      background: #ffffff !important;
+    }
 
-.sponsor-box{
-  background:#f2f6ff !important;
-  border:1px solid #cdd9ff !important;
-}
+    .sponsor-box {
+      background: #f2f6ff !important;
+      border: 1px solid #cdd9ff !important;
+    }
 
-.sponsor-box h4{
-  color:#0a58ca !important;
-}
+    .sponsor-box h4 {
+      color: #0a58ca !important;
+    }
 
-.sponsor-box p,
-.sponsor-box li{
-  color:#222 !important;
-}
+    .sponsor-box p,
+    .sponsor-box li {
+      color: #222 !important;
+    }
 
-.sponsor-box ul{
-  padding-left:0;
-}
+    .sponsor-box ul {
+      padding-left: 0;
+    }
 
-.sponsor-box li{
-  list-style:none;
-  background:#ffffff;
-  border:1px solid #ddd;
-  padding:6px 10px;
-  border-radius:6px;
-  margin-bottom:6px;
-  font-size:13px;
-}
+    .sponsor-box li {
+      list-style: none;
+      background: #ffffff;
+      border: 1px solid #ddd;
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
 
-/* ---------- CENTER CONTENT BIG & PROMINENT ---------- */
-.hero-center{
-  padding:0 10px;
-}
+    /* ---------- CENTER CONTENT BIG & PROMINENT ---------- */
+    .hero-center {
+      padding: 0 10px;
+    }
 
-.hero-center h2{
-  white-space:nowrap;              /* ONE LINE */
-  font-size:42px !important;
-  font-weight:800 !important;
-  line-height:1.25;
-}
+    .hero-center h2 {
+      white-space: nowrap;
+      /* ONE LINE */
+      font-size: 42px !important;
+      font-weight: 800 !important;
+      line-height: 1.25;
+    }
 
-.hero-center p{
-  font-size:18px !important;
-  margin:10px 0 22px;
-}
+    .hero-center p {
+      font-size: 18px !important;
+      margin: 10px 0 22px;
+    }
 
-.hero-center a{
-  font-size:16px !important;
-  padding:14px 26px !important;
-}
+    .hero-center a {
+      font-size: 16px !important;
+      padding: 14px 26px !important;
+    }
 
-/* ---------- GOOGLE ADS BOX ---------- */
-.google-ad-box{
-  height:250px;
-}
+    /* ---------- GOOGLE ADS BOX ---------- */
+    .google-ad-box {
+      height: 250px;
+    }
 
-/* ---------- MOBILE SAFETY ---------- */
-@media(max-width:992px){
-  .hero-layout{
-    grid-template-columns:1fr !important;
-    gap:20px !important;
-  }
+    /* ---------- MOBILE SAFETY ---------- */
+    @media(max-width:992px) {
+      .hero-layout {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
 
-  .sponsor-section,
-  .ads-section{
-    width:100%;
-  }
+      .sponsor-section,
+      .ads-section {
+        width: 100%;
+      }
 
-  .hero-center h2{
-    white-space:normal;             /* mobile e line break allow */
-    font-size:32px !important;
-  }
-}
-  /* ================= MOBILE VIEW ONLY ================= */
+      .hero-center h2 {
+        white-space: normal;
+        /* mobile e line break allow */
+        font-size: 32px !important;
+      }
+    }
 
-/* hide mobile elements by default */
-.mobile-top-header,
-.mobile-bottom-menu{
-  display:none;
-}
+    /* ================= MOBILE VIEW ONLY ================= */
 
-/* ===== MOBILE SCREEN ===== */
-@media (max-width:768px){
+    /* hide mobile elements by default */
+    .mobile-top-header,
+    .mobile-bottom-menu {
+      display: none;
+    }
 
-  /* hide desktop header */
-  .desktop-header{
-    display:none !important;
-  }
+    /* ===== MOBILE SCREEN ===== */
+    @media (max-width:768px) {
 
-  /* ===== TOP HEADER ===== */
-  .mobile-top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#000;
-    padding:10px 12px;
-    position:sticky;
-    top:0;
-    z-index:9999;
-  }
+      /* hide desktop header */
+      .desktop-header {
+        display: none !important;
+      }
 
-  .mobile-logo{
-    height:38px;
-    cursor:pointer;
-  }
+      /* ===== TOP HEADER ===== */
+      .mobile-top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        padding: 10px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+      }
 
-  .mobile-social a{
-    font-size:22px;
-    margin-left:10px;
-    text-decoration:none;
-  }
+      .mobile-logo {
+        height: 38px;
+        cursor: pointer;
+      }
 
-  /* ===== BOTTOM MENU ===== */
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    padding:10px 0;
-    z-index:9999;
-  }
+      .mobile-social a {
+        font-size: 22px;
+        margin-left: 10px;
+        text-decoration: none;
+      }
 
-  .mobile-bottom-menu a,
-  .mobile-service{
-    font-size:28px;
-    color:#ffd400;
-    position:relative;
-    text-decoration:none;
-  }
+      /* ===== BOTTOM MENU ===== */
+      .mobile-bottom-menu {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #000;
+        border-top: 2px solid #ffd400;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 9999;
+      }
 
-  .mobile-service{
-    cursor:pointer;
-  }
+      .mobile-bottom-menu a,
+      .mobile-service {
+        font-size: 28px;
+        color: #ffd400;
+        position: relative;
+        text-decoration: none;
+      }
 
-  .service-popup{
-    display:none;
-    position:absolute;
-    bottom:55px;
-    left:-25px;
-    background:#111;
-    border:1px solid #ffd400;
-    border-radius:8px;
-  }
+      .mobile-service {
+        cursor: pointer;
+      }
 
-  .service-popup a{
-    display:block;
-    padding:8px 12px;
-    font-size:14px;
-    white-space:nowrap;
-  }
+      .service-popup {
+        display: none;
+        position: absolute;
+        bottom: 55px;
+        left: -25px;
+        background: #111;
+        border: 1px solid #ffd400;
+        border-radius: 8px;
+      }
 
-  .mobile-service:hover .service-popup{
-    display:block;
-  }
+      .service-popup a {
+        display: block;
+        padding: 8px 12px;
+        font-size: 14px;
+        white-space: nowrap;
+      }
 
-  /* space for bottom menu */
-  body{
-    padding-bottom:70px;
-  }
-}
-/* ================= MOBILE VIEW ONLY ================= */
-@media (max-width:768px){
+      .mobile-service:hover .service-popup {
+        display: block;
+      }
 
-  /* 🔴 DESKTOP / WEB MENU HIDE */
-  header,
-  nav,
-  .desktop-header,
-  .menu,
-  .navbar,
-  .top-menu{
-    display:none !important;
-  }
+      /* space for bottom menu */
+      body {
+        padding-bottom: 70px;
+      }
+    }
 
-  /* ===== MOBILE TOP HEADER ===== */
-  .mobile-top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#000;
-    padding:10px 12px;
-    position:sticky;
-    top:0;
-    z-index:9999;
-  }
+    /* ================= MOBILE VIEW ONLY ================= */
+    @media (max-width:768px) {
 
-  /* ===== MOBILE BOTTOM MENU ===== */
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    padding:10px 0;
-    z-index:9999;
-  }
-}
+      /* 🔴 DESKTOP / WEB MENU HIDE */
+      header,
+      nav,
+      .desktop-header,
+      .menu,
+      .navbar,
+      .top-menu {
+        display: none !important;
+      }
 
+      /* ===== MOBILE TOP HEADER ===== */
+      .mobile-top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        padding: 10px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+      }
 
-</style>
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "030ab637-e25e-4a1f-8193-cdac0c397245",
+      /* ===== MOBILE BOTTOM MENU ===== */
+      .mobile-bottom-menu {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #000;
+        border-top: 2px solid #ffd400;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 9999;
+      }
+    }
+  </style>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function (OneSignal) {
+      await OneSignal.init({
+        appId: "030ab637-e25e-4a1f-8193-cdac0c397245",
+      });
     });
-  });
 /* 📲 APP DOWNLOAD ICON */
-.mobile-app-btn{
-  font-size:26px;
-  text-decoration:none;
-  animation:appBlink 1.2s infinite;
-}
+.mobile - app - btn{
+      font - size: 26px;
+      text - decoration: none;
+      animation:appBlink 1.2s infinite;
+    }
 
-/* blink animation */
-@keyframes appBlink{
-  0%{opacity:1}
-  50%{opacity:0.4}
-  100%{opacity:1}
-}
+    /* blink animation */
+    @keyframes appBlink{
+      0 % { opacity: 1 }
+      50 % { opacity: 0.4 }
+      100 % { opacity: 1 }
+    }
 
-/* ===== SHOW ONLY ON MOBILE ===== */
-@media (min-width: 769px){
-  .mobile-top-header{
-    display:none;
-  }
-}
+    /* ===== SHOW ONLY ON MOBILE ===== */
+    @media(min - width: 769px) {
+  .mobile - top - header{
+        display: none;
+      }
+    }
 
-</script>
+  </script>
 
 </head>
-  <body>
-    <!-- 📱 MOBILE TOP HEADER -->
-<div class="mobile-top-header">
-  <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
-<!-- 📲 Download App (MOBILE ONLY) -->
-  <a href="https://play.google.com/store/apps/details?id=com.tripathytelecom.app"
-     target="_blank"
-     class="mobile-app-btn">
-     📲
-  </a>
-  <div class="mobile-social">
-    <a href="https://wa.me/918670244552" target="_blank">🟢</a>
-    <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>
-    <a href="https://youtube.com/tripathytelecom" target="_blank">🔴</a>
-  </div>
-</div>
 
-<header>
-<header class="top-header">
-  <div class="logo">
-    <a href="index.html">
-  <img src="logo.png" alt="Tripathy Telecom Logo">
-</a>
+<body>
+  <!-- 📱 MOBILE TOP HEADER -->
+  <div class="mobile-top-header">
+    <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
+    <!-- 📲 Download App (MOBILE ONLY) -->
+    <a href="https://play.google.com/store/apps/details?id=com.tripathytelecom.app" target="_blank"
+      class="mobile-app-btn">
+      📲
+    </a>
+    <div class="mobile-social">
+      <a href="https://wa.me/918670244552" target="_blank">🟢</a>
+      <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>
+      <a href="https://youtube.com/tripathytelecom" target="_blank">🔴</a>
+    </div>
   </div>
 
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-  <nav class="header-menu" id="navMenu">
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="products.html">Products</a>
-    <a href="recharge.html">Recharge</a>
-    <a href="pan-card.html">PAN Card</a>
-    <a href="contact.html">Contact</a>
-    <a href="jobs.html" class="blink-job">Jobs</a>
-    <a href="https://play.google.com/store/apps/details?id=com.tripathytelecom.app"
-   target="_blank"
-   class="download-app-btn">
-   📲 Download App
-</a>
-  </nav>
-  
-<div class="social-icons">
-  <!-- WhatsApp -->
-  <a href="https://wa.me/918670244552" target="_blank" aria-label="WhatsApp">
-    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
-  </a>
-
-  <!-- Facebook -->
-  <a href="https://facebook.com/tripathytelecom" target="_blank" aria-label="Facebook">
-    <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
-  </a>
-
-  <!-- YouTube -->
-  <a href="https://youtube.com/@tripathytelecom" target="_blank" aria-label="YouTube">
-    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-  </a>
-</div>
-  
-</header>
-
-</header>
-
-<section class="hero">
-
-  <!-- FESTIVAL BANNER -->
-  <div id="festivalBanner" class="festival-banner"></div>
-
-  <div class="hero-layout">
-
-    <!-- 🔴 LEFT : SPONSOR SECTION -->
-    <div class="sponsor-section">
-      <h3>🤝 Our Sponsors</h3>
-
-      <div class="sponsor-box">
-        <h4>Tripathy Telecom</h4>
-        <p>PAN, Recharge & Cyber Cafe</p>
-        <p class="address">
-          Dherua, Gurguripal,<br>
-          Paschim Medinipur – 721102<br>
-          Near Dherua Airtel Tower
-        </p>
+  <header>
+    <header class="top-header">
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo.png" alt="Tripathy Telecom Logo">
+        </a>
       </div>
 
-      <div class="sponsor-box">
-        <h4>PNB Customer Service Point</h4>
-        <ul>
-          <li>Account Opening</li>
-          <li>Cash Withdrawal</li>
-          <li>Cash Deposit</li>
-          <li>Passbook Print</li>
-        </ul>
-        <p class="address">
-          Dherua, Gurguripal,<br>
-          Paschim Medinipur – 721102<br>
-          Near Dherua Airtel Tower
-        </p>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+      <nav class="header-menu" id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="products.html">Products</a>
+        <a href="recharge.html">Recharge</a>
+        <a href="pan-card.html">PAN Card</a>
+        <a href="contact.html">Contact</a>
+        <a href="jobs.html" class="blink-job">Jobs</a>
+        <a href="https://play.google.com/store/apps/details?id=com.tripathytelecom.app" target="_blank"
+          class="download-app-btn">
+          📲 Download App
+        </a>
+      </nav>
+
+      <div class="social-icons">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/918670244552" target="_blank" aria-label="WhatsApp">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://facebook.com/tripathytelecom" target="_blank" aria-label="Facebook">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://youtube.com/@tripathytelecom" target="_blank" aria-label="YouTube">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+        </a>
       </div>
-    </div>
 
-    <!-- 🔵 CENTER : MAIN HERO CONTENT -->
-    <div class="hero-center">
-      <h2>All Recharge, PAN Card & Digital Services</h2>
-      <p>Fast • Secure • Trusted Local Service</p>
+    </header>
 
-      <a href="recharge.html">Recharge Now</a>
-      <a href="pan-card.html">Create Your PAN Card</a>
-      <a href="https://wa.me/918670244552" target="_blank">
-        Contact on WhatsApp
-      </a>
-    </div>
+  </header>
 
+  <section class="hero">
 
-    <!-- 🟢 RIGHT : GOOGLE ADS -->
-    <div class="ads-section">
-      <h3>Sponsored Ads</h3>
+    <!-- FESTIVAL BANNER -->
+    <div id="festivalBanner" class="festival-banner"></div>
 
-      <div class="google-ad-box">
-        <!-- Google AdSense code পরে এখানে বসাবেন -->
-        Google AdSense Space
+    <div class="hero-layout">
+
+      <!-- 🔴 LEFT : SPONSOR SECTION -->
+      <div class="sponsor-section">
+        <h3>🤝 Our Sponsors</h3>
+
+        <div class="sponsor-box">
+          <h4>Tripathy Telecom</h4>
+          <p>PAN, Recharge & Cyber Cafe</p>
+          <p class="address">
+            Dherua, Gurguripal,<br>
+            Paschim Medinipur – 721102<br>
+            Near Dherua Airtel Tower
+          </p>
+        </div>
+
+        <div class="sponsor-box">
+          <h4>PNB Customer Service Point</h4>
+          <ul>
+            <li>Account Opening</li>
+            <li>Cash Withdrawal</li>
+            <li>Cash Deposit</li>
+            <li>Passbook Print</li>
+          </ul>
+          <p class="address">
+            Dherua, Gurguripal,<br>
+            Paschim Medinipur – 721102<br>
+            Near Dherua Airtel Tower
+          </p>
+        </div>
       </div>
+
+      <!-- 🔵 CENTER : MAIN HERO CONTENT -->
+      <div class="hero-center">
+        <h2>All Recharge, PAN Card & Digital Services</h2>
+        <p>Fast • Secure • Trusted Local Service</p>
+
+        <a href="recharge.html">Recharge Now</a>
+        <a href="pan-card.html">Create Your PAN Card</a>
+        <a href="https://wa.me/918670244552" target="_blank">
+          Contact on WhatsApp
+        </a>
+      </div>
+
+
+      <!-- 🟢 RIGHT : GOOGLE ADS -->
+      <div class="ads-section">
+        <h3>Sponsored Ads</h3>
+
+        <div class="google-ad-box">
+          <!-- Google AdSense code পরে এখানে বসাবেন -->
+          Google AdSense Space
+        </div>
+      </div>
+
     </div>
+  </section>
 
-  </div>
-</section>
-
-<section class="section">
+  <section class="section">
     <h3>Our Services</h3>
     <div class="services">
-        <div class="service-box"><h4>📱 Mobile Recharge</h4></div>
-        <div class="service-box"><h4>📺 DTH Recharge</h4></div>
-        <div class="service-box"><h4>🧾 PAN Card Apply / Correction</h4></div>
-        <div class="service-box"><h4>🆔 Aadhaar Services</h4></div>
-        <div class="service-box"><h4>💡 Electricity / Gas / Water Bill</h4></div>
-        <div class="service-box"><h4>🏦 Banking / Account Services</h4></div>
-        <div class="service-box"><h4>🛵 Insurance (Bike / Car / Life)</h4></div>
-        <div class="service-box"><h4>🖨️ Cyber Cafe Services</h4></div>
+      <div class="service-box">
+        <h4>📱 Mobile Recharge</h4>
+      </div>
+      <div class="service-box">
+        <h4>📺 DTH Recharge</h4>
+      </div>
+      <div class="service-box">
+        <h4>🧾 PAN Card Apply / Correction</h4>
+      </div>
+      <div class="service-box">
+        <h4>🆔 Aadhaar Services</h4>
+      </div>
+      <div class="service-box">
+        <h4>💡 Electricity / Gas / Water Bill</h4>
+      </div>
+      <div class="service-box">
+        <h4>🏦 Banking / Account Services</h4>
+      </div>
+      <div class="service-box">
+        <h4>🛵 Insurance (Bike / Car / Life)</h4>
+      </div>
+      <div class="service-box">
+        <h4>🖨️ Cyber Cafe Services</h4>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="section">
+  <section class="section">
     <h3>Why Choose Us</h3>
     <div class="why">
-        <div>✅ Fast & Reliable Service</div>
-        <div>✅ Trusted Local Shop</div>
-        <div>✅ Genuine Charges</div>
-        <div>✅ Customer Support Available</div>
+      <div>✅ Fast & Reliable Service</div>
+      <div>✅ Trusted Local Shop</div>
+      <div>✅ Genuine Charges</div>
+      <div>✅ Customer Support Available</div>
     </div>
-</section>
+  </section>
 
-<footer>
-    © 2025 TRIPATHY TELECOM | All Rights Reserved 
-</footer>
+  <footer>
+    © 2025 TRIPATHY TELECOM | All Rights Reserved
+  </footer>
 
-<a class="float-whatsapp" href="https://wa.me/918670244552" target="_blank">💬</a>
-<script>
-function toggleMenu(){
-  document.getElementById("navMenu").classList.toggle("show");
-}
-
-</script>
+  <a class="float-whatsapp" href="https://wa.me/918670244552" target="_blank">💬</a>
   <script>
-const today = new Date();
-const day = today.getDate();
-const month = today.getMonth() + 1; // January = 1
+    function toggleMenu() {
+      document.getElementById("navMenu").classList.toggle("show");
+    }
 
-let message = "🙏 Welcome to Tripathy Telecom – Recharge, PAN Card & Cyber Cafe Services";
+  </script>
+  <script>
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1; // January = 1
 
-if(day === 25 && month === 12){
-  message = "🎄 Merry Christmas! Welcome to Tripathy Telecom 🎁";
-}
-else if(day === 1 && month === 1){
-  message = "🎉 Happy New Year! Welcome to Tripathy Telecom ✨";
-}
+    let message = "🙏 Welcome to Tripathy Telecom – Recharge, PAN Card & Cyber Cafe Services";
 
-document.getElementById("festivalBanner").innerText = message;
-</script>
-<!-- 📱 MOBILE BOTTOM MENU -->
-<div class="mobile-bottom-menu">
-  <a href="index.html">🏠</a>
+    if (day === 25 && month === 12) {
+      message = "🎄 Merry Christmas! Welcome to Tripathy Telecom 🎁";
+    }
+    else if (day === 1 && month === 1) {
+      message = "🎉 Happy New Year! Welcome to Tripathy Telecom ✨";
+    }
 
-  <div class="mobile-service">
-    🛠️
-    <div class="service-popup">
-      <a href="recharge.html">🔁 Recharge</a>
-      <a href="pan-card.html">🪪 PAN Card</a>
+    document.getElementById("festivalBanner").innerText = message;
+  </script>
+  <!-- 📱 MOBILE BOTTOM MENU -->
+  <div class="mobile-bottom-menu">
+    <a href="index.html">🏠</a>
+
+    <div class="mobile-service">
+      🛠️
+      <div class="service-popup">
+        <a href="recharge.html">🔁 Recharge</a>
+        <a href="pan-card.html">🪪 PAN Card</a>
+      </div>
     </div>
+
+    <a href="products.html">📦</a>
+    <a href="jobs.html">💼</a>
   </div>
 
-  <a href="products.html">📦</a>
-  <a href="jobs.html">💼</a>
-</div>
-
 </body>
+
 </html>

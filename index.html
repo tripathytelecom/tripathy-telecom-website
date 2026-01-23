@@ -926,7 +926,218 @@
     © 2025 TRIPATHY TELECOM | All Rights Reserved
   </footer>
 
-  <a class="float-whatsapp" href="https://wa.me/918670244552" target="_blank">💬</a>
+  <!-- 🎮 FLOAT GAME BUTTON -->
+  <div class="float-game-btn" onclick="toggleGameModal()">🎮</div>
+
+  <!-- 🎮 GAME MODAL -->
+  <div id="gameModal" class="game-modal">
+    <div class="game-content">
+      <div class="game-header">
+        <h3>Rock Paper Scissors</h3>
+        <span class="close-game" onclick="toggleGameModal()">×</span>
+      </div>
+
+      <div class="rps-board">
+        <div class="score-board">
+          <div>You: <span id="userScore">0</span></div>
+          <div>Comp: <span id="compScore">0</span></div>
+        </div>
+
+        <div class="result-display" id="resultDisplay">Choose your weapon!</div>
+
+        <div class="rps-choices">
+          <button onclick="playRPS('rock')">✊</button>
+          <button onclick="playRPS('paper')">✋</button>
+          <button onclick="playRPS('scissors')">✌</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* FLOAT BUTTON */
+    .float-game-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #8e44ad;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 9998;
+      transition: transform 0.3s;
+      animation: floatBounce 2s infinite;
+    }
+
+    .float-game-btn:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes floatBounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    /* MODAL */
+    .game-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .game-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      position: relative;
+      animation: zoomIn 0.3s;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .game-header h3 {
+      margin: 0;
+      color: #2c3e50;
+      font-size: 20px;
+    }
+
+    .close-game {
+      font-size: 28px;
+      cursor: pointer;
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .score-board {
+      display: flex;
+      justify-content: space-around;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .result-display {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px 0;
+      min-height: 24px;
+      color: #8e44ad;
+    }
+
+    .rps-choices {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .rps-choices button {
+      font-size: 35px;
+      background: #f1f2f6;
+      border: 2px solid #dcdde1;
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .rps-choices button:hover {
+      background: #ffeaa7;
+      transform: translateY(-3px);
+    }
+
+    .rps-choices button:active {
+      transform: scale(0.95);
+    }
+  </style>
+
+  <script>
+    let userScore = 0;
+    let compScore = 0;
+
+    function toggleGameModal() {
+      const modal = document.getElementById('gameModal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function playRPS(userChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const compChoice = choices[Math.floor(Math.random() * 3)];
+      const resultDisplay = document.getElementById('resultDisplay');
+
+      let result = "";
+
+      const icons = {
+        rock: "✊",
+        paper: "✋",
+        scissors: "✌"
+      };
+
+      if (userChoice === compChoice) {
+        result = "It's a Draw! 🤝";
+        resultDisplay.style.color = "#f39c12";
+      } else if (
+        (userChoice === 'rock' && compChoice === 'scissors') ||
+        (userChoice === 'paper' && compChoice === 'rock') ||
+        (userChoice === 'scissors' && compChoice === 'paper')
+      ) {
+        result = "You Win! 🎉";
+        userScore++;
+        resultDisplay.style.color = "#27ae60";
+      } else {
+        result = "You Lose! 😢";
+        compScore++;
+        resultDisplay.style.color = "#c0392b";
+      }
+
+      resultDisplay.innerHTML = `You: ${icons[userChoice]} vs Comp: ${icons[compChoice]} <br> ${result}`;
+      document.getElementById('userScore').innerText = userScore;
+      document.getElementById('compScore').innerText = compScore;
+    }
+  </script>
   <script>
     function toggleMenu() {
       document.getElementById("navMenu").classList.toggle("show");

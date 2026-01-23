@@ -927,28 +927,32 @@
   </footer>
 
   <!-- 🎮 FLOAT GAME BUTTON -->
+  <!-- 🎮 FLOAT GAME BUTTON -->
   <div class="float-game-btn" onclick="toggleGameModal()">🎮</div>
 
   <!-- 🎮 GAME MODAL -->
   <div id="gameModal" class="game-modal">
     <div class="game-content">
       <div class="game-header">
-        <h3>Rock Paper Scissors</h3>
+        <h3>🐍 Snake Game</h3>
         <span class="close-game" onclick="toggleGameModal()">×</span>
       </div>
 
-      <div class="rps-board">
-        <div class="score-board">
-          <div>You: <span id="userScore">0</span></div>
-          <div>Comp: <span id="compScore">0</span></div>
-        </div>
+      <div class="snake-container">
+        <div class="score-box">Score: <span id="snakeScore">0</span></div>
+        <canvas id="snakeCanvas" width="280" height="280"></canvas>
 
-        <div class="result-display" id="resultDisplay">Choose your weapon!</div>
+        <button id="startGameBtn" onclick="startSnakeGame()">▶ Start Game</button>
 
-        <div class="rps-choices">
-          <button onclick="playRPS('rock')">✊</button>
-          <button onclick="playRPS('paper')">✋</button>
-          <button onclick="playRPS('scissors')">✌</button>
+        <div class="d-pad">
+          <div class="d-row">
+            <button onclick="snakeDir('UP')">⬆️</button>
+          </div>
+          <div class="d-row">
+            <button onclick="snakeDir('LEFT')">⬅️</button>
+            <button onclick="snakeDir('DOWN')">⬇️</button>
+            <button onclick="snakeDir('RIGHT')">➡️</button>
+          </div>
         </div>
       </div>
     </div>
@@ -960,7 +964,8 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #8e44ad;
+      background: #2ecc71;
+      /* Snake Green */
       color: #fff;
       width: 60px;
       height: 60px;
@@ -1000,15 +1005,16 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       z-index: 10000;
       align-items: center;
       justify-content: center;
+      backdrop-filter: blur(4px);
     }
 
     .game-content {
       background: #fff;
-      padding: 25px;
+      padding: 20px;
       border-radius: 16px;
       width: 320px;
       text-align: center;
@@ -1033,7 +1039,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       border-bottom: 2px solid #eee;
       padding-bottom: 10px;
     }
@@ -1051,91 +1057,182 @@
       font-weight: bold;
     }
 
-    .score-board {
-      display: flex;
-      justify-content: space-around;
+    /* SNAKE UI */
+    canvas {
+      background: #000;
+      border-radius: 8px;
+      border: 3px solid #555;
+      margin-bottom: 15px;
+    }
+
+    .score-box {
       font-size: 18px;
       font-weight: bold;
-      margin-bottom: 20px;
-      color: #555;
+      margin-bottom: 10px;
+      color: #333;
     }
 
-    .result-display {
-      font-size: 18px;
+    #startGameBtn {
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      font-size: 16px;
+      border-radius: 6px;
       font-weight: bold;
-      margin: 20px 0;
-      min-height: 24px;
-      color: #8e44ad;
-    }
-
-    .rps-choices {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .rps-choices button {
-      font-size: 35px;
-      background: #f1f2f6;
-      border: 2px solid #dcdde1;
-      border-radius: 12px;
-      padding: 10px;
       cursor: pointer;
-      transition: 0.2s;
+      margin-bottom: 15px;
     }
 
-    .rps-choices button:hover {
-      background: #ffeaa7;
-      transform: translateY(-3px);
+    /* D-PAD */
+    .d-pad {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
-    .rps-choices button:active {
-      transform: scale(0.95);
+    .d-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .d-pad button {
+      background: #34495e;
+      color: #fff;
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #2c3e50;
+    }
+
+    .d-pad button:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #2c3e50;
     }
   </style>
 
   <script>
-    let userScore = 0;
-    let compScore = 0;
+    let snakeGameInterval;
+    const canvas = document.getElementById("snakeCanvas");
+    const ctx = canvas.getContext("2d");
+    const box = 14;  // grid size
+    let snake = [];
+    let food = {};
+    let score = 0;
+    let d = "";
 
     function toggleGameModal() {
       const modal = document.getElementById('gameModal');
-      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+      if (modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        stopGame();
+      } else {
+        modal.style.display = 'flex';
+      }
     }
 
-    function playRPS(userChoice) {
-      const choices = ['rock', 'paper', 'scissors'];
-      const compChoice = choices[Math.floor(Math.random() * 3)];
-      const resultDisplay = document.getElementById('resultDisplay');
-
-      let result = "";
-
-      const icons = {
-        rock: "✊",
-        paper: "✋",
-        scissors: "✌"
+    function startSnakeGame() {
+      stopGame();
+      snake = [];
+      snake[0] = { x: 9 * box, y: 10 * box };
+      score = 0;
+      d = "RIGHT"; // default direction
+      document.getElementById("snakeScore").innerText = score;
+      food = {
+        x: Math.floor(Math.random() * 19 + 1) * box,
+        y: Math.floor(Math.random() * 19 + 1) * box
       };
+      snakeGameInterval = setInterval(drawSnake, 150); // Game Speed
+    }
 
-      if (userChoice === compChoice) {
-        result = "It's a Draw! 🤝";
-        resultDisplay.style.color = "#f39c12";
-      } else if (
-        (userChoice === 'rock' && compChoice === 'scissors') ||
-        (userChoice === 'paper' && compChoice === 'rock') ||
-        (userChoice === 'scissors' && compChoice === 'paper')
-      ) {
-        result = "You Win! 🎉";
-        userScore++;
-        resultDisplay.style.color = "#27ae60";
-      } else {
-        result = "You Lose! 😢";
-        compScore++;
-        resultDisplay.style.color = "#c0392b";
+    function stopGame() {
+      clearInterval(snakeGameInterval);
+    }
+
+    // DIRECTION CONTROL
+    function snakeDir(direction) {
+      if (direction === "LEFT" && d !== "RIGHT") d = "LEFT";
+      else if (direction === "UP" && d !== "DOWN") d = "UP";
+      else if (direction === "RIGHT" && d !== "LEFT") d = "RIGHT";
+      else if (direction === "DOWN" && d !== "UP") d = "DOWN";
+    }
+
+    // KEYBOARD SUPPORT
+    document.addEventListener("keydown", (event) => {
+      if (document.getElementById('gameModal').style.display === 'flex') {
+        const key = event.keyCode;
+        if (key == 37) snakeDir("LEFT");
+        else if (key == 38) snakeDir("UP");
+        else if (key == 39) snakeDir("RIGHT");
+        else if (key == 40) snakeDir("DOWN");
+      }
+    });
+
+    function drawSnake() {
+      ctx.fillStyle = "#000"; // clear bg
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = (i === 0) ? "#2ecc71" : "#27ae60"; // Head green, body dark green
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
       }
 
-      resultDisplay.innerHTML = `You: ${icons[userChoice]} vs Comp: ${icons[compChoice]} <br> ${result}`;
-      document.getElementById('userScore').innerText = userScore;
-      document.getElementById('compScore').innerText = compScore;
+      // Draw Food
+      ctx.fillStyle = "#e74c3c";
+      ctx.fillRect(food.x, food.y, box, box);
+
+      // Old Head position
+      let snakeX = snake[0].x;
+      let snakeY = snake[0].y;
+
+      if (d === "LEFT") snakeX -= box;
+      if (d === "UP") snakeY -= box;
+      if (d === "RIGHT") snakeX += box;
+      if (d === "DOWN") snakeY += box;
+
+      // Eat Food
+      if (snakeX === food.x && snakeY === food.y) {
+        score++;
+        document.getElementById("snakeScore").innerText = score;
+        food = {
+          x: Math.floor(Math.random() * 19 + 1) * box,
+          y: Math.floor(Math.random() * 19 + 1) * box
+        };
+      } else {
+        // Remove tail
+        snake.pop();
+      }
+
+      // New Head
+      let newHead = { x: snakeX, y: snakeY };
+
+      // Collision Detection
+      if (
+        snakeX < 0 || snakeX >= canvas.width ||
+        snakeY < 0 || snakeY >= canvas.height ||
+        collision(newHead, snake)
+      ) {
+        stopGame();
+        alert("Game Over! 🐍 Your Score: " + score);
+      }
+
+      snake.unshift(newHead);
+    }
+
+    function collision(head, array) {
+      for (let i = 0; i < array.length; i++) {
+        if (head.x === array[i].x && head.y === array[i].y) {
+          return true;
+        }
+      }
+      return false;
     }
   </script>
   <script>

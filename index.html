@@ -715,6 +715,10 @@
         justify-content: space-around;
         padding: 10px 0;
         z-index: 9999;
+        /* Prevent search/selection popup */
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
       }
     }
   </style>

@@ -927,41 +927,70 @@
   </footer>
 
   <!-- 🎮 FLOAT GAME BUTTON -->
-  <!-- 🎮 FLOAT GAME BUTTON -->
-  <div class="float-game-btn" onclick="toggleGameModal()">🎮</div>
+  <div class="float-game-btn" onclick="openGameHub()">🎮</div>
 
-  <!-- 🎮 GAME MODAL -->
-  <div id="gameModal" class="game-modal">
+  <!-- 🎮 GAME HUB MODAL -->
+  <div id="gameHubModal" class="game-modal">
     <div class="game-content">
-      <div class="game-header">
-        <h3>🐍 Snake Game</h3>
-        <span class="close-game" onclick="toggleGameModal()">×</span>
+
+      <!-- HEADER -->
+      <div class="game-header-hub">
+        <h3 id="gameTitle">Game Zone</h3>
+        <span class="close-game" onclick="closeGameHub()">×</span>
       </div>
 
-      <div class="snake-container">
+      <!-- HINT / BACK BTN -->
+      <div id="gameNav" style="display:none; margin-bottom: 10px; text-align: left;">
+        <button class="nav-btn" onclick="showGameMenu()">⬅ Back to Menu</button>
+      </div>
+
+      <!-- 1. GAME MENU (Selection Screen) -->
+      <div id="gameMenu" class="game-menu">
+        <div class="game-card" onclick="launchGame('snake')">
+          <div class="game-icon">🐍</div>
+          <div class="game-name">Snake Game</div>
+          <div class="game-desc">Classic Snake</div>
+        </div>
+        <div class="game-card" onclick="launchGame('busrun')">
+          <div class="game-icon">🚌</div>
+          <div class="game-name">Bus Run</div>
+          <div class="game-desc">Dodge Traffic!</div>
+        </div>
+      </div>
+
+      <!-- 2. GAME CONTAINER (Active Game) -->
+      <div id="activeGameContainer" style="display:none;">
+        <!-- SCORE BOARD -->
         <div class="score-container">
-          <div class="score-box">Score: <span id="snakeScore">0</span></div>
-          <div class="best-score-box">Best: <span id="bestScore">0</span></div>
+          <div class="score-box">Score: <span id="currentScore">0</span></div>
+          <div class="best-score-box">Best: <span id="bestScoreDisplay">0</span></div>
         </div>
 
-        <canvas id="snakeCanvas" width="280" height="280"></canvas>
+        <!-- CANVAS -->
+        <canvas id="gameCanvas" width="280" height="280"></canvas>
 
+        <!-- CONTROLS -->
         <div class="control-btns">
-          <button id="startGameBtn" onclick="startSnakeGame()">▶ Start</button>
-          <button id="pauseGameBtn" onclick="togglePause()">⏸ Pause</button>
+          <button id="mainActionBtn" onclick="handleMainAction()">▶ Start</button>
         </div>
 
-        <div class="d-pad">
+        <!-- D-PAD (Only for Snake) -->
+        <div id="snake controls" class="d-pad" style="display:none;">
+          <div class="d-row"><button onclick="snakeInput('UP')">⬆️</button></div>
           <div class="d-row">
-            <button onclick="snakeDir('UP')">⬆️</button>
+            <button onclick="snakeInput('LEFT')">⬅️</button>
+            <button onclick="snakeInput('DOWN')">⬇️</button>
+            <button onclick="snakeInput('RIGHT')">➡️</button>
           </div>
-          <div class="d-row">
-            <button onclick="snakeDir('LEFT')">⬅️</button>
-            <button onclick="snakeDir('DOWN')">⬇️</button>
-            <button onclick="snakeDir('RIGHT')">➡️</button>
-          </div>
+        </div>
+
+        <!-- BUS CONTROLS (Left/Right) -->
+        <div id="busControls" class="bus-controls" style="display:none;">
+          <button class="bus-btn" ontouchstart="busInput('left')" onmousedown="busInput('left')">⬅ Left</button>
+          <button class="bus-btn" ontouchstart="busInput('right')" onmousedown="busInput('right')">Right ➡</button>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -972,7 +1001,6 @@
       bottom: 20px;
       right: 20px;
       background: #2ecc71;
-      /* Snake Green */
       color: #fff;
       width: 60px;
       height: 60px;
@@ -1012,21 +1040,24 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 10000;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(5px);
     }
 
     .game-content {
       background: #fff;
       padding: 20px;
       border-radius: 16px;
-      width: 320px;
+      width: 340px;
+      /* Slightly wider for menu */
       text-align: center;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
       animation: zoomIn 0.3s;
     }
 
@@ -1042,7 +1073,7 @@
       }
     }
 
-    .game-header {
+    .game-header-hub {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -1051,7 +1082,7 @@
       padding-bottom: 10px;
     }
 
-    .game-header h3 {
+    .game-header-hub h3 {
       margin: 0;
       color: #2c3e50;
       font-size: 20px;
@@ -1064,12 +1095,53 @@
       font-weight: bold;
     }
 
-    /* SNAKE UI */
+    /* MENU STYLES */
+    .game-menu {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 10px;
+    }
+
+    .game-card {
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      padding: 15px 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #3498db;
+      background: #eaf6ff;
+    }
+
+    .game-icon {
+      font-size: 40px;
+      margin-bottom: 5px;
+    }
+
+    .game-name {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .game-desc {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* GAME CONTAINER UI */
     canvas {
       background: #000;
       border-radius: 8px;
       border: 3px solid #555;
       margin-bottom: 15px;
+      display: block;
+      margin: 0 auto 15px auto;
     }
 
     .score-container {
@@ -1081,7 +1153,7 @@
 
     .score-box,
     .best-score-box {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       color: #fff;
       padding: 6px 12px;
@@ -1097,42 +1169,44 @@
       background: #f39c12;
     }
 
-    .control-btns {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #3498db;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0;
     }
 
-    #startGameBtn,
-    #pauseGameBtn {
+    .nav-btn:hover {
+      text-decoration: underline;
+    }
+
+    .control-btns button {
       color: #fff;
       border: none;
-      padding: 8px 16px;
-      font-size: 14px;
+      padding: 10px 24px;
+      font-size: 16px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    #startGameBtn {
+    #mainActionBtn {
       background: #27ae60;
     }
 
-    #startGameBtn:hover {
+    #mainActionBtn:hover {
       background: #2ecc71;
     }
 
-    #pauseGameBtn {
+    #mainActionBtn.paused {
       background: #e67e22;
     }
 
-    #pauseGameBtn:hover {
-      background: #d35400;
-    }
-
-    /* D-PAD */
+    /* CONTROLS */
     .d-pad {
       display: flex;
       flex-direction: column;
@@ -1161,183 +1235,352 @@
       transform: translateY(2px);
       box-shadow: 0 2px 0 #2c3e50;
     }
+
+    .bus-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 280px;
+      margin: 0 auto;
+    }
+
+    .bus-btn {
+      background: #34495e;
+      color: #fff;
+      border: none;
+      width: 130px;
+      padding: 15px 0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #2c3e50;
+    }
+
+    .bus-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #2c3e50;
+    }
   </style>
 
   <script>
+    // === GAME ENGINE SHARED ===
+    let activeGame = null; // 'snake' or 'busrun'
+    let gameInterval;
+    let canvas, ctx;
+    let isRunning = false;
+    let isPaused = false;
+    let score = 0;
+    let bestScore = 0;
 
-    let snakeGameInterval;
-    const canvas = document.getElementById("snakeCanvas");
-    const ctx = canvas.getContext("2d");
-    const box = 14; // grid size
+    // Snake Vars
+    const box = 14;
     let snake = [];
     let food = {};
-    let score = 0;
-    let bestScore = localStorage.getItem('snakeBestScore') || 0;
     let d = "";
-    let isPaused = false;
-    let gameRunning = false;
 
-    // Init Best Score Display
-    // We need to wait for DOM or just ensure element exists. 
-    // Since this is inside body, it executes after HTML parsing usually, 
-    // but the element might not be replacing yet. 
-    // I will set it in startSnakeGame or ensure HTML is updated first.
-    // Ideally user sees best score immediately. 
-    // I will add a safe check or just set it in startSnakeGame for now 
-    // until HTML is updated.
+    // Bus Run Vars
+    let bus = { x: 120, y: 220, w: 30, h: 50 };
+    let obstacles = []; // cars/cows
+    let roadSpeed = 3;
+    let spawnTimer = 0;
+    let roadOffset = 0;
 
-    function toggleGameModal() {
-      const modal = document.getElementById('gameModal');
-      if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-        stopGame();
+    function initGlobals() {
+      canvas = document.getElementById("gameCanvas");
+      ctx = canvas.getContext("2d");
+    }
+
+    function openGameHub() {
+      document.getElementById("gameHubModal").style.display = 'flex';
+      initGlobals();
+      showGameMenu();
+    }
+
+    function closeGameHub() {
+      stopActiveGame();
+      document.getElementById("gameHubModal").style.display = 'none';
+    }
+
+    function showGameMenu() {
+      stopActiveGame();
+      document.getElementById("gameMenu").style.display = 'grid';
+      document.getElementById("activeGameContainer").style.display = 'none';
+      document.getElementById("gameNav").style.display = 'none';
+      document.getElementById("gameTitle").innerText = "Game Zone";
+    }
+
+    function launchGame(game) {
+      activeGame = game;
+      document.getElementById("gameMenu").style.display = 'none';
+      document.getElementById("activeGameContainer").style.display = 'block';
+      document.getElementById("gameNav").style.display = 'block';
+
+      // UI Cleanup per game
+      document.getElementById("snake controls").style.display = 'none';
+      document.getElementById("busControls").style.display = 'none';
+      document.getElementById("mainActionBtn").innerText = "▶ Start";
+      document.getElementById("currentScore").innerText = "0";
+
+      // Best Score
+      bestScore = localStorage.getItem(game + 'BestScore') || 0;
+      document.getElementById("bestScoreDisplay").innerText = bestScore;
+
+      if (game === 'snake') {
+        document.getElementById("gameTitle").innerText = "🐍 Snake";
+        document.getElementById("snake controls").style.display = 'flex';
+        renderSnakePreview();
+      } else if (game === 'busrun') {
+        document.getElementById("gameTitle").innerText = "🚌 Bus Run";
+        document.getElementById("busControls").style.display = 'flex';
+        renderBusPreview();
+      }
+    }
+
+    function handleMainAction() {
+      const btn = document.getElementById("mainActionBtn");
+      if (!isRunning) {
+        startGame();
+        btn.innerText = "⏸ Pause";
       } else {
-        modal.style.display = 'flex';
-        // HTML might be updated by next step, so safe to set text here
-        if (document.getElementById("bestScore")) {
-          document.getElementById("bestScore").innerText = bestScore;
-        }
+        togglePause();
       }
     }
 
-    function startSnakeGame() {
-      stopGame();
-      snake = [];
-      snake[0] = { x: 9 * box, y: 10 * box };
-      score = 0;
-      d = "RIGHT"; // default direction
+    function startGame() {
+      if (isRunning) return;
+      isRunning = true;
       isPaused = false;
-      gameRunning = true;
+      score = 0;
+      document.getElementById("currentScore").innerText = "0";
 
-      document.getElementById("snakeScore").innerText = score;
-      if (document.getElementById("bestScore")) {
-        document.getElementById("bestScore").innerText = bestScore;
-      }
-
-      const pauseBtn = document.getElementById("pauseGameBtn");
-      if (pauseBtn) pauseBtn.innerText = "⏸ Pause";
-
-      food = {
-        x: Math.floor(Math.random() * 19 + 1) * box,
-        y: Math.floor(Math.random() * 19 + 1) * box
-      };
-      // 20% Slower: 180ms
-      snakeGameInterval = setInterval(drawSnake, 180);
+      if (activeGame === 'snake') initSnake();
+      if (activeGame === 'busrun') initBusRun();
     }
 
-    function stopGame() {
-      clearInterval(snakeGameInterval);
-      gameRunning = false;
+    function stopActiveGame() {
+      clearInterval(gameInterval);
+      isRunning = false;
+      isPaused = false;
     }
 
     function togglePause() {
-      if (!gameRunning) return;
+      if (!isRunning) return;
 
+      const btn = document.getElementById("mainActionBtn");
       if (isPaused) {
         // Resume
         isPaused = false;
-        document.getElementById("pauseGameBtn").innerText = "⏸ Pause";
-        snakeGameInterval = setInterval(drawSnake, 180);
+        btn.innerText = "⏸ Pause";
+        btn.classList.remove("paused");
+        if (activeGame === 'snake') gameInterval = setInterval(updateSnake, 180);
+        if (activeGame === 'busrun') gameInterval = setInterval(updateBusRun, 20); // 50fps
       } else {
         // Pause
         isPaused = true;
-        document.getElementById("pauseGameBtn").innerText = "▶ Resume";
-        clearInterval(snakeGameInterval);
+        btn.innerText = "▶ Resume";
+        btn.classList.add("paused");
+        clearInterval(gameInterval);
       }
     }
 
-    // DIRECTION CONTROL
-    function snakeDir(direction) {
-      if (isPaused || !gameRunning) return;
-      if (direction === "LEFT" && d !== "RIGHT") d = "LEFT";
-      else if (direction === "UP" && d !== "DOWN") d = "UP";
-      else if (direction === "RIGHT" && d !== "LEFT") d = "RIGHT";
-      else if (direction === "DOWN" && d !== "UP") d = "DOWN";
+    function gameOver() {
+      stopActiveGame();
+      document.getElementById("mainActionBtn").innerText = "🔄 Retry";
+      // Update Best Score
+      if (score > bestScore) {
+        bestScore = score;
+        localStorage.setItem(activeGame + 'BestScore', bestScore);
+        document.getElementById("bestScoreDisplay").innerText = bestScore;
+      }
+      alert("Game Over! Score: " + score);
     }
 
-    // KEYBOARD SUPPORT
-    document.addEventListener("keydown", (event) => {
-      if (document.getElementById('gameModal').style.display === 'flex') {
-        const key = event.keyCode;
-        if (key == 37) snakeDir("LEFT");
-        else if (key == 38) snakeDir("UP");
-        else if (key == 39) snakeDir("RIGHT");
-        else if (key == 40) snakeDir("DOWN");
-      }
-    });
+    // ================= SNAKE LOGIC =================
+    function renderSnakePreview() {
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 280, 280);
+      ctx.fillStyle = "#2ecc71"; ctx.font = "20px Arial"; ctx.textAlign = "center";
+      ctx.fillText("Press Start to Play", 140, 140);
+    }
 
-    function drawSnake() {
-      ctx.fillStyle = "#000"; // clear bg
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    function initSnake() {
+      snake = [];
+      snake[0] = { x: 9 * box, y: 10 * box };
+      food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
+      d = "RIGHT";
+      gameInterval = setInterval(updateSnake, 180);
+    }
 
+    function updateSnake() {
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 280, 280);
+
+      // Draw Snake
       for (let i = 0; i < snake.length; i++) {
-        ctx.fillStyle = (i === 0) ? "#2ecc71" : "#27ae60"; // Head green, body dark green
+        ctx.fillStyle = (i === 0) ? "#2ecc71" : "#27ae60";
         ctx.fillRect(snake[i].x, snake[i].y, box, box);
-
         ctx.strokeStyle = "black";
         ctx.strokeRect(snake[i].x, snake[i].y, box, box);
       }
 
       // Draw Food
-      ctx.fillStyle = "#e74c3c";
-      ctx.fillRect(food.x, food.y, box, box);
+      ctx.fillStyle = "#e74c3c"; ctx.fillRect(food.x, food.y, box, box);
 
-      // Old Head position
+      // Positioning
       let snakeX = snake[0].x;
       let snakeY = snake[0].y;
 
-      if (d === "LEFT") snakeX -= box;
-      if (d === "UP") snakeY -= box;
-      if (d === "RIGHT") snakeX += box;
-      if (d === "DOWN") snakeY += box;
+      if (d == "LEFT") snakeX -= box;
+      if (d == "UP") snakeY -= box;
+      if (d == "RIGHT") snakeX += box;
+      if (d == "DOWN") snakeY += box;
 
       // Eat Food
       if (snakeX === food.x && snakeY === food.y) {
         score++;
-        document.getElementById("snakeScore").innerText = score;
-
-        // Best Score Update
-        if (score > bestScore) {
-          bestScore = score;
-          localStorage.setItem('snakeBestScore', bestScore);
-          if (document.getElementById("bestScore")) {
-            document.getElementById("bestScore").innerText = bestScore;
-          }
-        }
-
-        food = {
-          x: Math.floor(Math.random() * 19 + 1) * box,
-          y: Math.floor(Math.random() * 19 + 1) * box
-        };
+        document.getElementById("currentScore").innerText = score;
+        food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
       } else {
-        // Remove tail
         snake.pop();
       }
 
-      // New Head
       let newHead = { x: snakeX, y: snakeY };
 
-      // Collision Detection
-      if (
-        snakeX < 0 || snakeX >= canvas.width ||
-        snakeY < 0 || snakeY >= canvas.height ||
-        collision(newHead, snake)
-      ) {
-        stopGame();
-        alert("Game Over! 🐍 Your Score: " + score);
+      // Collision
+      if (snakeX < 0 || snakeX >= 280 || snakeY < 0 || snakeY >= 280 || collision(newHead, snake)) {
+        gameOver();
       }
-
       snake.unshift(newHead);
     }
 
     function collision(head, array) {
       for (let i = 0; i < array.length; i++) {
-        if (head.x === array[i].x && head.y === array[i].y) {
-          return true;
-        }
+        if (head.x === array[i].x && head.y === array[i].y) return true;
       }
       return false;
     }
+
+    function snakeInput(dir) {
+      if (activeGame !== 'snake' || !isRunning || isPaused) return;
+      if (dir == "LEFT" && d != "RIGHT") d = "LEFT";
+      if (dir == "UP" && d != "DOWN") d = "UP";
+      if (dir == "RIGHT" && d != "LEFT") d = "RIGHT";
+      if (dir == "DOWN" && d != "UP") d = "DOWN";
+    }
+
+    // ================= BUS RUN LOGIC =================
+    function renderBusPreview() {
+      ctx.fillStyle = "#34495e"; ctx.fillRect(0, 0, 280, 280);
+      // Road markings
+      ctx.strokeStyle = "#fff"; ctx.setLineDash([20, 20]);
+      ctx.beginPath(); ctx.moveTo(140, 0); ctx.lineTo(140, 280); ctx.stroke();
+
+      ctx.fillStyle = "#f1c40f"; ctx.font = "20px Arial"; ctx.textAlign = "center"; ctx.setLineDash([]);
+      ctx.fillText("Bus Run 🚌", 140, 100);
+      ctx.fillStyle = "#fff"; ctx.font = "14px Arial";
+      ctx.fillText("Dodge Cars & Cows!", 140, 130);
+    }
+
+    function initBusRun() {
+      bus = { x: 125, y: 220, w: 30, h: 50 }; // Center bus
+      obstacles = [];
+      spawnTimer = 0;
+      gameInterval = setInterval(updateBusRun, 20); // 50fps
+    }
+
+    function updateBusRun() {
+      // Clear
+      ctx.fillStyle = "#34495e"; ctx.fillRect(0, 0, 280, 280);
+
+      // Moving Road Effect
+      roadOffset += roadSpeed;
+      if (roadOffset > 40) roadOffset = 0;
+      ctx.strokeStyle = "#fff"; ctx.lineWidth = 4; ctx.setLineDash([20, 20]);
+      ctx.lineDashOffset = -roadOffset;
+      ctx.beginPath(); ctx.moveTo(93, 0); ctx.lineTo(93, 280); ctx.stroke(); // Left lane
+      ctx.beginPath(); ctx.moveTo(186, 0); ctx.lineTo(186, 280); ctx.stroke(); // Right lane
+      ctx.setLineDash([]);
+
+      // Update & Draw Bus
+      ctx.fillStyle = "#f1c40f"; // Bus yellow
+      // Bus Body
+      ctx.fillRect(bus.x, bus.y, bus.w, bus.h);
+      // Windows
+      ctx.fillStyle = "#3498db";
+      ctx.fillRect(bus.x + 2, bus.y + 5, bus.w - 4, 10);
+
+      // Spawn Obstacles
+      spawnTimer++;
+      if (spawnTimer > 60) { // Every ~1.2 sec (at 50fps)
+        let lane = Math.floor(Math.random() * 3); // 0, 1, 2
+        let obsX = 20 + (lane * 93); // Rough lane centers
+        // Random type: 0=Car, 1=Cow
+        let type = Math.random() > 0.5 ? 'car' : 'cow';
+        obstacles.push({ x: obsX, y: -60, w: 30, h: 30, type: type });
+        spawnTimer = 0;
+      }
+
+      // Update & Draw Obstacles
+      for (let i = 0; i < obstacles.length; i++) {
+        let obs = obstacles[i];
+        obs.y += roadSpeed;
+
+        // Draw
+        if (obs.type === 'car') {
+          ctx.fillStyle = "#e74c3c"; // Red Car
+          ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+        } else {
+          ctx.fillStyle = "#ecf0f1"; // White Cow
+          ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+          // Cow spots
+          ctx.fillStyle = "#000";
+          ctx.fillRect(obs.x + 5, obs.y + 5, 5, 5);
+        }
+
+        // Collision
+        if (rectIntersect(bus, obs)) {
+          gameOver();
+          return;
+        }
+
+        // Score & Remove
+        if (obs.y > 280) {
+          score++;
+          document.getElementById("currentScore").innerText = score;
+          obstacles.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    function rectIntersect(r1, r2) {
+      return !(r2.x > r1.x + r1.w ||
+        r2.x + r2.w < r1.x ||
+        r2.y > r1.y + r1.h ||
+        r2.y + r2.h < r1.y);
+    }
+
+    function busInput(dir) {
+      if (activeGame !== 'busrun' || !isRunning || isPaused) return;
+      const moveAmount = 30;
+      if (dir === 'left' && bus.x > 30) bus.x -= moveAmount;
+      if (dir === 'right' && bus.x < 220) bus.x += moveAmount;
+    }
+
+    // Keyboard Mapping
+    document.addEventListener("keydown", (event) => {
+      if (document.getElementById('gameHubModal').style.display === 'flex') {
+        const key = event.keyCode;
+        if (activeGame === 'snake') {
+          if (key == 37) snakeInput("LEFT");
+          if (key == 38) snakeInput("UP");
+          if (key == 39) snakeInput("RIGHT");
+          if (key == 40) snakeInput("DOWN");
+        }
+        else if (activeGame === 'busrun') {
+          if (key == 37) busInput("left");
+          if (key == 39) busInput("right");
+        }
+      }
+    });
   </script>
   <script>
     function toggleMenu() {

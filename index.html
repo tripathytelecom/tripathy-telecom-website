@@ -939,10 +939,17 @@
       </div>
 
       <div class="snake-container">
-        <div class="score-box">Score: <span id="snakeScore">0</span></div>
+        <div class="score-container">
+          <div class="score-box">Score: <span id="snakeScore">0</span></div>
+          <div class="best-score-box">Best: <span id="bestScore">0</span></div>
+        </div>
+
         <canvas id="snakeCanvas" width="280" height="280"></canvas>
 
-        <button id="startGameBtn" onclick="startSnakeGame()">▶ Start Game</button>
+        <div class="control-btns">
+          <button id="startGameBtn" onclick="startSnakeGame()">▶ Start</button>
+          <button id="pauseGameBtn" onclick="togglePause()">⏸ Pause</button>
+        </div>
 
         <div class="d-pad">
           <div class="d-row">
@@ -1065,23 +1072,64 @@
       margin-bottom: 15px;
     }
 
-    .score-box {
-      font-size: 18px;
-      font-weight: bold;
+    .score-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
       margin-bottom: 10px;
-      color: #333;
+    }
+
+    .score-box,
+    .best-score-box {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .score-box {
+      background: #333;
+    }
+
+    .best-score-box {
+      background: #f39c12;
+    }
+
+    .control-btns {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    #startGameBtn,
+    #pauseGameBtn {
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
     #startGameBtn {
       background: #27ae60;
-      color: #fff;
-      border: none;
-      padding: 8px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 15px;
+    }
+
+    #startGameBtn:hover {
+      background: #2ecc71;
+    }
+
+    #pauseGameBtn {
+      background: #e67e22;
+    }
+
+    #pauseGameBtn:hover {
+      background: #d35400;
     }
 
     /* D-PAD */
@@ -1116,14 +1164,27 @@
   </style>
 
   <script>
+
     let snakeGameInterval;
     const canvas = document.getElementById("snakeCanvas");
     const ctx = canvas.getContext("2d");
-    const box = 14;  // grid size
+    const box = 14; // grid size
     let snake = [];
     let food = {};
     let score = 0;
+    let bestScore = localStorage.getItem('snakeBestScore') || 0;
     let d = "";
+    let isPaused = false;
+    let gameRunning = false;
+
+    // Init Best Score Display
+    // We need to wait for DOM or just ensure element exists. 
+    // Since this is inside body, it executes after HTML parsing usually, 
+    // but the element might not be replacing yet. 
+    // I will set it in startSnakeGame or ensure HTML is updated first.
+    // Ideally user sees best score immediately. 
+    // I will add a safe check or just set it in startSnakeGame for now 
+    // until HTML is updated.
 
     function toggleGameModal() {
       const modal = document.getElementById('gameModal');
@@ -1132,6 +1193,10 @@
         stopGame();
       } else {
         modal.style.display = 'flex';
+        // HTML might be updated by next step, so safe to set text here
+        if (document.getElementById("bestScore")) {
+          document.getElementById("bestScore").innerText = bestScore;
+        }
       }
     }
 
@@ -1141,20 +1206,49 @@
       snake[0] = { x: 9 * box, y: 10 * box };
       score = 0;
       d = "RIGHT"; // default direction
+      isPaused = false;
+      gameRunning = true;
+
       document.getElementById("snakeScore").innerText = score;
+      if (document.getElementById("bestScore")) {
+        document.getElementById("bestScore").innerText = bestScore;
+      }
+
+      const pauseBtn = document.getElementById("pauseGameBtn");
+      if (pauseBtn) pauseBtn.innerText = "⏸ Pause";
+
       food = {
         x: Math.floor(Math.random() * 19 + 1) * box,
         y: Math.floor(Math.random() * 19 + 1) * box
       };
-      snakeGameInterval = setInterval(drawSnake, 150); // Game Speed
+      // 20% Slower: 180ms
+      snakeGameInterval = setInterval(drawSnake, 180);
     }
 
     function stopGame() {
       clearInterval(snakeGameInterval);
+      gameRunning = false;
+    }
+
+    function togglePause() {
+      if (!gameRunning) return;
+
+      if (isPaused) {
+        // Resume
+        isPaused = false;
+        document.getElementById("pauseGameBtn").innerText = "⏸ Pause";
+        snakeGameInterval = setInterval(drawSnake, 180);
+      } else {
+        // Pause
+        isPaused = true;
+        document.getElementById("pauseGameBtn").innerText = "▶ Resume";
+        clearInterval(snakeGameInterval);
+      }
     }
 
     // DIRECTION CONTROL
     function snakeDir(direction) {
+      if (isPaused || !gameRunning) return;
       if (direction === "LEFT" && d !== "RIGHT") d = "LEFT";
       else if (direction === "UP" && d !== "DOWN") d = "UP";
       else if (direction === "RIGHT" && d !== "LEFT") d = "RIGHT";
@@ -1201,6 +1295,16 @@
       if (snakeX === food.x && snakeY === food.y) {
         score++;
         document.getElementById("snakeScore").innerText = score;
+
+        // Best Score Update
+        if (score > bestScore) {
+          bestScore = score;
+          localStorage.setItem('snakeBestScore', bestScore);
+          if (document.getElementById("bestScore")) {
+            document.getElementById("bestScore").innerText = bestScore;
+          }
+        }
+
         food = {
           x: Math.floor(Math.random() * 19 + 1) * box,
           y: Math.floor(Math.random() * 19 + 1) * box

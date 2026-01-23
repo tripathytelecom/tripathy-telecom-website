@@ -1372,7 +1372,7 @@
         isPaused = false;
         btn.innerText = "⏸ Pause";
         btn.classList.remove("paused");
-        if (activeGame === 'snake') gameInterval = setInterval(updateSnake, 180);
+        if (activeGame === 'snake') gameInterval = setInterval(updateSnake, 130);
         if (activeGame === 'busrun') gameInterval = setInterval(updateBusRun, 20); // 50fps
       } else {
         // Pause
@@ -1407,7 +1407,7 @@
       snake[0] = { x: 9 * box, y: 10 * box };
       food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
       d = "RIGHT";
-      gameInterval = setInterval(updateSnake, 180);
+      gameInterval = setInterval(updateSnake, 130);
     }
 
     function updateSnake() {

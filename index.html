@@ -754,48 +754,48 @@ footer{
         Contact on WhatsApp
       </a>
     </div>
-<!-- GAME AD START -->
-<div class="game-ad-box">
-  <h3>🎮 Play & Win!</h3>
-  <p>Catch the coin & get exciting offers</p>
+<!-- SNAKE GAME WITH BUTTON CONTROL -->
+<div class="snake-ad">
+  <h3>🐍 Snake Game</h3>
+  <canvas id="game" width="260" height="260"></canvas>
+  <p id="score">Score: 0</p>
 
-  <div id="gameArea">
-    <div id="coin">🪙</div>
+  <div class="controls">
+    <button onclick="setDir('UP')">⬆️</button><br>
+    <button onclick="setDir('LEFT')">⬅️</button>
+    <button onclick="setDir('DOWN')">⬇️</button>
+    <button onclick="setDir('RIGHT')">➡️</button>
   </div>
 
-  <p id="score">Score: 0</p>
-  <a href="https://tripathytelecom.store" class="game-cta">Visit Tripathy Telecom</a>
+  <a href="https://tripathytelecom.store" class="btn">
+    Recharge Now
+  </a>
 </div>
 
 <style>
-.game-ad-box{
-  max-width:300px;
-  background:#ffffff;
+.snake-ad{
+  width:300px;
+  background:#fff;
+  padding:12px;
   border-radius:12px;
-  padding:15px;
   text-align:center;
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
-  font-family:Arial, sans-serif;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+  font-family:Arial;
 }
-.game-ad-box h3{
-  color:#0a58ca;
-  margin-bottom:5px;
+canvas{
+  background:#000;
+  border-radius:8px;
 }
-#gameArea{
-  position:relative;
-  width:100%;
-  height:180px;
-  background:#f2f6ff;
-  border-radius:10px;
-  overflow:hidden;
-  margin:10px 0;
+.controls button{
+  margin:4px;
+  padding:10px 14px;
+  font-size:18px;
+  border:none;
+  border-radius:6px;
+  background:#0d6efd;
+  color:#fff;
 }
-#coin{
-  position:absolute;
-  font-size:32px;
-  cursor:pointer;
-}
-.game-cta{
+.btn{
   display:inline-block;
   margin-top:8px;
   padding:8px 14px;
@@ -808,27 +808,73 @@ footer{
 </style>
 
 <script>
-let score = 0;
-const coin = document.getElementById("coin");
-const gameArea = document.getElementById("gameArea");
-const scoreText = document.getElementById("score");
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
-function moveCoin(){
-  const x = Math.random() * (gameArea.clientWidth - 40);
-  const y = Math.random() * (gameArea.clientHeight - 40);
-  coin.style.left = x + "px";
-  coin.style.top = y + "px";
+const box = 13;
+let snake = [{x: 9*box, y: 9*box}];
+let direction = "RIGHT";
+let score = 0;
+
+let food = {
+  x: Math.floor(Math.random()*19+1)*box,
+  y: Math.floor(Math.random()*19+1)*box
+};
+
+function setDir(dir){
+  if(dir=="LEFT" && direction!="RIGHT") direction="LEFT";
+  if(dir=="UP" && direction!="DOWN") direction="UP";
+  if(dir=="RIGHT" && direction!="LEFT") direction="RIGHT";
+  if(dir=="DOWN" && direction!="UP") direction="DOWN";
 }
 
-coin.addEventListener("click", () => {
-  score++;
-  scoreText.innerText = "Score: " + score;
-  moveCoin();
-});
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-moveCoin();
+  snake.forEach((s,i)=>{
+    ctx.fillStyle = i==0 ? "lime" : "green";
+    ctx.fillRect(s.x,s.y,box,box);
+  });
+
+  ctx.fillStyle="red";
+  ctx.fillRect(food.x,food.y,box,box);
+
+  let headX = snake[0].x;
+  let headY = snake[0].y;
+
+  if(direction=="LEFT") headX -= box;
+  if(direction=="UP") headY -= box;
+  if(direction=="RIGHT") headX += box;
+  if(direction=="DOWN") headY += box;
+
+  if(headX==food.x && headY==food.y){
+    score++;
+    document.getElementById("score").innerText="Score: "+score;
+    food={
+      x:Math.floor(Math.random()*19+1)*box,
+      y:Math.floor(Math.random()*19+1)*box
+    };
+  } else {
+    snake.pop();
+  }
+
+  const newHead={x:headX,y:headY};
+
+  if(
+    headX<0 || headY<0 ||
+    headX>=canvas.width || headY>=canvas.height ||
+    snake.some(s=>s.x==newHead.x && s.y==newHead.y)
+  ){
+    clearInterval(game);
+    alert("Game Over! Score: "+score);
+  }
+
+  snake.unshift(newHead);
+}
+
+let game = setInterval(draw,140);
 </script>
-<!-- GAME AD END -->
+<!-- END -->
 
     <!-- 🟢 RIGHT : GOOGLE ADS -->
     <div class="ads-section">

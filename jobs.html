@@ -1,395 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Job Updates | TRIPATHY TELECOM</title>
+  <meta charset="UTF-8">
+  <title>Job Updates | TRIPATHY TELECOM</title>
 
-<style>
-body{
-  margin:0;
-  font-family: Arial, Helvetica, sans-serif;
-  background:#f4f6f8;
-}
-/* ===== Job Heading + Search ===== */
-.job-header{
-  max-width:1100px;
-  margin:20px auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+    }
 
-.job-header h1{
-  margin:0;
-  font-size:28px;
-}
+    /* ===== Job Heading + Search ===== */
+    .job-header {
+      max-width: 1100px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
 
-/* Search box */
-#jobSearch{
-  width:280px;
-  padding:10px 12px;
-  border:2px solid #ffd400;
-  border-radius:4px;
-  font-size:15px;
-  outline:none;
-}
+    .job-header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
 
-/* Mobile responsive */
-@media(max-width:768px){
-  .job-header{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+    /* Search box */
+    #jobSearch {
+      width: 280px;
+      padding: 10px 12px;
+      border: 2px solid #ffd400;
+      border-radius: 4px;
+      font-size: 15px;
+      outline: none;
+    }
 
-  #jobSearch{
-    margin-top:10px;
-    width:100%;
-  }
-}
-/* HEADER */
-header{
-  background:#000;
-  padding:12px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-header img{
-  height:55px;
-}
-nav a{
-  color:#ffd400;
-  text-decoration:none;
-  margin:0 12px;
-  font-weight:bold;
-}
-nav a:hover{
-  text-decoration:underline;
-}
+    /* Mobile responsive */
+    @media(max-width:768px) {
+      .job-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-/* PAGE */
-.container{
-  max-width:1000px;
-  margin:30px auto;
-  padding:0 15px;
-}
-h1{
-  text-align:center;
-  color:#222;
-  margin-bottom:30px;
-}
-  ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-}
-ul li {
-  margin: 6px 0;
-}
+      #jobSearch {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
 
-/* JOB CARD */
-.job{
-  background:#fff;
-  border-radius:10px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-.job h2{
-  margin:0;
-  color:#0b4db8;
-}
-.job p{
-  margin:8px 0;
-}
-.date{
-  color:#777;
-  font-size:14px;
-}
-.btn{
-  display:inline-block;
-  margin-top:10px;
-  background:#ffd400;
-  color:#000;
-  padding:10px 16px;
-  border-radius:6px;
-  font-weight:bold;
-  text-decoration:none;
-}
-.btn:hover{
-  background:#ffbf00;
-}
+    /* HEADER */
+    header {
+      background: #000;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-/* FOOTER */
-footer{
-  background:#000;
-  color:#ffd400;
-  text-align:center;
-  padding:15px;
-  margin-top:40px;
-}
-  /* ===== Job page header layout ===== */
-.job-header{
-  position: relative;
-  display: flex;
-  justify-content: center;   /* title center */
-  align-items: center;
-  margin: 20px 0;
-}
+    header img {
+      height: 55px;
+    }
 
-/* Title in center */
-.job-title{
-  font-size: 26px;
-  font-weight: bold;
-  text-align: center;
-}
+    nav a {
+      color: #ffd400;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+    }
 
-/* Search box on right */
-#jobSearch{
-  position: absolute;
-  right: 0;
-  padding: 6px 10px;
-  width: 180px;              /* chotto size */
-  border: 2px solid #f1c40f;
-  border-radius: 5px;
-  font-size: 14px;
-}
+    nav a:hover {
+      text-decoration: underline;
+    }
 
-/* Mobile responsive */
-@media(max-width:768px){
-  .job-header{
-    flex-direction: column;
-  }
+    /* PAGE */
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
 
-  #jobSearch{
-    position: static;
-    margin-top: 10px;
-    width: 90%;
-  }
-}
-/* ================= MOBILE VIEW ONLY ================= */
+    h1 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 30px;
+    }
 
-/* hide mobile elements by default */
-.mobile-top-header,
-.mobile-bottom-menu{
-  display:none;
-}
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
 
-/* ===== MOBILE SCREEN ===== */
-@media (max-width:768px){
+    ul li {
+      margin: 6px 0;
+    }
 
-  /* hide desktop header */
-  .desktop-header{
-    display:none !important;
-  }
+    /* Bullet Styles for Job Lists */
+    #latest-jobs,
+    #latest-results,
+    #latest-admit {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
 
-  /* ===== TOP HEADER ===== */
-  .mobile-top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#000;
-    padding:10px 12px;
-    position:sticky;
-    top:0;
-    z-index:9999;
-  }
+    #latest-jobs li,
+    #latest-results li,
+    #latest-admit li {
+      list-style-position: outside;
+    }
 
-  .mobile-logo{
-    height:38px;
-    cursor:pointer;
-  }
+    /* JOB CARD */
+    .job {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 
-  .mobile-social a{
-    font-size:22px;
-    margin-left:10px;
-    text-decoration:none;
-  }
+    .job h2 {
+      margin: 0;
+      color: #0b4db8;
+    }
 
-  /* ===== BOTTOM MENU ===== */
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    padding:10px 0;
-    z-index:9999;
-  }
+    .job p {
+      margin: 8px 0;
+    }
 
-  .mobile-bottom-menu a,
-  .mobile-service{
-    font-size:28px;
-    color:#ffd400;
-    position:relative;
-    text-decoration:none;
-  }
+    .date {
+      color: #777;
+      font-size: 14px;
+    }
 
-  .mobile-service{
-    cursor:pointer;
-  }
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: #ffd400;
+      color: #000;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-  .service-popup{
-    display:none;
-    position:absolute;
-    bottom:55px;
-    left:-25px;
-    background:#111;
-    border:1px solid #ffd400;
-    border-radius:8px;
-  }
+    .btn:hover {
+      background: #ffbf00;
+    }
 
-  .service-popup a{
-    display:block;
-    padding:8px 12px;
-    font-size:14px;
-    white-space:nowrap;
-  }
+    /* FOOTER */
+    footer {
+      background: #000;
+      color: #ffd400;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
 
-  .mobile-service:hover .service-popup{
-    display:block;
-  }
+    /* ===== Job page header layout ===== */
+    .job-header {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      /* title center */
+      align-items: center;
+      margin: 20px 0;
+    }
 
-  /* space for bottom menu */
-  body{
-    padding-bottom:70px;
-  }
-}
-/* ================= MOBILE VIEW ONLY ================= */
-@media (max-width:768px){
+    /* Title in center */
+    .job-title {
+      font-size: 26px;
+      font-weight: bold;
+      text-align: center;
+    }
 
-  /* 🔴 DESKTOP / WEB MENU HIDE */
-  header,
-  nav,
-  .desktop-header,
-  .menu,
-  .navbar,
-  .top-menu{
-    display:none !important;
-  }
+    /* Search box on right */
+    #jobSearch {
+      position: absolute;
+      right: 0;
+      padding: 6px 10px;
+      width: 180px;
+      /* chotto size */
+      border: 2px solid #f1c40f;
+      border-radius: 5px;
+      font-size: 14px;
+    }
 
-  /* ===== MOBILE TOP HEADER ===== */
-  .mobile-top-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#000;
-    padding:10px 12px;
-    position:sticky;
-    top:0;
-    z-index:9999;
-  }
+    /* Mobile responsive */
+    @media(max-width:768px) {
+      .job-header {
+        flex-direction: column;
+      }
 
-  /* ===== MOBILE BOTTOM MENU ===== */
-  .mobile-bottom-menu{
-    display:flex;
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ffd400;
-    justify-content:space-around;
-    padding:10px 0;
-    z-index:9999;
-  }
-}
-</style>
+      #jobSearch {
+        position: static;
+        margin-top: 10px;
+        width: 90%;
+      }
+    }
+
+    /* ================= MOBILE VIEW ONLY ================= */
+
+    /* hide mobile elements by default */
+    .mobile-top-header,
+    .mobile-bottom-menu {
+      display: none;
+    }
+
+    /* ===== MOBILE SCREEN ===== */
+    @media (max-width:768px) {
+
+      /* hide desktop header */
+      .desktop-header {
+        display: none !important;
+      }
+
+      /* ===== TOP HEADER ===== */
+      .mobile-top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        padding: 10px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+      }
+
+      .mobile-logo {
+        height: 38px;
+        cursor: pointer;
+      }
+
+      .mobile-social a {
+        font-size: 22px;
+        margin-left: 10px;
+        text-decoration: none;
+      }
+
+      /* ===== BOTTOM MENU ===== */
+      .mobile-bottom-menu {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #000;
+        border-top: 2px solid #ffd400;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 9999;
+      }
+
+      .mobile-bottom-menu a,
+      .mobile-service {
+        font-size: 28px;
+        color: #ffd400;
+        position: relative;
+        text-decoration: none;
+      }
+
+      .mobile-service {
+        cursor: pointer;
+      }
+
+      .service-popup {
+        display: none;
+        position: absolute;
+        bottom: 55px;
+        left: -25px;
+        background: #111;
+        border: 1px solid #ffd400;
+        border-radius: 8px;
+      }
+
+      .service-popup a {
+        display: block;
+        padding: 8px 12px;
+        font-size: 14px;
+        white-space: nowrap;
+      }
+
+      .mobile-service:hover .service-popup {
+        display: block;
+      }
+
+      /* space for bottom menu */
+      body {
+        padding-bottom: 70px;
+      }
+    }
+
+    /* ================= MOBILE VIEW ONLY ================= */
+    @media (max-width:768px) {
+
+      /* 🔴 DESKTOP / WEB MENU HIDE */
+      header,
+      nav,
+      .desktop-header,
+      .menu,
+      .navbar,
+      .top-menu {
+        display: none !important;
+      }
+
+      /* ===== MOBILE TOP HEADER ===== */
+      .mobile-top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        padding: 10px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+      }
+
+      /* ===== MOBILE BOTTOM MENU ===== */
+      .mobile-bottom-menu {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #000;
+        border-top: 2px solid #ffd400;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 9999;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<!-- 📱 MOBILE TOP HEADER -->
-<div class="mobile-top-header">
-  <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
+  <!-- 📱 MOBILE TOP HEADER -->
+  <div class="mobile-top-header">
+    <img src="logo.png" class="mobile-logo" onclick="location.href='index.html'">
 
-  <div class="mobile-social">
-    <a href="https://wa.me/918670244552" target="_blank">🟢</a>
-    <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>
-    <a href="https://youtube.com/tripathytelecom" target="_blank">🔴</a>
+    <div class="mobile-social">
+      <a href="https://wa.me/918670244552" target="_blank">🟢</a>
+      <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>
+      <a href="https://youtube.com/tripathytelecom" target="_blank">🔴</a>
+    </div>
   </div>
-</div>
 
-<header>
-  <a href="index.html">
-    <img src="logo.png" alt="Tripathy Telecom">
-  </a>
+  <header>
+    <a href="index.html">
+      <img src="logo.png" alt="Tripathy Telecom">
+    </a>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="products.html">Products</a>
-    <a href="jobs.html">Jobs</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="products.html">Products</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-<div class="container">
+  <div class="container">
 
-<!-- JOB PAGE TITLE + SEARCH BAR -->
-<div class="job-header">
-  <h2 class="job-title">📢 Job Updates – Tripathy Telecom</h2>
+    <!-- JOB PAGE TITLE + SEARCH BAR -->
+    <div class="job-header">
+      <h2 class="job-title">📢 Job Updates – Tripathy Telecom</h2>
 
-  <input 
-    type="text" 
-    id="jobSearch" 
-    placeholder="Search..." 
-    onkeypress="handleSearchEnter(event)"
-  >
-</div>
-
-  <div style="display:flex;gap:15px;flex-wrap:wrap">
-
-    <!-- Latest Jobs -->
-    <div style="flex:1;min-width:280px;border:2px solid #800040">
-      <h3 style="background:#800040;color:#fff;padding:8px;text-align:center">
-        Latest Jobs
-      </h3>
-      <ul id="latest-jobs"></ul>
+      <input type="text" id="jobSearch" placeholder="Search..." onkeypress="handleSearchEnter(event)">
     </div>
 
-    <!-- Latest Result -->
-    <div style="flex:1;min-width:280px;border:2px solid #003366">
-      <h3 style="background:#003366;color:#fff;padding:8px;text-align:center">
-        Latest Result
-      </h3>
-      <ul id="latest-results"></ul>
-    </div>
+    <div style="display:flex;gap:15px;flex-wrap:wrap">
 
-    <!-- Admit Card -->
-    <div style="flex:1;min-width:280px;border:2px solid #006600">
-      <h3 style="background:#006600;color:#fff;padding:8px;text-align:center">
-        Admit Card
-      </h3>
-      <ul id="latest-admit"></ul>
+      <!-- Latest Jobs -->
+      <div style="flex:1;min-width:280px;border:2px solid #800040">
+        <h3 style="background:#800040;color:#fff;padding:8px;text-align:center">
+          Latest Jobs
+        </h3>
+        <ul id="latest-jobs"></ul>
+      </div>
+
+      <!-- Latest Result -->
+      <div style="flex:1;min-width:280px;border:2px solid #003366">
+        <h3 style="background:#003366;color:#fff;padding:8px;text-align:center">
+          Latest Result
+        </h3>
+        <ul id="latest-results"></ul>
+      </div>
+
+      <!-- Admit Card -->
+      <div style="flex:1;min-width:280px;border:2px solid #006600">
+        <h3 style="background:#006600;color:#fff;padding:8px;text-align:center">
+          Admit Card
+        </h3>
+        <ul id="latest-admit"></ul>
+      </div>
+
     </div>
 
   </div>
 
-</div>
+  <footer>
+    © 2025 TRIPATHY TELECOM
+  </footer>
+  <script src="jobs.js"></script>
+  <!-- 📱 MOBILE BOTTOM MENU -->
+  <div class="mobile-bottom-menu">
+    <a href="index.html">🏠</a>
 
-<footer>
-© 2025 TRIPATHY TELECOM
-</footer>
-<script src="jobs.js"></script>
-<!-- 📱 MOBILE BOTTOM MENU -->
-<div class="mobile-bottom-menu">
-  <a href="index.html">🏠</a>
-
-  <div class="mobile-service">
-    🛠️
-    <div class="service-popup">
-      <a href="recharge.html">🔁 Recharge</a>
-      <a href="pan-card.html">🪪 PAN Card</a>
+    <div class="mobile-service">
+      🛠️
+      <div class="service-popup">
+        <a href="recharge.html">🔁 Recharge</a>
+        <a href="pan-card.html">🪪 PAN Card</a>
+      </div>
     </div>
-  </div>
 
-  <a href="products.html">📦</a>
-  <a href="jobs.html">💼</a>
-</div>
+    <a href="products.html">📦</a>
+    <a href="jobs.html">💼</a>
+  </div>
 
 </body>
+
 </html>

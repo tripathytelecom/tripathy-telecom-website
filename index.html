@@ -721,6 +721,35 @@
         -webkit-tap-highlight-color: transparent;
       }
     }
+
+    /* 📲 APP DOWNLOAD ICON */
+    .mobile-app-btn {
+      font-size: 26px;
+      text-decoration: none;
+      animation: appBlink 1.2s infinite;
+    }
+
+    /* blink animation */
+    @keyframes appBlink {
+      0% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.4
+      }
+
+      100% {
+        opacity: 1
+      }
+    }
+
+    /* ===== SHOW ONLY ON MOBILE ===== */
+    @media(min-width: 769px) {
+      .mobile-top-header {
+        display: none;
+      }
+    }
   </style>
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
@@ -730,28 +759,9 @@
         appId: "030ab637-e25e-4a1f-8193-cdac0c397245",
       });
     });
-/* 📲 APP DOWNLOAD ICON */
-.mobile - app - btn{
-      font - size: 26px;
-      text - decoration: none;
-      animation:appBlink 1.2s infinite;
-    }
-
-    /* blink animation */
-    @keyframes appBlink{
-      0 % { opacity: 1 }
-      50 % { opacity: 0.4 }
-      100 % { opacity: 1 }
-    }
-
-    /* ===== SHOW ONLY ON MOBILE ===== */
-    @media(min - width: 769px) {
-  .mobile - top - header{
-        display: none;
-      }
-    }
-
   </script>
+
+
 
 </head>
 
@@ -956,6 +966,11 @@
           <div class="game-name">Bus Run</div>
           <div class="game-desc">Dodge Traffic!</div>
         </div>
+        <div class="game-card" onclick="launchGame('space')">
+          <div class="game-icon">🚀</div>
+          <div class="game-name">Space Shooter</div>
+          <div class="game-desc">Blast Meteors!</div>
+        </div>
       </div>
 
       <!-- 2. GAME CONTAINER (Active Game) -->
@@ -988,6 +1003,13 @@
         <div id="busControls" class="bus-controls" style="display:none;">
           <button class="bus-btn" ontouchstart="busInput('left')" onmousedown="busInput('left')">⬅ Left</button>
           <button class="bus-btn" ontouchstart="busInput('right')" onmousedown="busInput('right')">Right ➡</button>
+        </div>
+
+        <!-- SPACE SHOOTER CONTROLS -->
+        <div id="spaceControls" class="space-controls" style="display:none;">
+          <button class="bus-btn" ontouchstart="spaceInput('left')" onmousedown="spaceInput('left')">⬅</button>
+          <button class="fire-btn" onclick="spaceShoot()">🔥 FIRE</button>
+          <button class="bus-btn" ontouchstart="spaceInput('right')" onmousedown="spaceInput('right')">➡</button>
         </div>
       </div>
 
@@ -1267,6 +1289,32 @@
       transform: translateY(2px);
       box-shadow: 0 2px 0 #2c3e50;
     }
+
+    /* SPACE SHOOTER CONTROLS */
+    .space-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 280px;
+      margin: 0 auto;
+      gap: 10px;
+    }
+
+    .fire-btn {
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      flex: 1;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #c0392b;
+    }
+
+    .fire-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #c0392b;
+    }
   </style>
 
   <script>
@@ -1291,6 +1339,12 @@
     let roadSpeed = 3;
     let spawnTimer = 0;
     let roadOffset = 0;
+
+    // Space Shooter Vars
+    let ship = { x: 125, y: 240, w: 30, h: 30 };
+    let bullets = [];
+    let meteors = [];
+    let spaceTimer = 0;
 
     function initGlobals() {
       canvas = document.getElementById("gameCanvas");
@@ -1325,6 +1379,7 @@
       // UI Cleanup per game
       document.getElementById("snake controls").style.display = 'none';
       document.getElementById("busControls").style.display = 'none';
+      document.getElementById("spaceControls").style.display = 'none';
       document.getElementById("mainActionBtn").innerText = "▶ Start";
       document.getElementById("currentScore").innerText = "0";
 
@@ -1340,6 +1395,10 @@
         document.getElementById("gameTitle").innerText = "🚌 Bus Run";
         document.getElementById("busControls").style.display = 'flex';
         renderBusPreview();
+      } else if (game === 'space') {
+        document.getElementById("gameTitle").innerText = "🚀 Space Shooter";
+        document.getElementById("spaceControls").style.display = 'flex';
+        renderSpacePreview();
       }
     }
 
@@ -1362,6 +1421,7 @@
 
       if (activeGame === 'snake') initSnake();
       if (activeGame === 'busrun') initBusRun();
+      if (activeGame === 'space') initSpace();
     }
 
     function stopActiveGame() {
@@ -1381,6 +1441,7 @@
         btn.classList.remove("paused");
         if (activeGame === 'snake') gameInterval = setInterval(updateSnake, 130);
         if (activeGame === 'busrun') gameInterval = setInterval(updateBusRun, 20); // 50fps
+        if (activeGame === 'space') gameInterval = setInterval(updateSpace, 20);
       } else {
         // Pause
         isPaused = true;
@@ -1586,8 +1647,124 @@
           if (key == 37) busInput("left");
           if (key == 39) busInput("right");
         }
+        else if (activeGame === 'space') {
+          if (key == 37) spaceInput("left");
+          if (key == 39) spaceInput("right");
+          if (key == 32) spaceShoot(); // Spacebar to shoot
+        }
       }
     });
+
+    // ================= SPACE SHOOTER LOGIC =================
+    function renderSpacePreview() {
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 280, 280);
+      // Stars
+      for (let i = 0; i < 20; i++) {
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(Math.random() * 280, Math.random() * 280, 2, 2);
+      }
+      ctx.fillStyle = "#e74c3c"; ctx.font = "20px Arial"; ctx.textAlign = "center";
+      ctx.fillText("Space Shooter 🚀", 140, 120);
+      ctx.fillStyle = "#ccc"; ctx.font = "14px Arial";
+      ctx.fillText("Shoot Meteors!", 140, 150);
+    }
+
+    function initSpace() {
+      ship = { x: 125, y: 240, w: 30, h: 30 };
+      bullets = [];
+      meteors = [];
+      spaceTimer = 0;
+      gameInterval = setInterval(updateSpace, 20);
+    }
+
+    function updateSpace() {
+      // Clear
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 280, 280);
+
+      // Moving Stars Background
+      if (Math.random() > 0.8) {
+        ctx.fillStyle = "rgba(255,255,255,0.5)";
+        ctx.fillRect(Math.random() * 280, Math.random() * 280, 2, 2);
+      }
+
+      // Draw Ship
+      ctx.fillStyle = "#3498db";
+      // ship body
+      ctx.beginPath();
+      ctx.moveTo(ship.x + 15, ship.y);
+      ctx.lineTo(ship.x + 30, ship.y + 30);
+      ctx.lineTo(ship.x, ship.y + 30);
+      ctx.fill();
+
+      // Bullets
+      for (let i = 0; i < bullets.length; i++) {
+        let b = bullets[i];
+        b.y -= 5;
+        ctx.fillStyle = "#f1c40f";
+        ctx.fillRect(b.x, b.y, b.w, b.h);
+        if (b.y < 0) {
+          bullets.splice(i, 1);
+          i--;
+        }
+      }
+
+      // Spawn Meteors
+      spaceTimer++;
+      if (spaceTimer > 40) { // Every ~0.8s
+        let mSize = Math.floor(Math.random() * 20) + 15; // 15-35px
+        let mX = Math.floor(Math.random() * (280 - mSize));
+        meteors.push({ x: mX, y: -40, w: mSize, h: mSize });
+        spaceTimer = 0;
+      }
+
+      // Meteors Logic
+      for (let i = 0; i < meteors.length; i++) {
+        let m = meteors[i];
+        m.y += 2; // speed
+
+        ctx.fillStyle = "#7f8c8d";
+        ctx.fillRect(m.x, m.y, m.w, m.h); // Square meteors for simplicity
+
+        // Collision Ship vs Meteor
+        if (rectIntersect(ship, m)) {
+          gameOver();
+          return;
+        }
+
+        // Collision Bullet vs Meteor
+        for (let j = 0; j < bullets.length; j++) {
+          let b = bullets[j];
+          if (rectIntersect(b, m)) {
+            // Destroy both
+            score += 10;
+            document.getElementById("currentScore").innerText = score;
+            meteors.splice(i, 1);
+            bullets.splice(j, 1);
+            i--;
+            break; // break bullet loop
+          }
+        }
+
+        // Passed bottom
+        if (meteors[i] && meteors[i].y > 280) { // check existence because splicing
+          meteors.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    function spaceInput(dir) {
+      if (activeGame !== 'space' || !isRunning || isPaused) return;
+      const speed = 20;
+      if (dir === 'left' && ship.x > 0) ship.x -= speed;
+      if (dir === 'right' && ship.x < 250) ship.x += speed;
+    }
+
+    function spaceShoot() {
+      if (activeGame !== 'space' || !isRunning || isPaused) return;
+      // Spawn bullet at ship nose
+      bullets.push({ x: ship.x + 13, y: ship.y, w: 4, h: 10 });
+    }
   </script>
   <script>
     function toggleMenu() {

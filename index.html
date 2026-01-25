@@ -606,6 +606,133 @@
       }
     }
 
+    /* ---------- JOB UPDATES SECTION ---------- */
+    .job-updates-section {
+      text-align: center;
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    .blink-btn-large {
+      background: #ff0000;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 25px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+      animation: bigPulse 1.5s infinite;
+      border: 2px solid #fff;
+    }
+
+    @keyframes bigPulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+      }
+
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+      }
+    }
+
+    .updates-box {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .update-col {
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .update-col h4 {
+      background: linear-gradient(to right, #000, #333);
+      color: #ffd400;
+      margin: 0;
+      padding: 12px;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .marquee-vertical {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      background: #fff;
+      padding: 0;
+    }
+
+    .update-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      width: 100%;
+      /* Start from bottom and scroll to top */
+      animation: scrollUp 12s linear infinite;
+    }
+
+    .update-list li {
+      padding: 10px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+      text-align: left;
+      color: #333;
+    }
+
+    .update-list li a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+      display: block;
+    }
+
+    .update-list li a:hover {
+      color: #0a58ca;
+      text-decoration: underline;
+    }
+
+    .update-list li::before {
+      content: '🆕';
+      margin-right: 6px;
+      font-size: 12px;
+    }
+
+    /* Pause on hover */
+    .marquee-vertical:hover .update-list {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollUp {
+      0% {
+        top: 100%;
+      }
+
+      100% {
+        top: -120%;
+      }
+    }
+
     .hero-center p {
       font-size: 18px !important;
       margin: 10px 0 22px;
@@ -945,6 +1072,45 @@
             Available
           </div>
         </div>
+
+        <!-- 🔥 JOB UPDATES SECTION 🔥 -->
+        <div class="job-updates-section">
+          <a href="jobs.html" class="blink-btn-large">
+            🔥 GOVT JOBS NOTIFICATION 🔥
+          </a>
+
+          <div class="updates-box">
+            <!-- Jobs -->
+            <div class="update-col">
+              <h4>Latest Jobs</h4>
+              <div class="marquee-vertical">
+                <ul id="latest-jobs" class="update-list">
+                  <li>Loading Jobs...</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Admit -->
+            <div class="update-col">
+              <h4>Admit Card</h4>
+              <div class="marquee-vertical">
+                <ul id="latest-admit" class="update-list">
+                  <li>Loading Admit Cards...</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Result -->
+            <div class="update-col">
+              <h4>Latest Result</h4>
+              <div class="marquee-vertical">
+                <ul id="latest-results" class="update-list">
+                  <li>Loading Results...</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
 
@@ -1007,6 +1173,9 @@
 
   <!-- 🎮 FLOAT GAME BUTTON -->
   <div class="float-game-btn" onclick="openGameHub()">🎮</div>
+
+  <!-- 🧩 LOAD JOBS SCRIPT -->
+  <script src="jobs.js"></script>
 
   <!-- 🎮 GAME HUB MODAL -->
   <div id="gameHubModal" class="game-modal">

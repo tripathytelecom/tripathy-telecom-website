@@ -1,98 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Job Details | Tripathy Telecom</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Details | Tripathy Telecom</title>
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
-<style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:#f5f5f5;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #f5f5f5;
+    }
 
-/* ===== HEADER ===== */
-.header{
-  background:#000;
-  color:#ffd400;
-  padding:10px 20px;
-  display:flex;
-  align-items:center;
-}
-.header img{
-  height:45px;
-  cursor:pointer;
-}
-.menu{
-  margin-left:auto;   /* 🔑 menu ডানদিকে যাবে */
-}
-.menu a{
-  color:#ffd400;
-  margin:0 12px;
-  text-decoration:none;
-  font-weight:bold;
-}
+    /* ===== HEADER ===== */
+    .header {
+      background: #000;
+      color: #ffd400;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+    }
 
-/* ===== CONTENT ===== */
-.container{
-  max-width:900px;
-  margin:30px auto;
-  background:#fff;
-  padding:25px;
-}
+    .header img {
+      height: 45px;
+      cursor: pointer;
+    }
 
-/* ===== BACK BUTTON ===== */
-.back-btn{
-  display:inline-block;
-  margin-top:25px;
-  background:#ffd400;
-  color:#000;
-  padding:10px 18px;
-  font-weight:bold;
-  text-decoration:none;
-  border-radius:4px;
-}
+    .menu {
+      margin-left: auto;
+      /* 🔑 menu ডানদিকে যাবে */
+    }
 
-/* ===== FOOTER ===== */
-.footer{
-  background:#000;
-  color:#ffd400;
-  text-align:center;
-  padding:12px;
-  margin-top:40px;
-}
-</style>
+    .menu a {
+      color: #ffd400;
+      margin: 0 12px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* ===== CONTENT ===== */
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 25px;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      display: inline-block;
+      margin-top: 25px;
+      background: #ffd400;
+      color: #000;
+      padding: 10px 18px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #000;
+      color: #ffd400;
+      text-align: center;
+      padding: 12px;
+      margin-top: 40px;
+    }
+
+    /* ===== MOBILE BOTTOM MENU ===== */
+    .mobile-bottom-menu {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #000;
+      border-top: 2px solid #ffd400;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 9999;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .mobile-bottom-menu a,
+    .mobile-service {
+      font-size: 28px;
+      color: #ffd400;
+      position: relative;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .service-popup {
+      display: none;
+      position: absolute;
+      bottom: 55px;
+      left: -25px;
+      background: #111;
+      border: 1px solid #ffd400;
+      border-radius: 8px;
+      z-index: 10000;
+    }
+
+    .service-popup a {
+      display: block;
+      padding: 8px 12px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .mobile-service:hover .service-popup {
+      display: block;
+    }
+
+    /* Adjust body padding so content isn't hidden behind menu */
+    @media(max-width:768px) {
+      .mobile-bottom-menu {
+        display: flex
+      }
+
+      body {
+        padding-bottom: 70px
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ===== HEADER ===== -->
-<div class="header">
-  <img src="/logo.png" alt="Tripathy Telecom" onclick="location.href='/'">
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <img src="/logo.png" alt="Tripathy Telecom" onclick="location.href='/'">
 
-  <div class="menu">
-    <a href="/">Home</a>
-    <a href="/services">Services</a>
-    <a href="/products">Products</a>
-    <a href="/jobs">Jobs</a>
-    <a href="/contact">Contact</a>
+    <div class="menu">
+      <a href="/">Home</a>
+      <a href="/services">Services</a>
+      <a href="/products">Products</a>
+      <a href="/jobs">Jobs</a>
+      <a href="/contact">Contact</a>
+    </div>
   </div>
-</div>
 
-<!-- ===== CONTENT ===== -->
-<div class="container">
-  <div id="details"></div>
+  <!-- ===== CONTENT ===== -->
+  <div class="container">
+    <div id="details"></div>
 
-  <a class="back-btn" href="/jobs">← Back to Jobs</a>
-</div>
+    <a class="back-btn" href="/jobs">← Back to Jobs</a>
+  </div>
 
-<!-- ===== FOOTER ===== -->
-<div class="footer">
-  © 2025 TRIPATHY TELECOM
-</div>
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    © 2025 TRIPATHY TELECOM
+  </div>
 
-<script src="job-details.js"></script>
+  <script src="job-details.js"></script>
+  <!-- 📱 MOBILE BOTTOM MENU -->
+  <div class="mobile-bottom-menu">
+    <a href="index.html">🏠</a>
+
+    <div class="mobile-service">
+      🛠️
+      <div class="service-popup">
+        <a href="recharge.html">🔁 Recharge</a>
+        <a href="pan-card.html">🪪 PAN Card</a>
+      </div>
+    </div>
+
+    <a href="products.html">📦</a>
+    <a href="jobs.html">💼</a>
+  </div>
+
 </body>
+
 </html>

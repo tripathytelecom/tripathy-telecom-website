@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Tycoon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #171717;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .animate-slideInUp {
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen overflow-hidden bg-neutral-900 text-white flex flex-col">
+
+    <!-- HEADER -->
+    <div class="bg-neutral-800 p-4 flex justify-between items-center shadow-md z-10 shrink-0">
+        <div class="flex items-center gap-4">
+            <button onclick="window.location.href='index.html'"
+                class="text-neutral-400 hover:text-white transition-colors">
+                &larr; Back
+            </button>
+            <div class="flex flex-col">
+                <span class="text-xs text-neutral-400 font-bold tracking-widest uppercase">Fleet Funds</span>
+                <span id="moneyDisplay" class="text-2xl font-bold text-green-400 font-mono tracking-widest">₹0.00</span>
+            </div>
+        </div>
+        <div class="text-right">
+            <div class="text-xs text-neutral-500 uppercase tracking-widest">Revenue Rate</div>
+            <div class="flex items-center justify-end text-yellow-400 font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <span id="epsDisplay">+₹0.00/s</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- WELCOME MODAL -->
+    <div id="welcomeModal"
+        class="hidden absolute inset-0 bg-black/80 z-50 flex items-center justify-center animate-fadeIn">
+        <div class="bg-neutral-800 p-6 rounded-2xl text-center max-w-xs border border-yellow-500/30 shadow-2xl">
+            <h3 class="text-xl font-bold text-yellow-500 mb-2">Welcome Back!</h3>
+            <div id="welcomeAmount" class="text-4xl font-bold text-green-400 mb-6 font-mono">₹0.00</div>
+            <button onclick="closeWelcome()"
+                class="w-full py-3 bg-yellow-600 hover:bg-yellow-500 rounded-xl font-bold transition-transform active:scale-95 text-white">COLLECT</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div id="mainContainer" class="flex-1 relative overflow-hidden">
+
+        <!-- GARAGE SCREEN -->
+        <div id="garageScreen" class="absolute inset-0 overflow-y-auto p-4 space-y-6 animate-slideInUp">
+
+            <!-- BUS STATUS CARD -->
+            <div id="busStatusCard" class="p-6 rounded-2xl border-2 transition-colors duration-300">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-lg font-bold flex items-center text-white"><span class="mr-2 text-2xl">🚌</span> MY
+                        BUS</h2>
+                    <span id="statusBadge" class="px-3 py-1 rounded-full text-xs font-bold transition-all">READY</span>
+                </div>
+
+                <!-- Action Button Area -->
+                <div id="actionArea">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- UPGRADES LIST -->
+            <div class="grid grid-cols-1 gap-3 pb-20">
+                <h3 class="text-neutral-400 text-sm font-bold uppercase tracking-widest">Buy Fleet Vehicles</h3>
+                <div id="vehicleList" class="space-y-3">
+                    <!-- Vehicles injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- DRIVING SCREEN (Canvas) -->
+        <div id="drivingScreen" class="hidden absolute inset-0 bg-neutral-900 cursor-pointer touch-none">
+            <canvas id="gameCanvas" class="block w-full h-full"></canvas>
+
+            <!-- In-Game HUD -->
+            <div
+                class="absolute top-4 right-4 text-white font-mono font-bold text-2xl drop-shadow-md z-10 pointer-events-none">
+                <span id="scoreHUD">₹0</span>
+            </div>
+
+            <!-- Tutorial Hint -->
+            <div id="tutorialHint"
+                class="absolute bottom-20 w-full text-center text-white/50 text-sm pointer-events-none animate-pulse">
+                &larr; Drag or Swipe to Steer &rarr;
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIG & CONSTANTS ---
+        const VEHICLES = {
+            auto: { name: 'Auto Rickshaw', cost: 150, eps: 0.03, icon: '🛺' },
+            taxi: { name: 'Taxi Cab', cost: 800, eps: 0.15, icon: '🚕' },
+            minibus: { name: 'Mini Bus', cost: 3500, eps: 0.80, icon: '🚐' },
+            coach: { name: 'Luxury Coach', cost: 20000, eps: 5.00, icon: '🚌' },
+        };
+        const REPAIR_COST = 25;
+        const REPAIR_TIME_MS = 30000;
+        const STORAGE_KEY = 'trafficTycoon_v1';
+        const LANES = [0.2, 0.5, 0.8];
+        const PLAYER_WIDTH = 45;
+        const PLAYER_HEIGHT = 85;
+
+        // --- STATE ---
+        let state = {
+            money: 100,
+            inventory: { auto: 0, taxi: 0, minibus: 0, coach: 0 },
+            status: 'READY', // 'READY' | 'DAMAGED'
+            damageTimestamp: null,
+            lastSaveTime: Date.now()
+        };
+
+        let mode = 'GARAGE'; // 'GARAGE' | 'DRIVING'
+        let repairInterval = null;
+        let repairTimeLeft = 0;
+
+        // --- GAME LOOP VARS ---
+        let canvas, ctx;
+        let animationFrameId;
+        let game = {
+            width: 0, height: 0,
+            busX: 0,
+            gameOver: false,
+            score: 0,
+            moneyEarnedSession: 0,
+            roadY: 0,
+            lastTime: 0,
+            obstacles: [],
+            coins: [],
+            particles: []
+        };
+        let input = { isDragging: false, lastX: 0 };
+
+        // --- INIT ---
+        window.onload = () => {
+            loadState();
+            setupIncomeTicker();
+            setupAutoSave();
+            renderUI();
+
+            // Input Listeners
+            const touchZone = document.getElementById('drivingScreen');
+            touchZone.addEventListener('mousedown', handleInputStart);
+            touchZone.addEventListener('mousemove', handleInputMove);
+            window.addEventListener('mouseup', handleInputEnd);
+
+            touchZone.addEventListener('touchstart', (e) => handleInputStart(e.touches[0]), { passive: false });
+            touchZone.addEventListener('touchmove', (e) => { e.preventDefault(); handleInputMove(e.touches[0]); }, { passive: false });
+            touchZone.addEventListener('touchend', (e) => { e.preventDefault(); handleInputEnd(); }, { passive: false });
+
+            // Keyboard
+            window.addEventListener('keydown', (e) => {
+                if (mode !== 'DRIVING') return;
+                const speed = 15;
+                if (e.key === 'ArrowLeft') game.busX = Math.max(game.width * 0.1, game.busX - speed);
+                if (e.key === 'ArrowRight') game.busX = Math.min(game.width * 0.9, game.busX + speed);
+            });
+        };
+
+        // --- PERSISTENCE ---
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const loaded = JSON.parse(saved);
+                    const now = Date.now();
+                    const secondsOffline = (now - loaded.lastSaveTime) / 1000;
+
+                    // Calc Offline Earnings
+                    let eps = calculateEPS(loaded.inventory);
+                    const earned = Math.min(secondsOffline * eps, 86400 * eps); // Cap 24h
+
+                    if (earned > 1) {
+                        loaded.money += earned;
+                        showWelcome(earned);
+                    }
+
+                    state = { ...loaded, lastSaveTime: now };
+                } catch (e) { console.error("Save corrupted", e); }
+            }
+            // Check repair status
+            if (state.status === 'DAMAGED') {
+                startRepairTimer();
+            }
+        }
+
+        function saveState() {
+            state.lastSaveTime = Date.now();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function setupAutoSave() {
+            setInterval(saveState, 5000);
+        }
+
+        function setupIncomeTicker() {
+            setInterval(() => {
+                const eps = calculateEPS(state.inventory);
+                if (eps > 0) {
+                    state.money += eps;
+                    updateMoneyUI();
+                }
+            }, 1000);
+        }
+
+        function calculateEPS(inv) {
+            let eps = 0;
+            for (let type in inv) {
+                eps += inv[type] * VEHICLES[type].eps;
+            }
+            return eps;
+        }
+
+        // --- UI RENDERER ---
+        function formatMoney(n) { return '₹' + n.toFixed(2); }
+
+        function renderUI() {
+            // Header
+            updateMoneyUI();
+
+            // Mode Switching
+            document.getElementById('garageScreen').style.display = mode === 'GARAGE' ? 'block' : 'none';
+            document.getElementById('drivingScreen').style.display = mode === 'DRIVING' ? 'block' : 'none';
+
+            if (mode === 'GARAGE') renderGarage();
+        }
+
+        function updateMoneyUI() {
+            document.getElementById('moneyDisplay').innerText = formatMoney(state.money);
+            document.getElementById('epsDisplay').innerText = '+' + formatMoney(calculateEPS(state.inventory)) + '/s';
+            if (mode === 'GARAGE') renderGarageButtons(); // Re-render buttons to update disabled states
+        }
+
+        function showWelcome(amount) {
+            document.getElementById('welcomeAmount').innerText = formatMoney(amount);
+            document.getElementById('welcomeModal').classList.remove('hidden');
+        }
+        function closeWelcome() {
+            document.getElementById('welcomeModal').classList.add('hidden');
+        }
+
+        // --- GARAGE LOGIC ---
+        function renderGarage() {
+            const card = document.getElementById('busStatusCard');
+            const badge = document.getElementById('statusBadge');
+            const actionArea = document.getElementById('actionArea');
+
+            if (state.status === 'READY') {
+                card.className = "p-6 rounded-2xl border-2 transition-colors duration-300 border-green-500/30 bg-neutral-800";
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-green-500/20 text-green-400";
+                badge.innerText = "READY";
+
+                actionArea.innerHTML = `
+                    <button onclick="startDriving()" class="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 rounded-xl font-black text-xl tracking-widest shadow-lg flex items-center justify-center gap-2 transform transition-all hover:scale-[1.02] active:scale-95 text-white">
+                        <svg class="w-6 h-6 fill-current animate-pulse" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        START SHIFT
+                    </button>
+                `;
+            } else {
+                card.className = "p-6 rounded-2xl border-2 transition-colors duration-300 border-red-500/50 bg-red-900/10";
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-red-500 animate-pulse text-white";
+                badge.innerText = "DAMAGED";
+
+                // Timer is updated separately
+                actionArea.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center text-red-400 text-sm">
+                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                            Repair required to drive again.
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button disabled class="p-3 bg-neutral-700 rounded-lg text-center opacity-75 cursor-not-allowed text-white">
+                                <div class="text-xs text-neutral-400">Standard Repair</div>
+                                <div id="repairTimerDisplay" class="text-lg font-mono">30s</div>
+                            </button>
+                            <button onclick="expressRepair()" id="btnExpress" class="p-3 bg-blue-600 hover:bg-blue-500 disabled:bg-neutral-700 disabled:opacity-50 rounded-lg text-center transition-colors text-white">
+                                <div class="text-xs text-blue-200">Express Repair</div>
+                                <div class="text-lg font-bold flex justify-center items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
+                                    ₹${REPAIR_COST}
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderInventory();
+        }
+
+        function renderInventory() {
+            const list = document.getElementById('vehicleList');
+            list.innerHTML = '';
+
+            for (let type in VEHICLES) {
+                const v = VEHICLES[type];
+                const owned = state.inventory[type];
+                const canAfford = state.money >= v.cost;
+
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-neutral-800 p-3 rounded-xl border border-neutral-700";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-neutral-700 rounded-lg flex items-center justify-center text-2xl">${v.icon}</div>
+                        <div>
+                            <div class="font-bold text-white">${v.name}</div>
+                            <div class="text-xs text-green-400">+${v.eps}/s</div>
+                            <div class="text-xs text-neutral-500">Owned: ${owned}</div>
+                        </div>
+                    </div>
+                    <button onclick="buyVehicle('${type}')" class="px-4 py-2 rounded-lg font-bold text-sm transition-colors ${canAfford ? 'bg-yellow-600 hover:bg-yellow-500 text-white' : 'bg-neutral-700 text-neutral-500 cursor-not-allowed'}">
+                        ₹${v.cost.toLocaleString()}
+                    </button>
+                `;
+                list.appendChild(div);
+            }
+        }
+
+        function renderGarageButtons() {
+            // Quick update for button states without full re-render
+            const btnExpress = document.getElementById('btnExpress');
+            if (btnExpress) {
+                if (state.money < REPAIR_COST) { btnExpress.disabled = true; btnExpress.classList.add('opacity-50', 'bg-neutral-700'); }
+                else { btnExpress.disabled = false; btnExpress.classList.remove('opacity-50', 'bg-neutral-700'); }
+            }
+            renderInventory();
+        }
+
+        function startRepairTimer() {
+            if (repairInterval) clearInterval(repairInterval);
+
+            repairInterval = setInterval(() => {
+                const passed = Date.now() - (state.damageTimestamp || 0);
+                const left = Math.max(0, REPAIR_TIME_MS - passed);
+                repairTimeLeft = left;
+
+                const display = document.getElementById('repairTimerDisplay');
+                if (display) display.innerText = (left / 1000).toFixed(0) + 's';
+
+                if (left <= 0) {
+                    clearInterval(repairInterval);
+                    state.status = 'READY';
+                    state.damageTimestamp = null;
+                    saveState();
+                    renderUI();
+                }
+            }, 1000);
+        }
+
+        function expressRepair() {
+            if (state.money >= REPAIR_COST) {
+                state.money -= REPAIR_COST;
+                state.status = 'READY';
+                state.damageTimestamp = null;
+                clearInterval(repairInterval);
+                saveState();
+                renderUI();
+            }
+        }
+
+        function buyVehicle(type) {
+            if (state.money >= VEHICLES[type].cost) {
+                state.money -= VEHICLES[type].cost;
+                state.inventory[type]++;
+                saveState();
+                updateMoneyUI();
+            }
+        }
+
+        function startDriving() {
+            mode = 'DRIVING';
+            renderUI();
+
+            // Wait for DOM
+            setTimeout(initGame, 50);
+        }
+
+        // --- GAME LOGIC ---
+        function initGame() {
+            canvas = document.getElementById('gameCanvas');
+            const container = document.getElementById('drivingScreen');
+            if (!canvas || !container) return;
+
+            // Fit Canvas
+            const rect = container.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            game = {
+                width: rect.width,
+                height: rect.height,
+                busX: rect.width * LANES[1],
+                gameOver: false,
+                score: 0,
+                moneyEarnedSession: 0,
+                roadY: 0,
+                lastTime: performance.now(),
+                obstacles: [],
+                coins: [],
+                particles: [],
+            };
+
+            cancelAnimationFrame(animationFrameId);
+            animate(performance.now());
+        }
+
+        function handleCrash() {
+            game.gameOver = true;
+            syncScore();
+
+            state.status = 'DAMAGED';
+            state.damageTimestamp = Date.now();
+            saveState();
+
+            // Shake effect handled in render
+            setTimeout(() => {
+                mode = 'GARAGE';
+                renderUI();
+                startRepairTimer();
+            }, 2000);
+        }
+
+        function syncScore() {
+            if (game.moneyEarnedSession > 0) {
+                state.money += game.moneyEarnedSession;
+                game.moneyEarnedSession = 0;
+                updateMoneyUI();
+            }
+        }
+
+        // --- RENDER LOOP ---
+        function animate(time) {
+            if (mode !== 'DRIVING') return;
+
+            const dt = Math.min((time - game.lastTime) / 1000, 0.1);
+            game.lastTime = time;
+
+            if (!game.gameOver) {
+                // Logic
+                const speed = 600;
+                game.roadY += speed * dt;
+                if (game.roadY > 100) game.roadY = 0;
+
+                // Spawn Obstacles
+                if (Math.random() < 0.015) {
+                    const l = Math.floor(Math.random() * 3);
+                    if (!game.obstacles.some(o => o.lane === l && o.y < 300)) {
+                        game.obstacles.push({ lane: l, y: -150, speed: 200 + Math.random() * 200, type: Math.random() > 0.5 ? 0 : 1 });
+                    }
+                }
+                // Spawn Coins
+                if (Math.random() < 0.03) {
+                    const l = Math.floor(Math.random() * 3);
+                    if (!game.obstacles.some(o => o.lane === l && Math.abs(o.y - (-150)) < 150)) {
+                        game.coins.push({ lane: l, y: -150 });
+                    }
+                }
+
+                // Update Entities
+                const busY = game.height - 140;
+                const HITBOX_X = (PLAYER_WIDTH / 2) + 20;
+
+                // Move obstacles
+                for (let i = game.obstacles.length - 1; i >= 0; i--) {
+                    const o = game.obstacles[i];
+                    o.y += (o.speed + speed * 0.3) * dt;
+
+                    // Collision
+                    const ox = game.width * LANES[o.lane];
+                    if (Math.abs(o.y - busY) < 80 && Math.abs(ox - game.busX) < HITBOX_X) {
+                        handleCrash();
+                    }
+                    if (o.y > game.height + 100) game.obstacles.splice(i, 1);
+                }
+
+                // Move Coins
+                for (let i = game.coins.length - 1; i >= 0; i--) {
+                    const c = game.coins[i];
+                    c.y += speed * dt;
+
+                    const cx = game.width * LANES[c.lane];
+                    if (Math.abs(c.y - busY) < 60 && Math.abs(cx - game.busX) < 40) {
+                        // Collect
+                        game.score++;
+                        game.moneyEarnedSession++;
+                        syncScore();
+                        // Particles
+                        for (let k = 0; k < 8; k++) {
+                            game.particles.push({ x: cx, y: c.y, vx: (Math.random() - 0.5) * 300, vy: (Math.random() - 0.5) * 300, life: 0.5, color: '#fbbf24' });
+                        }
+                        game.coins.splice(i, 1);
+                    } else if (c.y > game.height + 50) {
+                        game.coins.splice(i, 1);
+                    }
+                }
+
+                // Particles
+                for (let i = game.particles.length - 1; i >= 0; i--) {
+                    const p = game.particles[i];
+                    p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt * 3;
+                    if (p.life <= 0) game.particles.splice(i, 1);
+                }
+
+                document.getElementById('scoreHUD').innerText = `₹${game.score}`;
+            }
+
+            // --- DRAW ---
+            const w = game.width;
+            const h = game.height;
+            ctx.clearRect(0, 0, w, h);
+
+            // Asphalt
+            ctx.fillStyle = '#111827'; ctx.fillRect(0, 0, w, h);
+
+            // Shake
+            ctx.save();
+            if (game.gameOver) {
+                const intensity = 10;
+                ctx.translate((Math.random() - 0.5) * intensity, (Math.random() - 0.5) * intensity);
+            }
+
+            // Road Lines
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'; ctx.lineWidth = 2;
+            const div1 = w * 0.35; const div2 = w * 0.65;
+            ctx.beginPath(); ctx.moveTo(div1, 0); ctx.lineTo(div1, h); ctx.moveTo(div2, 0); ctx.lineTo(div2, h); ctx.stroke();
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)'; ctx.lineWidth = 4;
+            ctx.lineDashOffset = -game.roadY; ctx.setLineDash([40, 60]);
+            ctx.beginPath(); ctx.moveTo(div1, -50); ctx.lineTo(div1, h + 50); ctx.moveTo(div2, -50); ctx.lineTo(div2, h + 50); ctx.stroke();
+
+            ctx.save(); ctx.setLineDash([]); ctx.lineWidth = 8; ctx.strokeStyle = '#f59e0b';
+            ctx.beginPath(); ctx.moveTo(2, 0); ctx.lineTo(2, h); ctx.moveTo(w - 2, 0); ctx.lineTo(w - 2, h); ctx.stroke(); ctx.restore();
+
+            // Coins
+            game.coins.forEach(c => {
+                const cx = w * LANES[c.lane];
+                ctx.beginPath(); ctx.arc(cx, c.y, 14, 0, Math.PI * 2);
+                ctx.fillStyle = '#fbbf24'; ctx.shadowColor = '#fbbf24'; ctx.shadowBlur = 10; ctx.fill(); ctx.shadowBlur = 0;
+                ctx.fillStyle = '#78350f'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('₹', cx, c.y + 1);
+            });
+
+            // Obstacles
+            game.obstacles.forEach(o => {
+                const ox = w * LANES[o.lane];
+                ctx.fillStyle = o.type === 0 ? '#ef4444' : '#3b82f6';
+                ctx.fillRect(ox - 24, o.y - 40, 48, 80);
+                // Lights
+                ctx.fillStyle = '#7f1d1d'; ctx.fillRect(ox - 20, o.y + 30, 10, 6); ctx.fillRect(ox + 10, o.y + 30, 10, 6);
+                // Roof
+                ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.fillRect(ox - 20, o.y - 20, 40, 40);
+            });
+
+            // Bus
+            const busX = game.busX;
+            const busY = h - 140;
+
+            // Headlights
+            ctx.save(); ctx.globalCompositeOperation = 'screen';
+            const grad = ctx.createLinearGradient(busX, busY, busX, busY - 400);
+            grad.addColorStop(0, 'rgba(255, 255, 220, 0.3)'); grad.addColorStop(1, 'rgba(255, 255, 220, 0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.moveTo(busX - 25, busY - 10); ctx.lineTo(busX - 80, busY - 400); ctx.lineTo(busX + 80, busY - 400); ctx.lineTo(busX + 25, busY - 10); ctx.fill(); ctx.restore();
+
+            ctx.fillStyle = '#f59e0b'; ctx.fillRect(busX - PLAYER_WIDTH / 2, busY - PLAYER_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT);
+            ctx.fillStyle = '#1f2937'; ctx.fillRect(busX - PLAYER_WIDTH / 2 + 2, busY - PLAYER_HEIGHT / 2 + 5, PLAYER_WIDTH - 4, 20); // Windshield
+            ctx.fillStyle = '#d97706'; ctx.fillRect(busX - PLAYER_WIDTH / 2 + 6, busY + 6, PLAYER_WIDTH - 12, 35); // Roof
+
+            // Particles
+            game.particles.forEach(p => {
+                ctx.globalAlpha = p.life; ctx.fillStyle = p.color;
+                ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fill();
+            });
+            ctx.globalAlpha = 1.0;
+
+            if (game.gameOver) {
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.4)'; ctx.fillRect(0, 0, w, h);
+                ctx.fillStyle = '#fff'; ctx.font = '900 40px sans-serif'; ctx.textAlign = 'center'; ctx.fillText("CRASH!", w / 2, h / 2);
+            }
+
+            ctx.restore();
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        // --- INPUT HANDLERS ---
+        function handleInputStart(inputEvent) {
+            input.isDragging = true;
+            input.lastX = inputEvent.clientX;
+        }
+
+        function handleInputMove(inputEvent) {
+            if (!input.isDragging) return;
+            const dx = inputEvent.clientX - input.lastX;
+            input.lastX = inputEvent.clientX;
+
+            game.busX += dx;
+            game.busX = Math.max(game.width * 0.1, Math.min(game.width * 0.9, game.busX));
+        }
+
+        function handleInputEnd() {
+            input.isDragging = false;
+        }
+
+    </script>
+</body>
+
+</html>

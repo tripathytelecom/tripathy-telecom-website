@@ -1,306 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Products | Tripathy Telecom</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | Tripathy Telecom</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#f5f5f5;
-}
-a{text-decoration:none}
+  <style>
+    * {
+      box-sizing: border-box
+    }
 
-/* ===== HEADER ===== */
-header{
-  background:#000;
-  color:#ffd400;
-  padding:10px 15px;
-  display:flex;
-  align-items:center;
-}
-.logo img{height:45px}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f5;
+    }
 
-.header-right{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-nav a{
-  color:#ffd400;
-  font-weight:bold;
-  margin:0 6px;
-}
-.cart-box a{
-  color:#ffd400;
-  font-weight:bold;
-}
+    a {
+      text-decoration: none
+    }
 
-/* ===== TITLE + SEARCH ===== */
-.top-bar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:15px;
-  gap:10px;
-}
-.title{
-  font-size:22px;
-  font-weight:bold;
-}
-.search-box input{
-  padding:8px;
-  width:220px;
-  border:2px solid #ffd400;
-  border-radius:5px;
-}
+    /* ===== HEADER ===== */
+    header {
+      background: #000;
+      color: #ffd400;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+    }
 
-/* ===== CATEGORY FILTER ===== */
-.filters{
-  padding:10px 15px;
-}
-.filters button{
-  margin:5px;
-  padding:7px 12px;
-  border:none;
-  border-radius:20px;
-  background:#ddd;
-  cursor:pointer;
-  font-weight:bold;
-}
-.filters button.active{
-  background:#ffd400;
-}
+    .logo img {
+      height: 45px
+    }
 
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:20px;
-  padding:15px;
-}
+    .header-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
 
-/* ===== CARD ===== */
-.card{
-  background:#fff;
-  border-radius:6px;
-  padding:15px;
-  text-align:center;
-  box-shadow:0 0 6px rgba(0,0,0,0.1);
-  position:relative;
-}
-.card img{
-  width:100%;
-  height:170px;
-  object-fit:contain;
-  background:#f7f7f7;
-  border-radius:4px;
-}
-.card h3{margin:8px 0;font-size:17px}
-.card p{font-size:14px;color:#555}
+    nav a {
+      color: #ffd400;
+      font-weight: bold;
+      margin: 0 6px;
+    }
 
-/* ===== PRICE ===== */
-.price{
-  font-size:18px;
-  font-weight:bold;
-}
-.old-price{
-  text-decoration:line-through;
-  color:#888;
-  font-size:14px;
-}
+    .cart-box a {
+      color: #ffd400;
+      font-weight: bold;
+    }
 
-/* ===== BADGE ===== */
-.badge{
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:red;
-  color:#fff;
-  padding:4px 7px;
-  font-size:12px;
-  border-radius:4px;
-}
+    /* ===== TITLE + SEARCH ===== */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      gap: 10px;
+    }
 
-/* ===== BUTTONS ===== */
-.cart-btn{
-  background:#ffd400;
-  border:none;
-  border-radius:6px;
-  padding:10px;
-  margin-top:8px;
-  font-weight:bold;
-  cursor:pointer;
-  width:100%;
-}
-.cart-btn:disabled{
-  background:#ccc;
-  cursor:not-allowed;
-}
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-.whatsapp-btn{
-  display:block;
-  background:#25D366;
-  color:#000;
-  text-align:center;
-  padding:10px;
-  border-radius:6px;
-  margin-top:6px;
-  font-weight:bold;
-}
+    .search-box input {
+      padding: 8px;
+      width: 220px;
+      border: 2px solid #ffd400;
+      border-radius: 5px;
+    }
 
-/* ===== FOOTER ===== */
-.site-footer{
-  background:#000;
-  color:#ffd400;
-  padding:14px 15px;
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:center;
-}
-.footer-center{
-  text-align:center;
-  font-weight:bold;
-}
-.footer-social a{
-  color:#ffd400;
-  font-size:22px;
-  margin-left:12px;
-}
+    /* ===== CATEGORY FILTER ===== */
+    .filters {
+      padding: 10px 15px;
+    }
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:1200px){.grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:992px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:768px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .search-box input{width:160px}
-}
-@media(max-width:480px){
-  .grid{grid-template-columns:1fr}
-  nav{display:none}
-}
-</style>
+    .filters button {
+      margin: 5px;
+      padding: 7px 12px;
+      border: none;
+      border-radius: 20px;
+      background: #ddd;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .filters button.active {
+      background: #ffd400;
+    }
+
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      padding: 15px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .card img {
+      width: 100%;
+      height: 170px;
+      object-fit: contain;
+      background: #f7f7f7;
+      border-radius: 4px;
+    }
+
+    .card h3 {
+      margin: 8px 0;
+      font-size: 17px
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #555
+    }
+
+    /* ===== PRICE ===== */
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #888;
+      font-size: 14px;
+    }
+
+    /* ===== BADGE ===== */
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: red;
+      color: #fff;
+      padding: 4px 7px;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .cart-btn {
+      background: #ffd400;
+      border: none;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .cart-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .whatsapp-btn {
+      display: block;
+      background: #25D366;
+      color: #000;
+      text-align: center;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 6px;
+      font-weight: bold;
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: #000;
+      color: #ffd400;
+      padding: 14px 15px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+
+    .footer-center {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .footer-social a {
+      color: #ffd400;
+      font-size: 22px;
+      margin-left: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:1200px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr)
+      }
+    }
+
+    @media(max-width:992px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+    }
+
+    @media(max-width:768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .search-box input {
+        width: 160px
+      }
+    }
+
+    @media(max-width:480px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      nav {
+        display: none
+      }
+    }
+
+    /* ===== MOBILE BOTTOM MENU ===== */
+    .mobile-bottom-menu {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #000;
+      border-top: 2px solid #ffd400;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 9999;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .mobile-bottom-menu a,
+    .mobile-service {
+      font-size: 28px;
+      color: #ffd400;
+      position: relative;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .service-popup {
+      display: none;
+      position: absolute;
+      bottom: 55px;
+      left: -25px;
+      background: #111;
+      border: 1px solid #ffd400;
+      border-radius: 8px;
+      z-index: 10000;
+    }
+
+    .service-popup a {
+      display: block;
+      padding: 8px 12px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .mobile-service:hover .service-popup {
+      display: block;
+    }
+
+    /* Adjust body padding so content isn't hidden behind menu */
+    @media(max-width:768px) {
+      .mobile-bottom-menu {
+        display: flex
+      }
+
+      body {
+        padding-bottom: 70px
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">
-    <a href="index.html"><img src="logo.png"></a>
-  </div>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png"></a>
+    </div>
 
-  <div class="header-right">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="products.html">Products</a>
-      <a href="jobs.html">Jobs</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-    <div class="cart-box">
-      <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
+    <div class="header-right">
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="products.html">Products</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="cart-box">
+        <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="top-bar">
+    <div class="title">🛒 Our Products</div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search product...">
     </div>
   </div>
-</header>
 
-<div class="top-bar">
-  <div class="title">🛒 Our Products</div>
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search product...">
+  <div class="filters" id="categoryFilters">
+    <button class="active" data-cat="all">ALL</button>
+    <button data-cat="mobile">MOBILE</button>
+    <button data-cat="charger">CHARGER</button>
+    <button data-cat="earphone">EARPHONE</button>
+    <button data-cat="battery">BATTERY</button>
+    <button data-cat="data cable">DATA CABLE</button>
+    <button data-cat="glass">GLASS</button>
+    <button data-cat="speaker">SPEAKER</button>
+    <button data-cat="computer parts">COMPUTER PARTS</button>
+    <button data-cat="repearing parts">REPEARING PARTS</button>
   </div>
-</div>
 
-<div class="filters" id="categoryFilters">
-  <button class="active" data-cat="all">ALL</button>
-  <button data-cat="mobile">MOBILE</button>
-  <button data-cat="charger">CHARGER</button>
-  <button data-cat="earphone">EARPHONE</button>
-  <button data-cat="battery">BATTERY</button>
-  <button data-cat="data cable">DATA CABLE</button>
-  <button data-cat="glass">GLASS</button>
-  <button data-cat="speaker">SPEAKER</button>
-  <button data-cat="computer parts">COMPUTER PARTS</button>
-  <button data-cat="repearing parts">REPEARING PARTS</button>
-</div>
+  <div class="grid" id="productGrid"></div>
 
-<div class="grid" id="productGrid"></div>
+  <footer class="site-footer">
+    <div class="footer-center">
+      © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
+    </div>
+    <div class="footer-social">
+      <a href="https://wa.me/918670244552" target="_blank">🟢</a>
+      <a href="https://facebook.com/tripathytelecom" target="_blank">📘</a>
+      <a href="https://youtube.com/@tripathytelecom" target="_blank">▶️</a>
+    </div>
+  </footer>
 
-<footer class="site-footer">
-  <div class="footer-center">
-    © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
-  </div>
-  <div class="footer-social">
-    <a href="https://wa.me/918670244552" target="_blank">🟢</a>
-    <a href="https://facebook.com/tripathytelecom" target="_blank">📘</a>
-    <a href="https://youtube.com/@tripathytelecom" target="_blank">▶️</a>
-  </div>
-</footer>
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    document.getElementById("cartCount").innerText = cart.length;
 
-<script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-document.getElementById("cartCount").innerText = cart.length;
+    function addToCart(p) {
+      cart.push(p);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      document.getElementById("cartCount").innerText = cart.length;
+      alert("Added to cart");
+    }
 
-function addToCart(p){
-  cart.push(p);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  document.getElementById("cartCount").innerText = cart.length;
-  alert("Added to cart");
-}
+    let allProducts = [];
+    let currentCategory = "all";
 
-let allProducts = [];
-let currentCategory = "all";
+    fetch("products.json?v=" + Date.now())
+      .then(res => res.json())
+      .then(data => {
+        allProducts = data;
+        renderProducts();
+      });
 
-fetch("products.json?v="+Date.now())
-.then(res=>res.json())
-.then(data=>{
-  allProducts = data;
-  renderProducts();
-});
+    function renderProducts() {
+      const q = document.getElementById("searchInput").value.toLowerCase();
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
 
-function renderProducts(){
-  const q = document.getElementById("searchInput").value.toLowerCase();
-  const grid = document.getElementById("productGrid");
-  grid.innerHTML="";
-
-  allProducts.filter(p=>{
-    return (currentCategory==="all" || p.category===currentCategory) &&
-           (p.name.toLowerCase().includes(q) || (p.desc||"").toLowerCase().includes(q));
-  }).forEach(p=>{
-    const card = document.createElement("div");
-    card.className="card";
-    card.innerHTML=`
-      ${p.stock===0?'<div class="badge">Out of Stock</div>':""}
+      allProducts.filter(p => {
+        return (currentCategory === "all" || p.category === currentCategory) &&
+          (p.name.toLowerCase().includes(q) || (p.desc || "").toLowerCase().includes(q));
+      }).forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+      ${p.stock === 0 ? '<div class="badge">Out of Stock</div>' : ""}
       <img src="${p.image}">
       <h3>${p.name}</h3>
-      <p>${p.desc||""}</p>
-      ${p.oldPrice?`<div class="old-price">₹ ${p.oldPrice}</div>`:""}
+      <p>${p.desc || ""}</p>
+      ${p.oldPrice ? `<div class="old-price">₹ ${p.oldPrice}</div>` : ""}
       <div class="price">₹ ${p.price}</div>
-      <button class="cart-btn" ${p.stock===0?"disabled":""}>🛒 Add to Cart</button>
+      <button class="cart-btn" ${p.stock === 0 ? "disabled" : ""}>🛒 Add to Cart</button>
       <a class="whatsapp-btn" target="_blank"
-        href="https://wa.me/918670244552?text=${encodeURIComponent('Buy '+p.name+' ₹'+p.price)}">
+        href="https://wa.me/918670244552?text=${encodeURIComponent('Buy ' + p.name + ' ₹' + p.price)}">
         📲 Buy on WhatsApp
       </a>
     `;
-    card.querySelector(".cart-btn").onclick=()=>addToCart(p);
-    grid.appendChild(card);
-  });
-}
+        card.querySelector(".cart-btn").onclick = () => addToCart(p);
+        grid.appendChild(card);
+      });
+    }
 
-document.querySelectorAll(".filters button").forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    currentCategory = btn.dataset.cat;
-    renderProducts();
-  };
-});
+    document.querySelectorAll(".filters button").forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCategory = btn.dataset.cat;
+        renderProducts();
+      };
+    });
 
-document.getElementById("searchInput").addEventListener("input",renderProducts);
-</script>
+    document.getElementById("searchInput").addEventListener("input", renderProducts);
+  </script>
+
+  <!-- 📱 MOBILE BOTTOM MENU -->
+  <div class="mobile-bottom-menu">
+    <a href="index.html">🏠</a>
+
+    <div class="mobile-service">
+      🛠️
+      <div class="service-popup">
+        <a href="recharge.html">🔁 Recharge</a>
+        <a href="pan-card.html">🪪 PAN Card</a>
+      </div>
+    </div>
+
+    <a href="products.html">📦</a>
+    <a href="jobs.html">💼</a>
+  </div>
 
 </body>
+
 </html>

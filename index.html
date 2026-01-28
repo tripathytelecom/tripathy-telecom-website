@@ -504,10 +504,37 @@
       width: 100%;
       box-sizing: border-box;
       /* full width feel */
-      padding-left: 10px !important;
       padding-right: 10px !important;
       gap: 60px !important;
       /* more space for center */
+    }
+
+    /* REORDERING LOGIC FOR MOBILE */
+    @media(max-width: 992px) {
+      .hero-layout {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      .center-content-wrapper {
+        display: contents !important;
+      }
+
+      .hero-center {
+        order: 1;
+      }
+
+      .sponsor-section {
+        order: 2;
+      }
+
+      .job-updates-section {
+        order: 3;
+      }
+
+      .ads-section {
+        order: 4;
+      }
     }
 
     /* ---------- LEFT & RIGHT SIDE SECTIONS ---------- */
@@ -1162,30 +1189,33 @@
       </div>
 
       <!-- 🔵 CENTER : MAIN HERO CONTENT -->
-      <div class="hero-center">
-        <h2>All Recharge, PAN Card & Digital Services</h2>
-        <p>Fast • Secure • Trusted Local Service</p>
+      <div class="center-content-wrapper">
+        <div class="hero-center">
+          <h2>All Recharge, PAN Card & Digital Services</h2>
+          <p>Fast • Secure • Trusted Local Service</p>
 
-        <a href="recharge.html">Recharge Now</a>
-        <a href="pan-card.html">Create Your PAN Card</a>
-        <a href="https://wa.me/918670244552" target="_blank">
-          Contact on WhatsApp
-        </a>
+          <a href="recharge.html">Recharge Now</a>
+          <a href="pan-card.html">Create Your PAN Card</a>
+          <a href="https://wa.me/918670244552" target="_blank">
+            Contact on WhatsApp
+          </a>
 
-        <!-- ✨ Trust Badges -->
-        <div class="hero-features">
-          <div class="feature-badge">⚡ Instant Recharge</div>
-          <div class="feature-badge">🔒 100% Secure</div>
-          <div class="feature-badge">📞 24/7 Support</div>
-        </div>
-
-        <!-- 📢 Scrolling News Ticker -->
-        <div class="news-ticker">
-          <div class="marquee-content">
-            📢 Latest Govt Jobs Updated • ⚡ JIO / Airtel Recharge Offers • 🆔 New PAN Card Apply • 🏦 Money Transfer
-            Available
+          <!-- ✨ Trust Badges -->
+          <div class="hero-features">
+            <div class="feature-badge">⚡ Instant Recharge</div>
+            <div class="feature-badge">🔒 100% Secure</div>
+            <div class="feature-badge">📞 24/7 Support</div>
           </div>
-        </div>
+
+          <!-- 📢 Scrolling News Ticker -->
+          <div class="news-ticker">
+            <div class="marquee-content">
+              📢 Latest Govt Jobs Updated • ⚡ JIO / Airtel Recharge Offers • 🆔 New PAN Card Apply • 🏦 Money Transfer
+              Available
+            </div>
+          </div>
+
+        </div> <!-- Close hero-center to separate job section -->
 
         <!-- 🔥 JOB UPDATES SECTION 🔥 -->
         <div class="job-updates-section">

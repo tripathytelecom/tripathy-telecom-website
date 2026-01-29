@@ -252,35 +252,12 @@
       user-select: none;
     }
 
-    .mobile-bottom-menu a,
-    .mobile-service {
+    .mobile-bottom-menu a {
       font-size: 28px;
       color: #ffd400;
       position: relative;
       text-decoration: none;
       cursor: pointer;
-    }
-
-    .service-popup {
-      display: none;
-      position: absolute;
-      bottom: 55px;
-      left: -25px;
-      background: #111;
-      border: 1px solid #ffd400;
-      border-radius: 8px;
-      z-index: 10000;
-    }
-
-    .service-popup a {
-      display: block;
-      padding: 8px 12px;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-
-    .mobile-service:hover .service-popup {
-      display: block;
     }
 
     /* Adjust body padding so content isn't hidden behind menu */
@@ -415,15 +392,7 @@
   <!-- 📱 MOBILE BOTTOM MENU -->
   <div class="mobile-bottom-menu">
     <a href="index.html">🏠</a>
-
-    <div class="mobile-service">
-      🛠️
-      <div class="service-popup">
-        <a href="recharge.html">🔁 Recharge</a>
-        <a href="pan-card.html">🪪 PAN Card</a>
-      </div>
-    </div>
-
+    <a href="services.html">🛠️</a>
     <a href="products.html">📦</a>
     <a href="jobs.html">💼</a>
   </div>

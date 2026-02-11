@@ -225,19 +225,40 @@
             <img src="logo.png" alt="Tripathy Telecom Logo">
         </a>
 
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="services.html">Services</a>
-            <a href="products.html">Products</a>
-            <a href="recharge.html">Recharge</a>
-            <a href="pan-card.html">PAN Card</a>
-            <a href="jobs.html">Jobs</a>
-            <a href="mock-test.html" style="color: #fff; border-bottom: 2px solid #ffd400;">Mock Test</a>
-        </nav>
+        <div style="display: flex; align-items: center;">
+            <nav style="margin-right: 20px;">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="products.html">Products</a>
+                <a href="recharge.html">Recharge</a>
+                <a href="pan-card.html">PAN Card</a>
+                <a href="jobs.html">Jobs</a>
+                <a href="mock-test.html" style="color: #fff; border-bottom: 2px solid #ffd400;">Mock Test</a>
+            </nav>
+            <div id="userHeaderInfo" style="display: none; align-items: center; gap: 10px;">
+                <span id="headerUserName" style="color: #ffd400; font-weight: bold;"></span>
+                <button onclick="logout()"
+                    style="background: #333; color: #fff; border: 1px solid #555; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Logout</button>
+            </div>
+        </div>
     </header>
 
     <!-- MAIN CONTENT -->
     <div class="container">
+
+        <!-- View 0: Login (First Time) -->
+        <div id="loginView" class="view-section">
+            <div class="user-entry-card"
+                style="max-width: 400px; margin: 40px auto; padding: 40px; background: #fff; border-radius: 12px; text-align: center; color: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                <h2 style="margin-bottom: 10px;">Welcome! 👋</h2>
+                <p style="color: #666; margin-bottom: 30px;">Enter your name to start tracking your progress.</p>
+                <form onsubmit="handleLogin(event)">
+                    <input type="text" id="loginNameInput" placeholder="Your Name" required
+                        style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
+                    <button type="submit" class="submit-btn">Continue ➡️</button>
+                </form>
+            </div>
+        </div>
 
         <!-- View 1: Category Selection -->
         <div id="categoryView" class="view-section">
@@ -308,7 +329,8 @@
 
         <!-- View 4: Result -->
         <div id="resultView" class="view-section" style="display: none;">
-            <div class="result-box" style="display: block;"> <!-- Always block here as parent controls visibility -->
+            <div class="result-box" style="display: block;">
+                <!-- Always block here as parent controls visibility -->
                 <h2>Test Completed! 🎉</h2>
                 <h3 id="resultCandidateName" style="color: #065f46; margin-bottom: 5px;"></h3>
 
@@ -328,7 +350,8 @@
                     <div class="stat-item"
                         style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f3f4f6;">
                         <div style="font-size: 0.9rem; color: #4b5563;">Unattempted</div>
-                        <div id="unattemptedVal" style="font-size: 1.5rem; font-weight: bold; color: #4b5563;">0</div>
+                        <div id="unattemptedVal" style="font-size: 1.5rem; font-weight: bold; color: #4b5563;">0
+                        </div>
                     </div>
                     <div class="stat-item"
                         style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f0fdf4;">
@@ -343,7 +366,8 @@
                     <div class="stat-item"
                         style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #fffbeb;">
                         <div style="font-size: 0.9rem; color: #b45309;">Percentage</div>
-                        <div id="percentageVal" style="font-size: 1.5rem; font-weight: bold; color: #b45309;">0%</div>
+                        <div id="percentageVal" style="font-size: 1.5rem; font-weight: bold; color: #b45309;">0%
+                        </div>
                     </div>
                 </div>
 
@@ -363,6 +387,21 @@
             <h1 style="text-align: center; margin-bottom: 20px;">Detailed Solutions</h1>
             <div id="solutionList"></div>
             <button class="submit-btn" onclick="location.reload()" style="margin-top:20px;">Exit Review</button>
+        </div>
+
+        <!-- View 6: History -->
+        <div id="historyView" class="view-section" style="display: none;">
+            <button class="back-btn" onclick="showCategories()">← Back to Categories</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 style="text-align: center; margin: 0;">My Test History</h1>
+                <button onclick="clearHistory()"
+                    style="background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Clear
+                    History</button>
+            </div>
+
+            <div id="historyList" style="display: flex; flex-direction: column; gap: 15px;">
+                <!-- History items injected here -->
+            </div>
         </div>
 
     </div>
@@ -573,10 +612,11 @@
         const views = {
             categories: document.getElementById('categoryView'),
             chapters: document.getElementById('chapterView'),
-            nameEntry: document.getElementById('nameEntryView'),
             quiz: document.getElementById('quizView'),
             result: document.getElementById('resultView'),
-            solutions: document.getElementById('solutionView')
+            solutions: document.getElementById('solutionView'),
+            login: document.getElementById('loginView'),
+            history: document.getElementById('historyView')
         };
 
         function switchView(viewName) {
@@ -587,8 +627,48 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Auth & Init
+        function checkLogin() {
+            const savedName = localStorage.getItem('mockUser');
+            if (savedName) {
+                userCandidateName = savedName;
+                document.getElementById('headerUserName').innerText = "Hi, " + savedName;
+                const headerInfo = document.getElementById('userHeaderInfo');
+                headerInfo.style.display = 'flex';
+                headerInfo.style.cursor = 'pointer';
+                headerInfo.title = "Go to Dashboard";
+                // Make name clickable to show history/dashboard
+                document.getElementById('headerUserName').onclick = showHistory;
+                showCategories();
+            } else {
+                switchView('login');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('loginNameInput').value.trim();
+            if (name) {
+                localStorage.setItem('mockUser', name);
+                checkLogin();
+            }
+        }
+
+        function logout() {
+            if (confirm('Log out? This will not delete your history.')) {
+                localStorage.removeItem('mockUser');
+                document.getElementById('userHeaderInfo').style.display = 'none';
+                window.location.reload();
+            }
+        }
+
         // 1. Show Categories (Default)
         function showCategories() {
+            // Ensure logged in
+            if (!localStorage.getItem('mockUser')) {
+                switchView('login');
+                return;
+            }
             switchView('categories');
         }
 
@@ -622,20 +702,10 @@
             switchView('chapters');
         }
 
-        // 2.5 Show Name Entry
+        // 2.5 Show Name Entry - SKIPPED if logged in
         function showNameEntry(chapterIndex) {
-            currentChapterIndex = chapterIndex;
-            document.getElementById('candidateName').value = ''; // Clear previous
-            switchView('nameEntry');
-        }
-
-        function submitNameAndStart(e) {
-            e.preventDefault();
-            const name = document.getElementById('candidateName').value.trim();
-            if (name) {
-                userCandidateName = name;
-                startTest(currentChapterIndex);
-            }
+            // Directly start test since we have the name
+            startTest(chapterIndex);
         }
 
         // 3. Start Test
@@ -784,6 +854,22 @@
             document.getElementById('wrongVal').innerText = wrong;
             document.getElementById('percentageVal').innerText = percentage + "%";
 
+            // Save to Local Storage History
+            const historyItem = {
+                date: new Date().toLocaleString(),
+                category: currentCategory,
+                chapter: testData.chapterName,
+                score: correct,
+                total: total,
+                percentage: percentage + "%",
+                feedback: feedbackMsg,
+                timeTaken: timeString
+            };
+
+            const existingHistory = JSON.parse(localStorage.getItem('mockHistory') || '[]');
+            existingHistory.unshift(historyItem); // Add to top
+            localStorage.setItem('mockHistory', JSON.stringify(existingHistory));
+
             // Update Feedback
             const feedEl = document.getElementById('feedbackMessage');
             feedEl.innerText = feedbackMsg;
@@ -806,7 +892,7 @@
             switchView('result');
         }
 
-        // 5. View Solutions
+        // 5. View Solutions (Restored)
         function showSolutions() {
             const testData = mockTestData[currentCategory][currentChapterIndex];
             const formData = window.lastUserAnswers;
@@ -854,6 +940,87 @@
             switchView('solutions');
         }
 
+        // 6. History
+        function showHistory() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+
+            const history = JSON.parse(localStorage.getItem('mockHistory') || '[]');
+
+            if (history.length === 0) {
+                list.innerHTML = '<div style="text-align:center; padding:40px; color:#666; background:#fff; border-radius:8px;">No test history found. Take a test to start tracking!</div>';
+            } else {
+                // Calculate Stats
+                const totalTests = history.length;
+                let totalScoreVal = 0;
+                let maxScoreVal = 0;
+
+                history.forEach(h => {
+                    const percentageVal = parseFloat(h.percentage);
+                    totalScoreVal += percentageVal;
+                    if (percentageVal > maxScoreVal) maxScoreVal = percentageVal;
+                });
+
+                const avgScore = (totalScoreVal / totalTests).toFixed(1);
+
+                // Inject Dashboard Summary
+                const summaryDiv = document.createElement('div');
+                summaryDiv.style.display = 'grid';
+                summaryDiv.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                summaryDiv.style.gap = '10px';
+                summaryDiv.style.marginBottom = '20px';
+
+                summaryDiv.innerHTML = `
+                    <div style="background:#000; color:#ffd400; padding:15px; border-radius:8px; text-align:center;">
+                        <div style="font-size:0.8rem;">Tests Taken</div>
+                        <div style="font-size:1.5rem; font-weight:bold;">${totalTests}</div>
+                    </div>
+                    <div style="background:#000; color:#ffd400; padding:15px; border-radius:8px; text-align:center;">
+                        <div style="font-size:0.8rem;">Avg. Score</div>
+                        <div style="font-size:1.5rem; font-weight:bold;">${avgScore}%</div>
+                    </div>
+                    <div style="background:#000; color:#ffd400; padding:15px; border-radius:8px; text-align:center;">
+                        <div style="font-size:0.8rem;">Best Score</div>
+                        <div style="font-size:1.5rem; font-weight:bold;">${maxScoreVal}%</div>
+                    </div>
+                `;
+                list.appendChild(summaryDiv);
+
+                history.forEach(item => {
+                    const el = document.createElement('div');
+                    el.style.background = '#fff';
+                    el.style.padding = '20px';
+                    el.style.borderRadius = '8px';
+                    el.style.borderLeft = '5px solid #ffd400';
+                    el.style.color = '#333';
+
+                    el.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                            <strong>${item.chapter} (${item.category})</strong>
+                            <span style="color:#666; font-size:0.9rem;">${item.date}</span>
+                        </div>
+                        <div style="display:flex; gap:15px; flex-wrap:wrap; font-size:0.95rem;">
+                            <span>Score: <b>${item.score}/${item.total}</b></span>
+                            <span>Percentage: <b>${item.percentage}</b></span>
+                            <span>Time: <b>${item.timeTaken}</b></span>
+                        </div>
+                        <div style="margin-top:10px; font-weight:bold; color:#065f46;">
+                            Result: ${item.feedback}
+                        </div>
+                    `;
+                    list.appendChild(el);
+                });
+            }
+            switchView('history');
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear your entire test history?')) {
+                localStorage.removeItem('mockHistory');
+                showHistory();
+            }
+        }
+
 
         // Initialize
         window.addEventListener('DOMContentLoaded', () => {
@@ -866,7 +1033,7 @@
                 })
                 .then(data => {
                     mockTestData = data;
-                    showCategories();
+                    checkLogin(); // Check auth instead of direct showCategories
                 })
                 .catch(err => {
                     console.error("Failed to load questions:", err);

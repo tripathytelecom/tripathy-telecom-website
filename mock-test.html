@@ -204,6 +204,29 @@
             font-weight: 800;
             margin: 10px 0;
         }
+
+        /* Blinking Animation for User Name */
+        @keyframes blinkName {
+            0% {
+                color: #ffd400;
+                opacity: 1;
+            }
+
+            50% {
+                color: #fff;
+                opacity: 0.7;
+            }
+
+            100% {
+                color: #ffd400;
+                opacity: 1;
+            }
+        }
+
+        #headerUserName,
+        #mobileHeaderUserName {
+            animation: blinkName 2s infinite ease-in-out;
+        }
     </style>
 </head>
 

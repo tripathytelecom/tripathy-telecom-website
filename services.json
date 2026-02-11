@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Prepaid Recharge",
+        "image": "images/icon_mobile.png",
+        "link": "recharge.html"
+    },
+    {
+        "name": "DTH",
+        "image": "images/icon_dth.png",
+        "link": "recharge.html"
+    },
+    {
+        "name": "PAN Card",
+        "image": "images/icon_pancard.png",
+        "link": "pan-card.html"
+    },
+    {
+        "name": "Aadhaar",
+        "image": "images/icon_aadhaar.png",
+        "link": "#"
+    },
+    {
+        "name": "Electricity",
+        "image": "images/icon_electricity.png",
+        "link": "#"
+    },
+    {
+        "name": "Banking",
+        "image": "images/icon_bank.png",
+        "link": "#"
+    },
+    {
+        "name": "Gas / Water",
+        "image": "images/icon_water_gas.png",
+        "link": "#"
+    },
+    {
+        "name": "Loan Pay",
+        "image": "images/icon_loan.png",
+        "link": "#"
+    },
+    {
+        "name": "Google Play",
+        "image": "images/icon_googleplay.png",
+        "link": "#"
+    },
+    {
+        "name": "FASTag",
+        "image": "images/icon_fastag.png",
+        "link": "#"
+    },
+    {
+        "name": "Insurance",
+        "image": "images/icon_insurance.png",
+        "link": "#"
+    },
+    {
+        "name": "Cyber Cafe",
+        "image": "images/icon_cybercafe.png",
+        "link": "#"
+    }
+]

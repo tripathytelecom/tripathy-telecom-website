@@ -326,7 +326,7 @@
     </div>
 
     <!-- EXTERNAL QUESTIONS FILE -->
-    <script src="mock-questions.js"></script>
+    <!-- <script src="mock-questions.js?v=2"></script> -->
 
     <style>
         /* Additional Styles for New Layout */
@@ -505,6 +505,7 @@
 
     <script>
         // State
+        let mockTestData = {};
         let currentCategory = null;
         let currentChapterIndex = null;
         let timerInterval = null;
@@ -725,12 +726,21 @@
 
         // Initialize
         window.addEventListener('DOMContentLoaded', () => {
-            // Check if mockQuestions is loaded
-            if (typeof mockTestData === 'undefined') {
-                alert('Error loading questions data!');
-                return;
-            }
-            showCategories();
+            fetch('mock-questions.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    mockTestData = data;
+                    showCategories();
+                })
+                .catch(err => {
+                    console.error("Failed to load questions:", err);
+                    alert("Error loading questions data! Please try refreshing the page.");
+                });
         });
 
     </script>

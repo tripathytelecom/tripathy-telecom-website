@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Tripathy Telecom</title>
+    <style>
+        /* Reusing core styles for consistency */
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        /* HEADER */
+        header {
+            background: #000;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+        }
+
+        header img {
+            height: 40px;
+        }
+
+        header h2 {
+            margin: 0;
+            color: #ffd400;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            min-height: 80vh;
+        }
+
+        /* LOGIN SCREEN */
+        #loginScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+        }
+
+        .login-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            color: #ffd400;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #333;
+        }
+
+        /* DASHBOARD LAYOUT */
+        #dashboardScreen {
+            display: none;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: #000;
+            background: #f9f9f9;
+        }
+
+        .tab-btn.active {
+            border-bottom: 3px solid #ffd400;
+            color: #000;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* EDITOR STYLES */
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-add {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-download {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .btn-edit {
+            background: #f59e0b;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        /* DATA TABLE */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table th,
+        .data-table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            background: #f8f8f8;
+            font-weight: bold;
+        }
+
+        .data-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .img-preview {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="logo.png" alt="Logo">
+            <h2>Admin Dashboard</h2>
+        </div>
+        <button class="logout-btn" onclick="logout()" id="logoutBtn" style="display: none;">Logout</button>
+    </header>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <p>Enter password to manage content</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Password">
+            <button class="login-btn" onclick="login()">Login</button>
+            <p id="loginError" style="color: red; margin-top: 10px; display: none;">Invalid Password!</p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboardScreen" class="container">
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('services')">Services</button>
+            <button class="tab-btn" onclick="showTab('jobs')">Jobs</button>
+            <button class="tab-btn" onclick="showTab('products')">Products</button>
+            <button class="tab-btn" onclick="showTab('mock')">Mock Tests</button>
+        </div>
+
+        <!-- 1. SERVICES EDITOR -->
+        <div id="services" class="content-section active">
+            <div class="editor-header">
+                <h3>Manage Services</h3>
+                <div style="display: flex; gap: 10px;">
+                    <button class="action-btn btn-add" onclick="addItem('services')">+ Add Service</button>
+                    <button class="action-btn btn-download" onclick="downloadJSON('services')">⬇ Download JSON</button>
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Link</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="servicesList">
+                    <!-- Data injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 2. JOBS EDITOR -->
+        <div id="jobs" class="content-section">
+            <div class="editor-header">
+                <h3>Manage Jobs</h3>
+                <div style="display: flex; gap: 10px;">
+                    <button class="action-btn btn-add" onclick="addItem('jobs')">+ Add Job</button>
+                    <button class="action-btn btn-download" onclick="downloadJSON('jobs')">⬇ Download JSON</button>
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="jobsList">
+                    <!-- Data injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. PRODUCTS EDITOR -->
+        <div id="products" class="content-section">
+            <div class="editor-header">
+                <h3>Manage Products</h3>
+                <div style="display: flex; gap: 10px;">
+                    <button class="action-btn btn-add" onclick="addItem('products')">+ Add Product</button>
+                    <button class="action-btn btn-download" onclick="downloadJSON('products')">⬇ Download JSON</button>
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productsList">
+                    <!-- Data injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. MOCK TEST EDITOR -->
+        <div id="mock" class="content-section">
+            <div class="editor-header">
+                <h3>Manage Mock Tests</h3>
+                <div style="display: flex; gap: 10px;">
+                    <button class="action-btn btn-download" onclick="downloadJSON('mock')">⬇ Download JSON</button>
+                </div>
+            </div>
+
+            <!-- Breadcrumb -->
+            <div id="mockBreadcrumb" style="margin-bottom: 20px; font-weight: bold; color: #555;">
+                <span style="cursor: pointer; text-decoration: underline;"
+                    onclick="showMockCategories()">Categories</span>
+            </div>
+
+            <!-- View 1: Categories -->
+            <div id="mockCategoriesView">
+                <h4>Select a Category to Edit</h4>
+                <div class="tabs" style="border: none;">
+                    <button class="tab-btn" onclick="openMockCategory('Geography')">Geography</button>
+                    <button class="tab-btn" onclick="openMockCategory('GK')">GK</button>
+                    <button class="tab-btn" onclick="openMockCategory('Reasoning')">Reasoning</button>
+                    <button class="tab-btn" onclick="openMockCategory('Math')">Math</button>
+                </div>
+            </div>
+
+            <!-- View 2: Chapters -->
+            <div id="mockChaptersView" style="display: none;">
+                <div class="editor-header">
+                    <h4 id="selectedCategoryName">Category Chapters</h4>
+                    <button class="action-btn btn-add" onclick="addMockChapter()">+ Add Chapter</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Chapter Name</th>
+                            <th>Time Limit (s)</th>
+                            <th>Questions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mockChaptersList"></tbody>
+                </table>
+            </div>
+
+            <!-- View 3: Questions -->
+            <div id="mockQuestionsView" style="display: none;">
+                <div class="editor-header">
+                    <h4 id="selectedChapterName">Chapter Questions</h4>
+                    <button class="action-btn btn-add" onclick="addMockQuestion()">+ Add Question</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mockQuestionsList"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- GENERIC MODAL -->
+    <div id="editorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle">Edit Item</h3>
+            <form id="editorForm">
+                <input type="hidden" id="editIndex">
+                <input type="hidden" id="editType">
+                <div id="modalFields"></div>
+                <button type="submit" class="login-btn" style="margin-top: 15px;">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- AUTHENTICATION ---
+        function login() {
+            const pass = document.getElementById('passwordInput').value;
+            if (pass === 'admin123') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboardScreen').style.display = 'block';
+                document.getElementById('logoutBtn').style.display = 'block';
+                loadAllData();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        // --- NAVIGATION ---
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // --- DATA MANAGEMENT ---
+        let siteData = {
+            services: [],
+            jobs: [],
+            products: [],
+            mock: {}
+        };
+
+        function loadAllData() {
+            // Load Services
+            fetch('services.json')
+                .then(res => res.json())
+                .then(data => {
+                    siteData.services = data;
+                    renderServices();
+                });
+
+            // Load Jobs
+            fetch('jobs.json')
+                .then(res => res.json())
+                .then(data => {
+                    siteData.jobs = data;
+                    renderJobs();
+                });
+
+            // Load Products
+            fetch('products.json')
+                .then(res => res.json())
+                .then(data => {
+                    siteData.products = data;
+                    renderProducts();
+                });
+
+            // Load Mock Data
+            fetch('mock-questions.json')
+                .then(res => res.json())
+                .then(data => {
+                    siteData.mock = data;
+                });
+        }
+
+        // --- RENDERERS ---
+        function renderServices() {
+            const list = document.getElementById('servicesList');
+            list.innerHTML = '';
+            siteData.services.forEach((item, index) => {
+                list.innerHTML += `
+                    <tr>
+                        <td><img src="${item.image}" class="img-preview" alt="Icon"></td>
+                        <td>${item.name}</td>
+                        <td>${item.link}</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="editItem('services', ${index})">Edit</button>
+                            <button class="action-btn btn-delete" onclick="deleteItem('services', ${index})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderJobs() {
+            const list = document.getElementById('jobsList');
+            list.innerHTML = '';
+            siteData.jobs.forEach((item, index) => {
+                let badgeColor = item.type === 'job' ? '#10b981' : (item.type === 'admit' ? '#3b82f6' : '#f59e0b');
+
+                list.innerHTML += `
+                    <tr>
+                        <td><span style="background:${badgeColor}; color:white; padding:4px 8px; border-radius:4px; font-size:12px; text-transform:uppercase;">${item.type}</span></td>
+                        <td>${item.title}</td>
+                        <td>${item.updateDate || item.date.split('T')[0]}</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="editItem('jobs', ${index})">Edit</button>
+                            <button class="action-btn btn-delete" onclick="deleteItem('jobs', ${index})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- GENERIC ACTIONS ---
+        function deleteItem(type, index) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                siteData[type].splice(index, 1);
+                if (type === 'services') renderServices();
+                if (type === 'jobs') renderJobs();
+            }
+        }
+
+        function downloadJSON(type) {
+            let data = siteData[type];
+            let filename = type + '.json';
+            if (type === 'mock') filename = 'mock-questions.json';
+
+            const blob = new Blob([JSON.stringify(data, null, 4)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // --- MODAL & EDITOR LOGIC ---
+        function openModal(title) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('editorModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('editorModal').style.display = 'none';
+        }
+
+        function addItem(type) {
+            document.getElementById('editIndex').value = -1; // New Item
+            document.getElementById('editType').value = type;
+            openModal('Add ' + type.slice(0, -1).toUpperCase()); // Remove 's'
+
+            const fields = document.getElementById('modalFields');
+            fields.innerHTML = '';
+
+            if (type === 'services') {
+                fields.innerHTML = `
+                    <div class="form-group">
+                        <label>Service Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (or Path)</label>
+                        <input type="text" name="image" value="images/" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Link URL</label>
+                        <input type="text" name="link" value="#">
+                    </div>
+                `;
+            } else if (type === 'products') {
+                fields.innerHTML = `
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" name="category" required>
+                    </div>
+                     <div style="display:flex; gap:10px;">
+                        <div class="form-group" style="flex:1">
+                            <label>Price (₹)</label>
+                            <input type="number" name="price" required>
+                        </div>
+                        <div class="form-group" style="flex:1">
+                            <label>Old Price (₹)</label>
+                            <input type="number" name="oldPrice">
+                        </div>
+                        <div class="form-group" style="flex:1">
+                            <label>Stock</label>
+                            <input type="number" name="stock" value="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (or Path)</label>
+                        <input type="text" name="image" value="images/" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="desc" rows="3"></textarea>
+                    </div>
+                `;
+            } else if (type === 'jobs') {
+                fields.innerHTML = `
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select name="type" onchange="updateJobFields(this.value)">
+                            <option value="job">Job</option>
+                            <option value="admit">Admit Card</option>
+                            <option value="result">Result</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Link / Apply URL</label>
+                        <input type="text" name="link">
+                    </div>
+                    <div class="form-group">
+                        <label>Website URL</label>
+                        <input type="text" name="website">
+                    </div>
+                    <div id="dynamicJobFields">
+                        <!-- Default Job Fields -->
+                        <div class="form-group"><label>Vacancy</label><input type="text" name="vacancy"></div>
+                        <div class="form-group"><label>Qualification</label><input type="text" name="qualification"></div>
+                        <div class="form-group"><label>Age</label><input type="text" name="age"></div>
+                        <div class="form-group"><label>Fee</label><input type="text" name="fee"></div>
+                        <div class="form-group"><label>Last Date</label><input type="text" name="lastDate"></div>
+                        <div class="form-group"><label>Notification Link</label><input type="text" name="notification"></div>
+                    </div>
+                    <input type="hidden" name="date" value="${new Date().toISOString()}">
+                `;
+            }
+        }
+
+        function editItem(type, index) {
+            document.getElementById('editIndex').value = index;
+            document.getElementById('editType').value = type;
+            openModal('Edit ' + type.slice(0, -1).toUpperCase());
+
+            const item = siteData[type][index];
+            const fields = document.getElementById('modalFields');
+            fields.innerHTML = '';
+
+            if (type === 'services') {
+                fields.innerHTML = `
+                    <div class="form-group">
+                        <label>Service Name</label>
+                        <input type="text" name="name" value="${item.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (or Path)</label>
+                        <input type="text" name="image" value="${item.image}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Link URL</label>
+                        <input type="text" name="link" value="${item.link}">
+                    </div>
+                `;
+            } else if (type === 'jobs') {
+                // Determine type to show correct fields
+                const jobType = item.type || 'job';
+
+                let extraFields = '';
+                if (jobType === 'job') {
+                    extraFields = `
+                        <div class="form-group"><label>Vacancy</label><input type="text" name="vacancy" value="${item.vacancy || ''}"></div>
+                        <div class="form-group"><label>Qualification</label><input type="text" name="qualification" value="${item.qualification || ''}"></div>
+                        <div class="form-group"><label>Age</label><input type="text" name="age" value="${item.age || ''}"></div>
+                        <div class="form-group"><label>Fee</label><input type="text" name="fee" value="${item.fee || ''}"></div>
+                        <div class="form-group"><label>Last Date</label><input type="text" name="lastDate" value="${item.lastDate || ''}"></div>
+                        <div class="form-group"><label>Notification Link</label><input type="text" name="notification" value="${item.notification || ''}"></div>
+                    `;
+                } else if (jobType === 'admit') {
+                    extraFields = `
+                        <div class="form-group"><label>Exam Date</label><input type="text" name="examDate" value="${item.examDate || ''}"></div>
+                    `;
+                } else if (jobType === 'result') {
+                    extraFields = `
+                        <div class="form-group"><label>Result Date</label><input type="text" name="resultDate" value="${item.resultDate || ''}"></div>
+                    `;
+                }
+
+                fields.innerHTML = `
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select name="type" onchange="updateJobFields(this.value)">
+                            <option value="job" ${jobType === 'job' ? 'selected' : ''}>Job</option>
+                            <option value="admit" ${jobType === 'admit' ? 'selected' : ''}>Admit Card</option>
+                            <option value="result" ${jobType === 'result' ? 'selected' : ''}>Result</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" value="${item.title}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Link / Apply URL</label>
+                        <input type="text" name="link" value="${item.link || item.applyLink || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>Website URL</label>
+                        <input type="text" name="website" value="${item.website || ''}">
+                    </div>
+                    <div id="dynamicJobFields">${extraFields}</div>
+                    <input type="hidden" name="date" value="${item.date}">
+                `;
+            }
+        }
+
+        document.getElementById('editorForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const type = document.getElementById('editType').value;
+            const index = parseInt(document.getElementById('editIndex').value);
+
+            // Special handling for mock questions
+            if (type === 'mock') {
+                // Construct question object
+                const qObj = {
+                    id: (index === -1) ? Date.now() : siteData.mock[currentMockCategory][currentMockChapterIndex].questions[index].id,
+                    question: formData.get('question'),
+                    options: [
+                        formData.get('opt1'),
+                        formData.get('opt2'),
+                        formData.get('opt3'),
+                        formData.get('opt4')
+                    ],
+                    answer: formData.get('answer'),
+                    solution: formData.get('solution'),
+                    image: formData.get('image') || null
+                };
+
+                // Add to data
+                if (index === -1) {
+                    siteData.mock[currentMockCategory][currentMockChapterIndex].questions.push(qObj);
+                } else {
+                    siteData.mock[currentMockCategory][currentMockChapterIndex].questions[index] = qObj;
+                }
+
+                renderMockQuestions();
+                closeModal();
+                return; // START EARLY
+            }
+
+            let newItem = {};
+            formData.forEach((value, key) => newItem[key] = value);
+
+            // Special handling for jobs link/applyLink
+            if (type === 'jobs') {
+                if (newItem.type === 'job') {
+                    newItem.applyLink = newItem.link; // Job format uses applyLink
+                    delete newItem.link;
+                }
+                // Ensure date is preserved or set
+                if (!newItem.date) newItem.date = new Date().toISOString();
+
+                // Add updateDate if missing
+                if (!newItem.updateDate) {
+                    const d = new Date();
+                    newItem.updateDate = `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+                }
+            }
+
+            if (index === -1) {
+                siteData[type].push(newItem); // Add new
+                // For jobs, add to top
+                if (type === 'jobs') {
+                    // Sort by date desc (optional, but good practice)
+                    siteData[type].sort((a, b) => new Date(b.date) - new Date(a.date));
+                }
+            } else {
+                siteData[type][index] = newItem; // Update
+            }
+
+            if (type === 'services') renderServices();
+            if (type === 'jobs') renderJobs();
+            if (type === 'products') renderProducts();
+
+            closeModal();
+        });
+
+        // --- MOCK TEST LOGIC ---
+        let currentMockCategory = null;
+        let currentMockChapterIndex = null;
+
+        function showMockCategories() {
+            document.getElementById('mockCategoriesView').style.display = 'block';
+            document.getElementById('mockChaptersView').style.display = 'none';
+            document.getElementById('mockQuestionsView').style.display = 'none';
+            document.getElementById('mockBreadcrumb').innerHTML = '<span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span>';
+            currentMockCategory = null;
+            currentMockChapterIndex = null;
+        }
+
+        function openMockCategory(category) {
+            currentMockCategory = category;
+            if (!siteData.mock[category]) siteData.mock[category] = [];
+
+            renderMockChapters();
+
+            document.getElementById('mockCategoriesView').style.display = 'none';
+            document.getElementById('mockChaptersView').style.display = 'block';
+            document.getElementById('selectedCategoryName').innerText = category + ' Chapters';
+
+            document.getElementById('mockBreadcrumb').innerHTML = `
+                <span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span> > 
+                <span>${category}</span>
+            `;
+        }
+
+        function renderMockChapters() {
+            const list = document.getElementById('mockChaptersList');
+            list.innerHTML = '';
+            siteData.mock[currentMockCategory].forEach((chapter, index) => {
+                list.innerHTML += `
+                    <tr>
+                        <td>${chapter.chapterName}</td>
+                        <td>${chapter.timeLimit}</td>
+                        <td>${chapter.questions.length}</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="openMockChapter(${index})">Manage Questions</button>
+                            <button class="action-btn btn-delete" onclick="deleteMockChapter(${index})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteMockChapter(index) {
+            if (confirm('Delete this chapter and all its questions?')) {
+                siteData.mock[currentMockCategory].splice(index, 1);
+                renderMockChapters();
+            }
+        }
+
+        function addMockChapter() {
+            const name = prompt("Enter Chapter Name:");
+            if (name) {
+                siteData.mock[currentMockCategory].push({
+                    chapterName: name,
+                    timeLimit: 1500,
+                    questions: []
+                });
+                renderMockChapters();
+            }
+        }
+
+        function openMockChapter(index) {
+            currentMockChapterIndex = index;
+            const chapter = siteData.mock[currentMockCategory][index];
+
+            renderMockQuestions();
+
+            document.getElementById('mockChaptersView').style.display = 'none';
+            document.getElementById('mockQuestionsView').style.display = 'block';
+            document.getElementById('selectedChapterName').innerText = chapter.chapterName;
+
+            document.getElementById('mockBreadcrumb').innerHTML = `
+                <span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span> > 
+                <span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span> > 
+                <span>${chapter.chapterName}</span>
+            `;
+        }
+
+        function renderMockQuestions() {
+            const list = document.getElementById('mockQuestionsList');
+            list.innerHTML = '';
+            const questions = siteData.mock[currentMockCategory][currentMockChapterIndex].questions;
+
+            questions.forEach((q, index) => {
+                list.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${q.question.substring(0, 50)}...</td>
+                        <td>${q.answer}</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="editMockQuestion(${index})">Edit</button>
+                            <button class="action-btn btn-delete" onclick="deleteMockQuestion(${index})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteMockQuestion(index) {
+            if (confirm('Delete this question?')) {
+                siteData.mock[currentMockCategory][currentMockChapterIndex].questions.splice(index, 1);
+                renderMockQuestions();
+            }
+        }
+
+        function addMockQuestion() {
+            document.getElementById('editIndex').value = -1;
+            document.getElementById('editType').value = 'mock'; // Special type
+            openModal('Add Question');
+
+            const fields = document.getElementById('modalFields');
+            fields.innerHTML = `
+                <div class="form-group"><label>Question</label><textarea name="question" rows="2" required></textarea></div>
+                <div class="form-group"><label>Option 1</label><input type="text" name="opt1" required></div>
+                <div class="form-group"><label>Option 2</label><input type="text" name="opt2" required></div>
+                <div class="form-group"><label>Option 3</label><input type="text" name="opt3" required></div>
+                <div class="form-group"><label>Option 4</label><input type="text" name="opt4" required></div>
+                <div class="form-group"><label>Correct Answer</label><input type="text" name="answer" required></div>
+                <div class="form-group"><label>Solution Explanation</label><textarea name="solution" rows="2"></textarea></div>
+                <div class="form-group"><label>Image Path (Optional)</label><input type="text" name="image"></div>
+            `;
+        }
+
+        function editMockQuestion(index) {
+            document.getElementById('editIndex').value = index;
+            document.getElementById('editType').value = 'mock';
+            openModal('Edit Question');
+
+            const q = siteData.mock[currentMockCategory][currentMockChapterIndex].questions[index];
+            const fields = document.getElementById('modalFields');
+
+            // Assume 4 options for now
+            const opts = q.options || ["", "", "", ""];
+
+            fields.innerHTML = `
+                <div class="form-group"><label>Question</label><textarea name="question" rows="2" required>${q.question}</textarea></div>
+                <div class="form-group"><label>Option 1</label><input type="text" name="opt1" value="${opts[0] || ''}" required></div>
+                <div class="form-group"><label>Option 2</label><input type="text" name="opt2" value="${opts[1] || ''}" required></div>
+                <div class="form-group"><label>Option 3</label><input type="text" name="opt3" value="${opts[2] || ''}" required></div>
+                <div class="form-group"><label>Option 4</label><input type="text" name="opt4" value="${opts[3] || ''}" required></div>
+                <div class="form-group"><label>Correct Answer</label><input type="text" name="answer" value="${q.answer}" required></div>
+                <div class="form-group"><label>Solution Explanation</label><textarea name="solution" rows="2">${q.solution || ''}</textarea></div>
+                 <div class="form-group"><label>Image Path (Optional)</label><input type="text" name="image" value="${q.image || ''}"></div>
+            `;
+        }
+
+        function updateJobFields(jobType) {
+            const container = document.getElementById('dynamicJobFields');
+            if (jobType === 'job') {
+                container.innerHTML = `
+                    <div class="form-group"><label>Vacancy</label><input type="text" name="vacancy"></div>
+                    <div class="form-group"><label>Qualification</label><input type="text" name="qualification"></div>
+                    <div class="form-group"><label>Age</label><input type="text" name="age"></div>
+                    <div class="form-group"><label>Fee</label><input type="text" name="fee"></div>
+                    <div class="form-group"><label>Last Date</label><input type="text" name="lastDate"></div>
+                    <div class="form-group"><label>Notification Link</label><input type="text" name="notification"></div>
+                `;
+            } else if (jobType === 'admit') {
+                container.innerHTML = `
+                    <div class="form-group"><label>Exam Date</label><input type="text" name="examDate"></div>
+                `;
+            } else if (jobType === 'result') {
+                container.innerHTML = `
+                    <div class="form-group"><label>Result Date</label><input type="text" name="resultDate"></div>
+                `;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

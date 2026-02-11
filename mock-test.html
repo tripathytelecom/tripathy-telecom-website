@@ -311,8 +311,44 @@
             <div class="result-box" style="display: block;"> <!-- Always block here as parent controls visibility -->
                 <h2>Test Completed! 🎉</h2>
                 <h3 id="resultCandidateName" style="color: #065f46; margin-bottom: 5px;"></h3>
-                <div class="score-display">Your Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
-                <p id="timeTakenMsg"></p>
+
+                <h1 id="feedbackMessage" style="margin: 10px 0; font-size: 2.5rem;"></h1>
+
+                <div class="stats-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 20px 0; padding: 10px; background: #fff; border-radius: 8px;">
+                    <div class="stat-item" style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <div style="font-size: 0.9rem; color: #666;">Total Questions</div>
+                        <div id="totalQVal" style="font-size: 1.5rem; font-weight: bold; color: #333;">0</div>
+                    </div>
+                    <div class="stat-item"
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #eff6ff;">
+                        <div style="font-size: 0.9rem; color: #1e40af;">Attempted</div>
+                        <div id="attemptedVal" style="font-size: 1.5rem; font-weight: bold; color: #1e40af;">0</div>
+                    </div>
+                    <div class="stat-item"
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f3f4f6;">
+                        <div style="font-size: 0.9rem; color: #4b5563;">Unattempted</div>
+                        <div id="unattemptedVal" style="font-size: 1.5rem; font-weight: bold; color: #4b5563;">0</div>
+                    </div>
+                    <div class="stat-item"
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f0fdf4;">
+                        <div style="font-size: 0.9rem; color: #166534;">Correct</div>
+                        <div id="correctVal" style="font-size: 1.5rem; font-weight: bold; color: #166534;">0</div>
+                    </div>
+                    <div class="stat-item"
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #fef2f2;">
+                        <div style="font-size: 0.9rem; color: #b91c1c;">Wrong</div>
+                        <div id="wrongVal" style="font-size: 1.5rem; font-weight: bold; color: #b91c1c;">0</div>
+                    </div>
+                    <div class="stat-item"
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #fffbeb;">
+                        <div style="font-size: 0.9rem; color: #b45309;">Percentage</div>
+                        <div id="percentageVal" style="font-size: 1.5rem; font-weight: bold; color: #b45309;">0%</div>
+                    </div>
+                </div>
+
+                <p id="timeTakenMsg" style="font-weight: bold;"></p>
+
                 <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
                     <button class="submit-btn" onclick="location.reload()">Back to Home</button>
                     <button class="submit-btn" style="background:#2563eb;" onclick="showSolutions()">View
@@ -531,6 +567,7 @@
         let userCandidateName = "Candidate";
         let timerInterval = null;
         let timeLeft = 0;
+        let startTime = null; // Added to track start time
 
         // Views
         const views = {
@@ -608,6 +645,7 @@
 
             // Setup Timer
             timeLeft = testData.timeLimit;
+            startTime = new Date(); // Record start time
             updateTimerDisplay();
             startTimer();
 
@@ -683,30 +721,84 @@
 
         function finishTest(isTimeUp) {
             clearInterval(timerInterval);
+            const endTime = new Date(); // Record end time
+
+            // Calculate duration
+            const timeDiff = endTime - startTime; // in ms
+            const secondsTakenTotal = Math.floor(timeDiff / 1000);
+            const minutesTaken = Math.floor(secondsTakenTotal / 60);
+            const secondsTaken = secondsTakenTotal % 60;
+            const timeString = `${minutesTaken} min ${secondsTaken} sec`;
 
             const testData = mockTestData[currentCategory][currentChapterIndex];
             const formData = new FormData(document.getElementById('activeTestForm'));
-            let score = 0;
+
+            let correct = 0;
+            let attempted = 0;
 
             testData.questions.forEach(q => {
-                if (formData.get(`q${q.id}`) === q.answer) {
-                    score++;
+                const answer = formData.get(`q${q.id}`);
+                if (answer) {
+                    attempted++;
+                    if (answer === q.answer) {
+                        correct++;
+                    }
                 }
             });
 
+            const total = testData.questions.length;
+            const unattempted = total - attempted;
+            const wrong = attempted - correct;
+            const percentage = (total > 0) ? ((correct / total) * 100).toFixed(2) : 0;
+
+            // Determine Feedback
+            let feedbackMsg = "";
+            let feedbackColor = "#333";
+            const p = parseFloat(percentage);
+
+            if (p === 100) {
+                feedbackMsg = "Full Mark! 🏆";
+                feedbackColor = "#16a34a"; // Green
+            } else if (p >= 80) {
+                feedbackMsg = "Asadharon! (Extraordinary) 🌟";
+                feedbackColor = "#2563eb"; // Blue
+            } else if (p >= 60) {
+                feedbackMsg = "Very Good! 👍";
+                feedbackColor = "#9333ea"; // Purple
+            } else if (p >= 40) {
+                feedbackMsg = "Good! 🙂";
+                feedbackColor = "#ea580c"; // Orange
+            } else {
+                feedbackMsg = "Keep Practicing! 💪";
+                feedbackColor = "#dc2626"; // Red
+            }
+
             // Show Result
             document.getElementById('resultCandidateName').innerText = "Candidate: " + userCandidateName;
-            document.getElementById('scoreVal').innerText = score;
-            document.getElementById('totalVal').innerText = testData.questions.length;
+
+            // Update Stats Grid
+            document.getElementById('totalQVal').innerText = total;
+            document.getElementById('attemptedVal').innerText = attempted;
+            document.getElementById('unattemptedVal').innerText = unattempted;
+            document.getElementById('correctVal').innerText = correct;
+            document.getElementById('wrongVal').innerText = wrong;
+            document.getElementById('percentageVal').innerText = percentage + "%";
+
+            // Update Feedback
+            const feedEl = document.getElementById('feedbackMessage');
+            feedEl.innerText = feedbackMsg;
+            feedEl.style.color = feedbackColor;
 
             const msgObj = document.getElementById('timeTakenMsg');
+            let message = "";
             if (isTimeUp) {
-                msgObj.innerText = "Time's up! Here is your result.";
+                message = `Time's up! You completed the test in ${timeString}.`;
                 msgObj.style.color = 'red';
             } else {
-                msgObj.innerText = "Great job on finishing the test!";
-                msgObj.style.color = 'green';
+                message = `You finished the test in ${timeString}.`;
+                msgObj.style.color = '#333';
             }
+            msgObj.innerText = message;
 
             // Store user answers for solution view
             window.lastUserAnswers = formData;

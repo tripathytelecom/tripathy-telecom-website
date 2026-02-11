@@ -217,6 +217,13 @@
             <a href="https://facebook.com/tripathytelecom" target="_blank">🔵</a>
             <a href="https://youtube.com/tripathytelecom" target="_blank">🔴</a>
         </div>
+
+        <div id="mobileUserHeaderInfo" style="display: none; align-items: center; gap: 10px;">
+            <span id="mobileHeaderUserName"
+                style="color: #ffd400; font-weight: bold; font-size: 0.9rem; cursor: pointer;"></span>
+            <button onclick="logout()"
+                style="background: #333; color: #fff; border: 1px solid #555; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">Logout</button>
+        </div>
     </div>
 
     <!-- DESKTOP HEADER -->
@@ -639,6 +646,15 @@
                 headerInfo.title = "Go to Dashboard";
                 // Make name clickable to show history/dashboard
                 document.getElementById('headerUserName').onclick = showHistory;
+
+                // Mobile Header Update
+                document.querySelector('.mobile-social').style.display = 'none';
+                const mobileInfo = document.getElementById('mobileUserHeaderInfo');
+                mobileInfo.style.display = 'flex';
+                const mobileName = document.getElementById('mobileHeaderUserName');
+                mobileName.innerText = "Hi, " + savedName;
+                mobileName.onclick = showHistory;
+
                 showCategories();
             } else {
                 switchView('login');

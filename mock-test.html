@@ -574,9 +574,12 @@
             container.innerHTML = '';
 
             testData.questions.forEach((q, idx) => {
+                const imageHtml = q.image ? `<div style="margin: 10px 0;"><img src="${q.image}" alt="Question Image" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 1px solid #ddd;"></div>` : '';
+
                 const questionHTML = `
                 <div class="question-item">
                     <div class="question-text">${idx + 1}. ${q.question}</div>
+                    ${imageHtml}
                     <div class="options-group">
                         ${q.options.map(opt => `
                             <label class="option-label">
@@ -693,6 +696,8 @@
                     statusText = '❌ Wrong';
                 }
 
+                const imageHtml = q.image ? `<div style="margin: 10px 0;"><img src="${q.image}" alt="Question Image" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #ddd;"></div>` : '';
+
                 const div = document.createElement('div');
                 div.className = `solution-item ${statusClass}`;
                 div.innerHTML = `
@@ -700,6 +705,7 @@
                         <strong>Q${index + 1}: ${q.question}</strong>
                         <span class="sol-badge">${statusText}</span>
                     </div>
+                    ${imageHtml}
                     <div class="sol-body">
                         <p><strong>Your Answer:</strong> ${userAnswer || 'None'}</p>
                         <p><strong>Correct Answer:</strong> <span style="color:green; font-weight:bold;">${q.answer}</span></p>

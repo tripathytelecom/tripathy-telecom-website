@@ -129,6 +129,67 @@
       animation: none;
     }
 
+    /* PREMIUM MOCK TEST BUTTON */
+    .btn-mock-test {
+      background: linear-gradient(135deg, #ffd400 0%, #ffaa00 100%) !important;
+      color: #000 !important;
+      font-weight: 800 !important;
+      padding: 6px 12px !important;
+      border-radius: 6px !important;
+      box-shadow: 0 4px 12px rgba(255, 212, 0, 0.4);
+      transition: all 0.3s ease-in-out !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: none !important;
+      text-decoration: none !important;
+    }
+
+    .btn-mock-test:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 18px rgba(255, 212, 0, 0.6);
+      filter: brightness(1.1);
+      color: #000 !important;
+    }
+
+    /* Mobile Badge for Icon */
+    .mobile-bottom-menu a.mock-badge-link {
+      position: relative;
+    }
+
+    .mobile-bottom-menu a.mock-badge-link::after {
+      content: "NEW";
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      background: #ff0000;
+      color: #fff;
+      font-size: 9px;
+      padding: 2px 5px;
+      border-radius: 10px;
+      font-weight: 900;
+      border: 1px solid #fff;
+      animation: pulseBadge 1.5s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulseBadge {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+      }
+
+      70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 5px rgba(255, 0, 0, 0);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+      }
+    }
+
 
 
     /* SOCIAL ICONS */
@@ -1054,8 +1115,7 @@
           class="download-app-btn">
           📲 Download App
         </a>
-        <a href="mock-test.html" target="_blank" style="color: #000; background: #ffd400; border-radius: 4px;">📝 Mock
-          Test</a>
+        <a href="mock-test.html" target="_blank" class="btn-mock-test">📝 Mock Test</a>
 
 
         <a href='https://tripathytelecom.github.io/Attendance-/'>Attendance</a>
@@ -2242,7 +2302,7 @@
     <a href="services.html">🛠️</a>
     <a href="products.html">📦</a>
     <a href="jobs.html">💼</a>
-    <a href="mock-test.html">📝</a>
+    <a href="mock-test.html" class="mock-badge-link">📝</a>
   </div>
 
 </body>

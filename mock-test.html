@@ -271,6 +271,21 @@
             </div>
         </div>
 
+        <!-- View 2.5: User Name Entry -->
+        <div id="nameEntryView" class="view-section" style="display: none;">
+            <button class="back-btn" onclick="showChapters(currentCategory)">← Back to Chapters</button>
+            <div class="user-entry-card"
+                style="max-width: 500px; margin: 50px auto; padding: 30px; background: #fff; border-radius: 12px; text-align: center; color: #333;">
+                <h2>Enter Your Details</h2>
+                <p>Please enter your name to start the test.</p>
+                <form onsubmit="submitNameAndStart(event)">
+                    <input type="text" id="candidateName" placeholder="Enter Full Name" required
+                        style="width: 100%; padding: 12px; margin: 20px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;">
+                    <button type="submit" class="submit-btn">Start Test 🚀</button>
+                </form>
+            </div>
+        </div>
+
         <!-- View 3: Quiz Interface -->
         <div id="quizView" class="view-section" style="display: none;">
             <div class="quiz-header">
@@ -291,6 +306,7 @@
         <div id="resultView" class="view-section" style="display: none;">
             <div class="result-box" style="display: block;"> <!-- Always block here as parent controls visibility -->
                 <h2>Test Completed! 🎉</h2>
+                <h3 id="resultCandidateName" style="color: #065f46; margin-bottom: 5px;"></h3>
                 <div class="score-display">Your Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
                 <p id="timeTakenMsg"></p>
                 <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
@@ -508,6 +524,7 @@
         let mockTestData = {};
         let currentCategory = null;
         let currentChapterIndex = null;
+        let userCandidateName = "Candidate";
         let timerInterval = null;
         let timeLeft = 0;
 
@@ -515,6 +532,7 @@
         const views = {
             categories: document.getElementById('categoryView'),
             chapters: document.getElementById('chapterView'),
+            nameEntry: document.getElementById('nameEntryView'),
             quiz: document.getElementById('quizView'),
             result: document.getElementById('resultView'),
             solutions: document.getElementById('solutionView')
@@ -555,12 +573,28 @@
                         <br>
                         <small style="color:#666">⏳ ${chapter.timeLimit} Seconds</small>
                     </div>
-                    <button class="start-btn" onclick="startTest(${index})">Start Test</button>
+                    <button class="start-btn" onclick="showNameEntry(${index})">Start Test</button>
                 `;
                 listContainer.appendChild(item);
             });
 
             switchView('chapters');
+        }
+
+        // 2.5 Show Name Entry
+        function showNameEntry(chapterIndex) {
+            currentChapterIndex = chapterIndex;
+            document.getElementById('candidateName').value = ''; // Clear previous
+            switchView('nameEntry');
+        }
+
+        function submitNameAndStart(e) {
+            e.preventDefault();
+            const name = document.getElementById('candidateName').value.trim();
+            if (name) {
+                userCandidateName = name;
+                startTest(currentChapterIndex);
+            }
         }
 
         // 3. Start Test
@@ -657,6 +691,7 @@
             });
 
             // Show Result
+            document.getElementById('resultCandidateName').innerText = "Candidate: " + userCandidateName;
             document.getElementById('scoreVal').innerText = score;
             document.getElementById('totalVal').innerText = testData.questions.length;
 

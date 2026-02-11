@@ -148,53 +148,18 @@
     <div class="container">
         <div class="quiz-card">
             <h1 style="text-align: center; margin-bottom: 10px;">General Knowledge Quiz</h1>
-            <p style="text-align: center; color: #666; margin-bottom: 30px;">Test your knowledge in 3 simple questions!
-            </p>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">Test your knowledge!</p>
 
             <form id="mockTestForm">
-
-                <!-- Q1 -->
-                <div class="question-item">
-                    <div class="question-text">1. What is the full form of WiFi?</div>
-                    <div class="options-group">
-                        <label class="option-label"><input type="radio" name="q1" value="Wireless Fidelity"> Wireless
-                            Fidelity</label>
-                        <label class="option-label"><input type="radio" name="q1" value="Wireless Field"> Wireless
-                            Field</label>
-                        <label class="option-label"><input type="radio" name="q1" value="Wire Fire"> Wire Fire</label>
-                        <label class="option-label"><input type="radio" name="q1" value="Wire Free"> Wire Free</label>
-                    </div>
+                <div id="questionsContainer">
+                    <!-- Questions will be loaded here from JS -->
                 </div>
-
-                <!-- Q2 -->
-                <div class="question-item">
-                    <div class="question-text">2. Which key is used to refresh a webpage?</div>
-                    <div class="options-group">
-                        <label class="option-label"><input type="radio" name="q2" value="F1"> F1</label>
-                        <label class="option-label"><input type="radio" name="q2" value="F5"> F5</label>
-                        <label class="option-label"><input type="radio" name="q2" value="F12"> F12</label>
-                        <label class="option-label"><input type="radio" name="q2" value="Esc"> Esc</label>
-                    </div>
-                </div>
-
-                <!-- Q3 -->
-                <div class="question-item">
-                    <div class="question-text">3. Who is the founder of Microsoft?</div>
-                    <div class="options-group">
-                        <label class="option-label"><input type="radio" name="q3" value="Steve Jobs"> Steve Jobs</label>
-                        <label class="option-label"><input type="radio" name="q3" value="Bill Gates"> Bill Gates</label>
-                        <label class="option-label"><input type="radio" name="q3" value="Mark Zuckerberg"> Mark
-                            Zuckerberg</label>
-                        <label class="option-label"><input type="radio" name="q3" value="Elon Musk"> Elon Musk</label>
-                    </div>
-                </div>
-
                 <button type="submit" class="submit-btn">Submit Test</button>
             </form>
 
             <div id="resultArea" class="result-box">
                 <h2>Quiz Completed! 🎉</h2>
-                <div class="score-display">Your Score: <span id="scoreVal">0</span> / 3</div>
+                <div class="score-display">Your Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
                 <button onclick="location.reload()"
                     style="background:none; border:none; color:#065f46; text-decoration:underline; cursor:pointer;">Retake
                     Test</button>
@@ -202,31 +167,54 @@
         </div>
     </div>
 
+    <!-- EXTERNAL QUESTIONS FILE -->
+    <script src="mock-questions.js"></script>
+
     <script>
+        // Load Questions on Startup
+        window.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('questionsContainer');
+
+            if (typeof mockQuestions === 'undefined') {
+                container.innerHTML = '<p style="color:red; text-align:center;">Error: Questions file not found.</p>';
+                return;
+            }
+
+            mockQuestions.forEach((q, index) => {
+                const questionHTML = `
+                <div class="question-item">
+                    <div class="question-text">${index + 1}. ${q.question}</div>
+                    <div class="options-group">
+                        ${q.options.map(opt => `
+                            <label class="option-label">
+                                <input type="radio" name="q${q.id}" value="${opt}"> ${opt}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+                `;
+                container.innerHTML += questionHTML;
+            });
+        });
+
         document.getElementById('mockTestForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
-            // Correct Answers
-            const answers = {
-                q1: 'Wireless Fidelity',
-                q2: 'F5',
-                q3: 'Bill Gates'
-            };
 
             let score = 0;
             const formData = new FormData(this);
 
-            // Calculate Score
-            for (let [question, userAnswer] of formData.entries()) {
-                if (userAnswer === answers[question]) {
+            mockQuestions.forEach(q => {
+                const userAnswer = formData.get(`q${q.id}`);
+                if (userAnswer === q.answer) {
                     score++;
                 }
-            }
+            });
 
             // Show Result
             document.getElementById('mockTestForm').style.display = 'none';
             const resultArea = document.getElementById('resultArea');
             document.getElementById('scoreVal').innerText = score;
+            document.getElementById('totalVal').innerText = mockQuestions.length;
             resultArea.style.display = 'block';
 
             // Scroll to top

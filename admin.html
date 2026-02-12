@@ -567,12 +567,33 @@
             });
         }
 
+        function renderProducts() {
+            const list = document.getElementById('productsList');
+            if (!list) return;
+            list.innerHTML = '';
+            siteData.products.forEach((item, index) => {
+                list.innerHTML += `
+                    <tr>
+                        <td><img src="${item.image}" class="img-preview" alt="Product"></td>
+                        <td>${item.name}</td>
+                        <td>₹${item.price}</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="editItem('products', ${index})">Edit</button>
+                            <button class="action-btn btn-delete" onclick="deleteItem('products', ${index})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+
         // --- GENERIC ACTIONS ---
         function deleteItem(type, index) {
             if (confirm('Are you sure you want to delete this item?')) {
                 siteData[type].splice(index, 1);
                 if (type === 'services') renderServices();
                 if (type === 'jobs') renderJobs();
+                if (type === 'products') renderProducts();
             }
         }
 
@@ -766,6 +787,39 @@
                     <div id="dynamicJobFields">${extraFields}</div>
                     <input type="hidden" name="date" value="${item.date}">
                 `;
+            } else if (type === 'products') {
+                fields.innerHTML = `
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name" value="${item.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" name="category" value="${item.category}" required>
+                    </div>
+                     <div style="display:flex; gap:10px;">
+                        <div class="form-group" style="flex:1">
+                            <label>Price (₹)</label>
+                            <input type="number" name="price" value="${item.price}" required>
+                        </div>
+                        <div class="form-group" style="flex:1">
+                            <label>Old Price (₹)</label>
+                            <input type="number" name="oldPrice" value="${item.oldPrice || ''}">
+                        </div>
+                        <div class="form-group" style="flex:1">
+                            <label>Stock</label>
+                            <input type="number" name="stock" value="${item.stock || 1}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (or Path)</label>
+                        <input type="text" name="image" value="${item.image}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="desc" rows="3">${item.desc || ''}</textarea>
+                    </div>
+                `;
             }
         }
 
@@ -832,6 +886,14 @@
                 }
             } else {
                 siteData[type][index] = newItem; // Update
+            }
+
+            // Numeric conversion for products
+            if (type === 'products') {
+                const item = index === -1 ? siteData[type][siteData[type].length - 1] : siteData[type][index];
+                if (item.price) item.price = Number(item.price);
+                if (item.oldPrice) item.oldPrice = Number(item.oldPrice);
+                if (item.stock) item.stock = Number(item.stock);
             }
 
             if (type === 'services') renderServices();

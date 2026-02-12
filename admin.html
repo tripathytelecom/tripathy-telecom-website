@@ -24,6 +24,48 @@
             color: #fff;
         }
 
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            background: #111;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666;
+        }
+
+        .status-dot.connected {
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        .btn-sync {
+            background: #ffd400;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-sync:hover {
+            background: #ffaa00;
+            transform: scale(1.05);
+        }
+
         header img {
             height: 40px;
         }
@@ -282,7 +324,16 @@
             <img src="logo.png" alt="Logo">
             <h2>Admin Dashboard</h2>
         </div>
-        <button class="logout-btn" onclick="logout()" id="logoutBtn" style="display: none;">Logout</button>
+        <div id="syncControls" style="display: none; align-items: center; gap: 15px;">
+            <div class="sync-status">
+                <div id="syncDot" class="status-dot"></div>
+                <span id="syncText">Offline</span>
+            </div>
+            <button class="btn-sync" onclick="syncToServer()">
+                <span>💾</span> Save to Website
+            </button>
+            <button class="logout-btn" onclick="logout()" id="logoutBtn">Logout</button>
+        </div>
     </header>
 
     <!-- LOGIN SCREEN -->
@@ -467,8 +518,9 @@
             if (pass === 'Admin@2005') {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('dashboardScreen').style.display = 'block';
-                document.getElementById('logoutBtn').style.display = 'block';
+                document.getElementById('syncControls').style.display = 'flex';
                 loadAllData();
+                checkServerConnection();
             } else {
                 document.getElementById('loginError').style.display = 'block';
             }
@@ -1076,6 +1128,46 @@
             }
         }
 
+        // --- SYNC TO SERVER ---
+        async function checkServerConnection() {
+            try {
+                const res = await fetch('http://localhost:3000/', { method: 'GET' });
+                const dot = document.getElementById('syncDot');
+                const text = document.getElementById('syncText');
+                dot.classList.add('connected');
+                text.innerText = 'Connected';
+                text.style.color = '#10b981';
+            } catch (e) {
+                console.log("Sync server not running.");
+            }
+        }
+
+        async function syncToServer() {
+            const btn = document.querySelector('.btn-sync');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⌛ Syncing...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:3000/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(siteData)
+                });
+
+                if (response.ok) {
+                    alert('✅ Website updated successfully!');
+                } else {
+                    throw new Error('Server returned error');
+                }
+            } catch (e) {
+                alert('❌ Sync failed! Make sure sync-server.ps1 is running on your computer.');
+                console.error(e);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
     </script>
 </body>
 

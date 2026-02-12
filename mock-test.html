@@ -129,7 +129,11 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             color: #333;
-            /* Override black body text */
+            /* Anti-copy protections */
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         .question-item {
@@ -1141,6 +1145,17 @@
 
         // Initialize
         window.addEventListener('DOMContentLoaded', () => {
+            // Anti-copy protections for the entire page
+            document.addEventListener('contextmenu', e => {
+                if (views.quiz.style.display === 'block') e.preventDefault();
+            });
+            document.addEventListener('copy', e => {
+                if (views.quiz.style.display === 'block') e.preventDefault();
+            });
+            document.addEventListener('selectstart', e => {
+                if (views.quiz.style.display === 'block') e.preventDefault();
+            });
+
             fetch('mock-questions.json')
                 .then(response => {
                     if (!response.ok) {

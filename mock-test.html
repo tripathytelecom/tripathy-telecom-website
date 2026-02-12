@@ -359,7 +359,7 @@
         <div id="categoryView" class="view-section">
             <h1 style="text-align: center; margin-bottom: 30px;">Select a Category</h1>
             <div class="category-grid">
-                <div class="category-card" onclick="showChapters('GK')">
+                <div class="category-card" onclick="showSubjects('GK')">
                     <div class="cat-icon">🌍</div>
                     <h3>General Knowledge</h3>
                 </div>
@@ -371,14 +371,19 @@
                     <div class="cat-icon">📐</div>
                     <h3>Mathematics</h3>
                 </div>
-                <div class="category-card" onclick="showChapters('Geography')">
-                    <div class="cat-icon">🌏</div>
-                    <h3>Geography</h3>
-                </div>
                 <div class="category-card" onclick="showChapters('Full Mock')">
                     <div class="cat-icon">📝</div>
                     <h3>Full Mock</h3>
                 </div>
+            </div>
+        </div>
+
+        <!-- View 1.5: Subject Selection (Nested Category) -->
+        <div id="subjectView" class="view-section" style="display: none;">
+            <button class="back-btn" onclick="showCategories()">← Back to Categories</button>
+            <h1 id="selectedCategoryTitleSub" style="text-align: center; margin-bottom: 30px;">Select a Subject</h1>
+            <div id="subjectList" class="category-grid">
+                <!-- Subjects will be injected here -->
             </div>
         </div>
 
@@ -697,6 +702,7 @@
         // State
         let mockTestData = {};
         let currentCategory = null;
+        let currentSubject = null;
         let currentChapterIndex = null;
         let userCandidateName = "Candidate";
         let timerInterval = null;
@@ -706,6 +712,7 @@
         // Views
         const views = {
             categories: document.getElementById('categoryView'),
+            subjects: document.getElementById('subjectView'),
             chapters: document.getElementById('chapterView'),
             quiz: document.getElementById('quizView'),
             result: document.getElementById('resultView'),
@@ -776,32 +783,85 @@
             switchView('categories');
         }
 
-        // 2. Show Chapters for a Category
-        function showChapters(category) {
+        // 1.5 Show Subjects for a nested Category (e.g. GK)
+        function showSubjects(category) {
             currentCategory = category;
-            document.getElementById('selectedCategoryTitle').innerText = category + " Tests";
+            document.getElementById('selectedCategoryTitleSub').innerText = category + " Subjects";
+            const list = document.getElementById('subjectList');
+            list.innerHTML = '';
+
+            const subjects = mockTestData[category];
+            if (!subjects || Array.isArray(subjects)) {
+                // If it's not nested, go straight to chapters
+                showChapters(category);
+                return;
+            }
+
+            Object.keys(subjects).forEach(subj => {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.onclick = () => showChapters(category, subj);
+
+                // Icon mapping
+                let icon = '📚';
+                if (subj.includes('History')) icon = '🏛️';
+                if (subj.includes('Geography')) icon = '🌏';
+                if (subj.includes('Polity')) icon = '⚖️';
+                if (subj.includes('Science')) icon = '🧪';
+
+                card.innerHTML = `
+                    <div class="cat-icon">${icon}</div>
+                    <h3>${subj}</h3>
+                `;
+                list.appendChild(card);
+            });
+
+            switchView('subjects');
+        }
+
+        // 2. Show Chapters for a Category / Subject
+        function showChapters(category, subject = null) {
+            currentCategory = category;
+            currentSubject = subject;
+
+            const title = subject ? subject : category;
+            document.getElementById('selectedCategoryTitle').innerText = title + " Tests";
 
             const listContainer = document.getElementById('chapterList');
             listContainer.innerHTML = '';
 
-            if (!mockTestData[category]) {
-                listContainer.innerHTML = '<p>No tests available for this category.</p>';
-                return;
+            // Back button logic update
+            const backBtn = document.querySelector('#chapterView .back-btn');
+            if (subject) {
+                backBtn.onclick = () => showSubjects(category);
+            } else {
+                backBtn.onclick = () => showCategories();
             }
 
-            mockTestData[category].forEach((chapter, index) => {
-                const item = document.createElement('div');
-                item.className = 'chapter-item';
-                item.innerHTML = `
-                    <div>
-                        <strong>${chapter.chapterName}</strong>
-                        <br>
-                        <small style="color:#666">⏳ ${chapter.timeLimit} Seconds</small>
-                    </div>
-                    <button class="start-btn" onclick="showNameEntry(${index})">Start Test</button>
-                `;
-                listContainer.appendChild(item);
-            });
+            let chapters = [];
+            if (subject) {
+                chapters = mockTestData[category][subject];
+            } else {
+                chapters = mockTestData[category];
+            }
+
+            if (!chapters || chapters.length === 0) {
+                listContainer.innerHTML = '<p>No tests available for this selection.</p>';
+            } else {
+                chapters.forEach((chapter, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'chapter-item';
+                    item.innerHTML = `
+                        <div>
+                            <strong>${chapter.chapterName}</strong>
+                            <br>
+                            <small style="color:#666">⏳ ${chapter.timeLimit} Seconds</small>
+                        </div>
+                        <button class="start-btn" onclick="showNameEntry(${index})">Start Test</button>
+                    `;
+                    listContainer.appendChild(item);
+                });
+            }
 
             switchView('chapters');
         }
@@ -815,7 +875,7 @@
         // 3. Start Test
         function startTest(chapterIndex) {
             currentChapterIndex = chapterIndex;
-            const testData = mockTestData[currentCategory][chapterIndex];
+            const testData = currentSubject ? mockTestData[currentCategory][currentSubject][chapterIndex] : mockTestData[currentCategory][chapterIndex];
 
             // Setup Timer
             timeLeft = testData.timeLimit;

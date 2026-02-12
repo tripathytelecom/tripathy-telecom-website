@@ -464,6 +464,15 @@
                 </div>
             </div>
 
+            <!-- View 1.7: Types -->
+            <div id="mockTypesView" style="display: none;">
+                <h4>Select Mock Type</h4>
+                <div class="tabs" style="border: none;">
+                    <button class="tab-btn" onclick="openMockType('Chapter-wise Mock')">Chapter-wise Mock</button>
+                    <button class="tab-btn" onclick="openMockType('Full Subject Mock')">Full Subject Mock</button>
+                </div>
+            </div>
+
             <!-- View 2: Chapters -->
             <div id="mockChaptersView" style="display: none;">
                 <div class="editor-header">
@@ -891,7 +900,16 @@
 
             // Special handling for mock questions
             if (type === 'mock') {
-                const chapters = currentMockSubject ? siteData.mock[currentMockCategory][currentMockSubject] : siteData.mock[currentMockCategory];
+                let chapters = [];
+                if (currentMockSubject && currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+                } else if (currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockType];
+                } else if (currentMockSubject) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject];
+                } else {
+                    chapters = siteData.mock[currentMockCategory];
+                }
 
                 // Construct question object
                 const qObj = {
@@ -968,41 +986,57 @@
         // --- MOCK TEST LOGIC ---
         let currentMockCategory = null;
         let currentMockSubject = null;
+        let currentMockType = null;
         let currentMockChapterIndex = null;
 
         function showMockCategories() {
             document.getElementById('mockCategoriesView').style.display = 'block';
             document.getElementById('mockSubjectsView').style.display = 'none';
+            document.getElementById('mockTypesView').style.display = 'none';
             document.getElementById('mockChaptersView').style.display = 'none';
             document.getElementById('mockQuestionsView').style.display = 'none';
             document.getElementById('mockBreadcrumb').innerHTML = '<span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span>';
             currentMockCategory = null;
             currentMockSubject = null;
+            currentMockType = null;
             currentMockChapterIndex = null;
         }
 
         function openMockCategory(category) {
             currentMockCategory = category;
             currentMockSubject = null;
+            currentMockType = null;
 
             const data = siteData.mock[category];
 
-            if (data && !Array.isArray(data)) {
+            if (data && !Array.isArray(data) && !data['Chapter-wise Mock']) {
                 // Nested subjects
                 renderMockSubjects();
                 document.getElementById('mockCategoriesView').style.display = 'none';
                 document.getElementById('mockSubjectsView').style.display = 'block';
+                document.getElementById('mockTypesView').style.display = 'none';
+                document.getElementById('mockChaptersView').style.display = 'none';
+                document.getElementById('mockBreadcrumb').innerHTML = `
+                    <span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span> > 
+                    <span>${category}</span>
+                `;
+            } else if (data && data['Chapter-wise Mock']) {
+                // Category with types (Math, Reasoning)
+                document.getElementById('mockCategoriesView').style.display = 'none';
+                document.getElementById('mockSubjectsView').style.display = 'none';
+                document.getElementById('mockTypesView').style.display = 'block';
                 document.getElementById('mockChaptersView').style.display = 'none';
                 document.getElementById('mockBreadcrumb').innerHTML = `
                     <span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span> > 
                     <span>${category}</span>
                 `;
             } else {
-                // Normal category
+                // Normal category (Full Mock)
                 if (!siteData.mock[category]) siteData.mock[category] = [];
                 renderMockChapters();
                 document.getElementById('mockCategoriesView').style.display = 'none';
                 document.getElementById('mockSubjectsView').style.display = 'none';
+                document.getElementById('mockTypesView').style.display = 'none';
                 document.getElementById('mockChaptersView').style.display = 'block';
                 document.getElementById('selectedCategoryName').innerText = category + ' Chapters';
                 document.getElementById('mockBreadcrumb').innerHTML = `
@@ -1025,14 +1059,35 @@
 
         function openMockSubject(subject) {
             currentMockSubject = subject;
-            renderMockChapters();
+            currentMockType = null;
+
             document.getElementById('mockSubjectsView').style.display = 'none';
-            document.getElementById('mockChaptersView').style.display = 'block';
-            document.getElementById('selectedCategoryName').innerText = subject + ' Chapters';
+            document.getElementById('mockTypesView').style.display = 'block';
+            document.getElementById('mockChaptersView').style.display = 'none';
+
             document.getElementById('mockBreadcrumb').innerHTML = `
                 <span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span> > 
                 <span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span> > 
                 <span>${subject}</span>
+            `;
+        }
+
+        function openMockType(type) {
+            currentMockType = type;
+            renderMockChapters();
+
+            document.getElementById('mockTypesView').style.display = 'none';
+            document.getElementById('mockChaptersView').style.display = 'block';
+            document.getElementById('selectedCategoryName').innerText = type + ' Chapters';
+
+            const subPath = currentMockSubject ?
+                `<span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span> > <span style="cursor: pointer; text-decoration: underline;" onclick="openMockSubject('${currentMockSubject}')">${currentMockSubject}</span>` :
+                `<span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span>`;
+
+            document.getElementById('mockBreadcrumb').innerHTML = `
+                <span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span> > 
+                ${subPath} > 
+                <span>${type}</span>
             `;
         }
 
@@ -1050,7 +1105,16 @@
             const list = document.getElementById('mockChaptersList');
             list.innerHTML = '';
 
-            const chapters = currentMockSubject ? siteData.mock[currentMockCategory][currentMockSubject] : siteData.mock[currentMockCategory];
+            let chapters = [];
+            if (currentMockSubject && currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+            } else if (currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockType];
+            } else if (currentMockSubject) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject];
+            } else {
+                chapters = siteData.mock[currentMockCategory];
+            }
 
             chapters.forEach((chapter, index) => {
                 list.innerHTML += `
@@ -1069,7 +1133,16 @@
 
         function deleteMockChapter(index) {
             if (confirm('Delete this chapter and all its questions?')) {
-                const chapters = currentMockSubject ? siteData.mock[currentMockCategory][currentMockSubject] : siteData.mock[currentMockCategory];
+                let chapters = [];
+                if (currentMockSubject && currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+                } else if (currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockType];
+                } else if (currentMockSubject) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject];
+                } else {
+                    chapters = siteData.mock[currentMockCategory];
+                }
                 chapters.splice(index, 1);
                 renderMockChapters();
             }
@@ -1079,7 +1152,16 @@
             const name = prompt("Enter Chapter Name:");
             if (name) {
                 const limit = prompt("Enter Time Limit (in seconds):", "1500");
-                const chapters = currentMockSubject ? siteData.mock[currentMockCategory][currentMockSubject] : siteData.mock[currentMockCategory];
+                let chapters = [];
+                if (currentMockSubject && currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+                } else if (currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockType];
+                } else if (currentMockSubject) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject];
+                } else {
+                    chapters = siteData.mock[currentMockCategory];
+                }
                 chapters.push({
                     chapterName: name,
                     timeLimit: parseInt(limit) || 1500,
@@ -1095,12 +1177,22 @@
             document.getElementById('mockChaptersView').style.display = 'none';
             document.getElementById('mockQuestionsView').style.display = 'block';
 
-            const chapters = currentMockSubject ? siteData.mock[currentMockCategory][currentMockSubject] : siteData.mock[currentMockCategory];
+            let chapters = [];
+            if (currentMockSubject && currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+            } else if (currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockType];
+            } else if (currentMockSubject) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject];
+            } else {
+                chapters = siteData.mock[currentMockCategory];
+            }
+
             document.getElementById('selectedChapterName').innerText = chapters[index].chapterName;
 
-            const categoryPath = currentMockSubject ?
-                `<span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span> > <span style="cursor: pointer; text-decoration: underline;" onclick="openMockSubject('${currentMockSubject}')">${currentMockSubject}</span>` :
-                `<span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span>`;
+            const categoryPath = currentMockSubject && currentMockType ?
+                `<span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span> > <span style="cursor: pointer; text-decoration: underline;" onclick="openMockSubject('${currentMockSubject}')">${currentMockSubject}</span> > <span style="cursor: pointer; text-decoration: underline;" onclick="openMockType('${currentMockType}')">${currentMockType}</span>` :
+                (currentMockType ? `<span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span> > <span style="cursor: pointer; text-decoration: underline;" onclick="openMockType('${currentMockType}')">${currentMockType}</span>` : `<span style="cursor: pointer; text-decoration: underline;" onclick="openMockCategory('${currentMockCategory}')">${currentMockCategory}</span>`);
 
             document.getElementById('mockBreadcrumb').innerHTML = `
                 <span style="cursor: pointer; text-decoration: underline;" onclick="showMockCategories()">Categories</span> > 
@@ -1113,7 +1205,17 @@
             const list = document.getElementById('mockQuestionsList');
             list.innerHTML = '';
 
-            const chapters = currentMockSubject ? siteData.mock[currentMockCategory][currentMockSubject] : siteData.mock[currentMockCategory];
+            let chapters = [];
+            if (currentMockSubject && currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+            } else if (currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockType];
+            } else if (currentMockSubject) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject];
+            } else {
+                chapters = siteData.mock[currentMockCategory];
+            }
+
             const questions = chapters[currentMockChapterIndex].questions;
 
             questions.forEach((q, index) => {
@@ -1133,7 +1235,16 @@
 
         function deleteMockQuestion(index) {
             if (confirm('Delete this question?')) {
-                const chapters = currentMockSubject ? siteData.mock[currentMockCategory][currentMockSubject] : siteData.mock[currentMockCategory];
+                let chapters = [];
+                if (currentMockSubject && currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+                } else if (currentMockType) {
+                    chapters = siteData.mock[currentMockCategory][currentMockType];
+                } else if (currentMockSubject) {
+                    chapters = siteData.mock[currentMockCategory][currentMockSubject];
+                } else {
+                    chapters = siteData.mock[currentMockCategory];
+                }
                 chapters[currentMockChapterIndex].questions.splice(index, 1);
                 renderMockQuestions();
             }
@@ -1162,7 +1273,18 @@
             document.getElementById('editType').value = 'mock';
             openModal('Edit Question');
 
-            const q = siteData.mock[currentMockCategory][currentMockChapterIndex].questions[index];
+            let chapters = [];
+            if (currentMockSubject && currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject][currentMockType];
+            } else if (currentMockType) {
+                chapters = siteData.mock[currentMockCategory][currentMockType];
+            } else if (currentMockSubject) {
+                chapters = siteData.mock[currentMockCategory][currentMockSubject];
+            } else {
+                chapters = siteData.mock[currentMockCategory];
+            }
+
+            const q = chapters[currentMockChapterIndex].questions[index];
             const fields = document.getElementById('modalFields');
 
             // Assume 4 options for now

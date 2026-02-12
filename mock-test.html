@@ -363,11 +363,11 @@
                     <div class="cat-icon">🌍</div>
                     <h3>General Knowledge</h3>
                 </div>
-                <div class="category-card" onclick="showChapters('Reasoning')">
+                <div class="category-card" onclick="showSubjects('Reasoning')">
                     <div class="cat-icon">🧠</div>
                     <h3>Reasoning</h3>
                 </div>
-                <div class="category-card" onclick="showChapters('Math')">
+                <div class="category-card" onclick="showSubjects('Math')">
                     <div class="cat-icon">📐</div>
                     <h3>Mathematics</h3>
                 </div>
@@ -384,6 +384,22 @@
             <h1 id="selectedCategoryTitleSub" style="text-align: center; margin-bottom: 30px;">Select a Subject</h1>
             <div id="subjectList" class="category-grid">
                 <!-- Subjects will be injected here -->
+            </div>
+        </div>
+
+        <!-- View 1.7: Type Selection (Chapter-wise vs Full) -->
+        <div id="typeView" class="view-section" style="display: none;">
+            <button class="back-btn" id="typeBackBtn">← Back</button>
+            <h1 id="selectedSubjectTitleType" style="text-align: center; margin-bottom: 30px;">Select Mock Type</h1>
+            <div class="category-grid">
+                <div class="category-card" onclick="showChapters(currentCategory, currentSubject, 'Chapter-wise Mock')">
+                    <div class="cat-icon">📂</div>
+                    <h3>Chapter-wise Mock</h3>
+                </div>
+                <div class="category-card" onclick="showChapters(currentCategory, currentSubject, 'Full Subject Mock')">
+                    <div class="cat-icon">🏆</div>
+                    <h3>Full Subject Mock</h3>
+                </div>
             </div>
         </div>
 
@@ -433,6 +449,9 @@
                 <!-- Always block here as parent controls visibility -->
                 <h2>Test Completed! 🎉</h2>
                 <h3 id="resultCandidateName" style="color: #065f46; margin-bottom: 5px;"></h3>
+                <div style="margin-bottom: 15px; font-weight: bold; color: #555;">
+                    <span id="resultSubjectName"></span> | <span id="resultTestTitle"></span>
+                </div>
 
                 <h1 id="feedbackMessage" style="margin: 10px 0; font-size: 2.5rem;"></h1>
 
@@ -703,6 +722,7 @@
         let mockTestData = {};
         let currentCategory = null;
         let currentSubject = null;
+        let currentType = null;
         let currentChapterIndex = null;
         let userCandidateName = "Candidate";
         let timerInterval = null;
@@ -713,6 +733,7 @@
         const views = {
             categories: document.getElementById('categoryView'),
             subjects: document.getElementById('subjectView'),
+            types: document.getElementById('typeView'),
             chapters: document.getElementById('chapterView'),
             quiz: document.getElementById('quizView'),
             result: document.getElementById('resultView'),
@@ -791,8 +812,14 @@
             list.innerHTML = '';
 
             const subjects = mockTestData[category];
+            // If it's a main category with NO subjects but has types (like Math)
+            if (subjects && subjects['Chapter-wise Mock']) {
+                showTypes(category);
+                return;
+            }
+
             if (!subjects || Array.isArray(subjects)) {
-                // If it's not nested, go straight to chapters
+                // If it's not nested at all (Full Mock)
                 showChapters(category);
                 return;
             }
@@ -800,7 +827,7 @@
             Object.keys(subjects).forEach(subj => {
                 const card = document.createElement('div');
                 card.className = 'category-card';
-                card.onclick = () => showChapters(category, subj);
+                card.onclick = () => showTypes(category, subj);
 
                 // Icon mapping
                 let icon = '📚';
@@ -819,27 +846,54 @@
             switchView('subjects');
         }
 
-        // 2. Show Chapters for a Category / Subject
-        function showChapters(category, subject = null) {
+        // 1.7 Show Types (Chapter-wise vs Full)
+        function showTypes(category, subject = null) {
             currentCategory = category;
             currentSubject = subject;
 
             const title = subject ? subject : category;
-            document.getElementById('selectedCategoryTitle').innerText = title + " Tests";
+            document.getElementById('selectedSubjectTitleType').innerText = title + " Mock Type";
 
-            const listContainer = document.getElementById('chapterList');
-            listContainer.innerHTML = '';
-
-            // Back button logic update
-            const backBtn = document.querySelector('#chapterView .back-btn');
+            const backBtn = document.getElementById('typeBackBtn');
             if (subject) {
                 backBtn.onclick = () => showSubjects(category);
             } else {
                 backBtn.onclick = () => showCategories();
             }
 
+            switchView('types');
+        }
+
+        // 2. Show Chapters for a Category / Subject / Type
+        function showChapters(category, subject = null, type = null) {
+            currentCategory = category;
+            currentSubject = subject;
+            currentType = type;
+
+            let title = type ? type : (subject ? subject : category);
+            if (subject && type) title = subject + " - " + type;
+
+            document.getElementById('selectedCategoryTitle').innerText = title;
+
+            const listContainer = document.getElementById('chapterList');
+            listContainer.innerHTML = '';
+
+            // Back button logic update
+            const backBtn = document.querySelector('#chapterView .back-btn');
+            if (type) {
+                backBtn.onclick = () => showTypes(category, subject);
+            } else if (subject) {
+                backBtn.onclick = () => showSubjects(category);
+            } else {
+                backBtn.onclick = () => showCategories();
+            }
+
             let chapters = [];
-            if (subject) {
+            if (subject && type) {
+                chapters = mockTestData[category][subject][type];
+            } else if (type) {
+                chapters = mockTestData[category][type];
+            } else if (subject) {
                 chapters = mockTestData[category][subject];
             } else {
                 chapters = mockTestData[category];
@@ -875,7 +929,19 @@
         // 3. Start Test
         function startTest(chapterIndex) {
             currentChapterIndex = chapterIndex;
-            const testData = currentSubject ? mockTestData[currentCategory][currentSubject][chapterIndex] : mockTestData[currentCategory][chapterIndex];
+
+            let chapters = [];
+            if (currentSubject && currentType) {
+                chapters = mockTestData[currentCategory][currentSubject][currentType];
+            } else if (currentType) {
+                chapters = mockTestData[currentCategory][currentType];
+            } else if (currentSubject) {
+                chapters = mockTestData[currentCategory][currentSubject];
+            } else {
+                chapters = mockTestData[currentCategory];
+            }
+
+            const testData = chapters[chapterIndex];
 
             // Setup Timer
             timeLeft = testData.timeLimit;
@@ -951,16 +1017,34 @@
         document.getElementById('activeTestForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const testData = mockTestData[currentCategory][currentChapterIndex];
+            let chapters = [];
+            if (currentSubject && currentType) {
+                chapters = mockTestData[currentCategory][currentSubject][currentType];
+            } else if (currentType) {
+                chapters = mockTestData[currentCategory][currentType];
+            } else if (currentSubject) {
+                chapters = mockTestData[currentCategory][currentSubject];
+            } else {
+                chapters = mockTestData[currentCategory];
+            }
+            const testData = chapters[currentChapterIndex];
+
             const formData = new FormData(this);
             let attempted = 0;
             testData.questions.forEach(q => {
                 if (formData.get(`q${q.id}`)) attempted++;
             });
 
-            // Minimum 80 questions check
-            if (testData.questions.length >= 80 && attempted < 80) {
-                alert(`নূন্যতম ৮০টি প্রশ্নের উত্তর দিতে হবে। (বর্তমানে ${attempted}টি উত্তর দিয়েছেন)`);
+            // Time-based Submission Guard (40% of time must be used)
+            const timeElapsed = (new Date() - startTime) / 1000;
+            const minTimeRequired = testData.timeLimit * 0.4;
+
+            if (timeElapsed < minTimeRequired) {
+                const remainingSecs = Math.ceil(minTimeRequired - timeElapsed);
+                const remMins = Math.floor(remainingSecs / 60);
+                const remSecs = remainingSecs % 60;
+                const timeString = remMins > 0 ? `${remMins} মিনিট ${remSecs} সেকেন্ড` : `${remSecs} সেকেন্ড`;
+                alert(`আপনি খুব তাড়াতাড়ি সাবমিট করতে চাইছেন। আপনাকে আরও ${timeString} অপেক্ষা করতে হবে।`);
                 return;
             }
 
@@ -978,7 +1062,17 @@
             const secondsTaken = secondsTakenTotal % 60;
             const timeString = `${minutesTaken} min ${secondsTaken} sec`;
 
-            const testData = mockTestData[currentCategory][currentChapterIndex];
+            let chapters = [];
+            if (currentSubject && currentType) {
+                chapters = mockTestData[currentCategory][currentSubject][currentType];
+            } else if (currentType) {
+                chapters = mockTestData[currentCategory][currentType];
+            } else if (currentSubject) {
+                chapters = mockTestData[currentCategory][currentSubject];
+            } else {
+                chapters = mockTestData[currentCategory];
+            }
+            const testData = chapters[currentChapterIndex];
             const formData = new FormData(document.getElementById('activeTestForm'));
 
             let correct = 0;
@@ -1026,6 +1120,11 @@
 
             // Show Result
             document.getElementById('resultCandidateName').innerText = "Candidate: " + userCandidateName;
+
+            // Show Subject and Test Name
+            const displaySubject = currentSubject ? currentSubject : currentCategory;
+            document.getElementById('resultSubjectName').innerText = "Subject: " + displaySubject;
+            document.getElementById('resultTestTitle').innerText = "Mock: " + testData.chapterName;
 
             // Update Stats Grid
             document.getElementById('totalQVal').innerText = total;
@@ -1075,7 +1174,17 @@
 
         // 5. View Solutions (Restored)
         function showSolutions() {
-            const testData = mockTestData[currentCategory][currentChapterIndex];
+            let chapters = [];
+            if (currentSubject && currentType) {
+                chapters = mockTestData[currentCategory][currentSubject][currentType];
+            } else if (currentType) {
+                chapters = mockTestData[currentCategory][currentType];
+            } else if (currentSubject) {
+                chapters = mockTestData[currentCategory][currentSubject];
+            } else {
+                chapters = mockTestData[currentCategory];
+            }
+            const testData = chapters[currentChapterIndex];
             const formData = window.lastUserAnswers;
             const container = document.getElementById('solutionList');
             container.innerHTML = '';

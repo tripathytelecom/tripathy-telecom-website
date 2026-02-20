@@ -1,6 +1,38 @@
 [
   {
     "type": "job",
+    "date": "2026-02-20T18:30:00.000Z",
+    "title": "Indian Army Agniveer Intake (CEN 2026) Recruitment",
+    "updateDate": "20/02/2026",
+    "vacancy": "25,000+ (Anticipated)",
+    "qualification": "8th Pass / 10th Pass / 12th Pass",
+    "age": "17.5 - 22 Years (Born between 01/07/2005 to 01/07/2009)",
+    "fee": "₹250 (Approx, Check Notification)",
+    "lastDate": "01 April 2026",
+    "applyLink": "https://www.joinindianarmy.nic.in/",
+    "notification": "https://www.joinindianarmy.nic.in/",
+    "website": "https://www.joinindianarmy.nic.in/",
+    "descriptionEn": "The Indian Army has released the recruitment for Agniveer (Intake 2026) for various posts including GD, Technical, Office Assistant, and Tradesmen. The selection process includes an Online Common Entrance Exam (CEE), Physical Fitness Test (PFT), and Medical Examination.",
+    "descriptionBn": "ভারতীয় সেনাবাহিনী ২০২৬ সালের অগ্নিবীর (ইনটেকে ২০২৬) নিয়োগের জন্য বিভিন্ন পদে (জিডি, টেকনিক্যাল, অফিস অ্যাসিস্ট্যান্ট এবং ট্রেডসম্যান) আবেদন আহ্বান করেছে। নির্বাচন প্রক্রিয়ার মধ্যে রয়েছে অনলাইন কমন এন্ট্রান্স পরীক্ষা (CEE), শারীরিক সক্ষমতা যাচাই (PFT) এবং মেডিকেল পরীক্ষা।"
+  },
+  {
+    "type": "job",
+    "date": "2026-02-20T18:00:00.000Z",
+    "title": "RRB Group D (RRC Level-1) Recruitment 2025-26",
+    "updateDate": "20/02/2026",
+    "vacancy": "22,195",
+    "qualification": "10th Pass / ITI / NAC",
+    "age": "18-33 Years (Age Relaxation as per Rules)",
+    "fee": "Gen/OBC/EWS: ₹500, Others: ₹250 (Refundable)",
+    "lastDate": "02 March 2026",
+    "applyLink": "https://www.rrbapply.gov.in/",
+    "notification": "https://www.rrbapply.gov.in/",
+    "website": "https://www.rrbapply.gov.in/",
+    "descriptionEn": "RRB has released a massive recruitment for Group D (Level-1) posts across various railway zones. The selection process will involve a Computer Based Test (CBT), Physical Efficiency Test (PET), Document Verification, and Medical Examination.",
+    "descriptionBn": "রেলওয়ে রিক্রুটমেন্ট বোর্ড (RRB) বিভিন্ন রেলওয়ে জোনে গ্রুপ ডি (লেভেল-১) পদের জন্য একটি বিশাল নিয়োগ বিজ্ঞপ্তি প্রকাশ করেছে। নির্বাচন প্রক্রিয়ার মধ্যে রয়েছে কম্পিউটার ভিত্তিক পরীক্ষা (CBT), শারীরিক দক্ষতা যাচাই (PET), নথি যাচাইকরণ এবং মেডিকেল পরীক্ষা।"
+  },
+  {
+    "type": "job",
     "date": "2026-01-21T16:24:25.718Z",
     "title": "indian Post GDS Recruitment 2026",
     "updateDate": "21/01/2026",

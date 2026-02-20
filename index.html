@@ -1062,6 +1062,34 @@
         box-sizing: border-box !important;
       }
     }
+
+    /* NEW BADGE BLINK */
+    .new-badge-blink {
+      background: red;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-left: 5px;
+      animation: blinkText 1s infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @keyframes blinkText {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
   </style>
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
@@ -1313,7 +1341,14 @@
     </div>
   </section>
 
-  <footer>
+  <footer
+    style="background: #000; color: #ffd400; text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 50px;">
+    <div style="margin-bottom: 10px;">
+      <a href="about.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">About Us</a> |
+      <a href="privacy-policy.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Privacy Policy</a> |
+      <a href="terms.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Terms & Conditions</a> |
+      <a href="contact.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Contact Us</a>
+    </div>
     © 2025 TRIPATHY TELECOM | All Rights Reserved
   </footer>
 

@@ -170,22 +170,20 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <div class="footer-text">
-      © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
+  <footer
+    style="background: #000; color: #ffd400; text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 50px;">
+    <div style="margin-bottom: 10px;">
+      <a href="about.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">About Us</a> |
+      <a href="privacy-policy.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Privacy Policy</a> |
+      <a href="terms.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Terms & Conditions</a> |
+      <a href="contact.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Contact Us</a>
     </div>
-
-    <div class="footer-social">
-      <a href="https://wa.me/91XXXXXXXXXX" target="_blank">🟢</a>
-      <a href="https://facebook.com/tripathytelecom" target="_blank">📘</a>
-      <a href="https://youtube.com/@tripathytelecom" target="_blank">▶️</a>
-    </div>
+    © 2025 Tripathy Telecom | Recharge • PAN Card • Cyber Cafe
   </footer>
 
   <!-- ===== CART SCRIPT ===== -->
   <script>
-    let cart = JSON.patorage.getItem("cart")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let cartDiv = document.getElementById("cartItems");
 
     function renderCart() {

@@ -1,60 +1,61 @@
 fetch("jobs.json?v=" + Date.now())
-.then(res => res.json())
-.then(data => {
+  .then(res => res.json())
+  .then(data => {
 
-  const jobBox = document.getElementById("latest-jobs");
-  const resultBox = document.getElementById("latest-results");
-  const admitBox = document.getElementById("latest-admit");
+    const jobBox = document.getElementById("latest-jobs");
+    const resultBox = document.getElementById("latest-results");
+    const admitBox = document.getElementById("latest-admit");
 
-  jobBox.innerHTML = "";
-  resultBox.innerHTML = "";
-  admitBox.innerHTML = "";
+    jobBox.innerHTML = "";
+    resultBox.innerHTML = "";
+    admitBox.innerHTML = "";
 
-  let jc=0, rc=0, ac=0;
+    let jc = 0, rc = 0, ac = 0;
 
-  data.forEach((j, i) => {
+    data.forEach((j, i) => {
 
-    if (!j.type || !j.title) return;
+      if (!j.type || !j.title) return;
 
-    /* JOB */
-    if (j.type === "job") {
-      jobBox.innerHTML += `
+      /* JOB */
+      if (j.type === "job") {
+        const newBadge = jc < 3 ? `<span class="new-badge-blink">NEW</span>` : "";
+        jobBox.innerHTML += `
         <li>
           <a href="job-details.html?id=${i}">
-            ${j.title}
+            ${j.title}${newBadge}
           </a>
         </li>`;
-      jc++;
-    }
+        jc++;
+      }
 
-    /* RESULT */
-    if (j.type === "result") {
-      resultBox.innerHTML += `
+      /* RESULT */
+      if (j.type === "result") {
+        resultBox.innerHTML += `
         <li>
           <a href="result-details.html?id=${i}">
             ${j.title}
           </a>
         </li>`;
-      rc++;
-    }
+        rc++;
+      }
 
-    /* ADMIT */
-    if (j.type === "admit") {
-      admitBox.innerHTML += `
+      /* ADMIT */
+      if (j.type === "admit") {
+        admitBox.innerHTML += `
         <li>
           <a href="admit-details.html?id=${i}">
             ${j.title}
           </a>
         </li>`;
-      ac++;
-    }
+        ac++;
+      }
 
+    });
+
+    if (jc === 0) jobBox.innerHTML = "<li>No Job Available</li>";
+    if (rc === 0) resultBox.innerHTML = "<li>No Result Available</li>";
+    if (ac === 0) admitBox.innerHTML = "<li>No Admit Card Available</li>";
   });
-
-  if (jc===0) jobBox.innerHTML="<li>No Job Available</li>";
-  if (rc===0) resultBox.innerHTML="<li>No Result Available</li>";
-  if (ac===0) admitBox.innerHTML="<li>No Admit Card Available</li>";
-});
 document.addEventListener("DOMContentLoaded", function () {
 
   const searchInput = document.getElementById("jobSearch");
@@ -91,13 +92,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 });
-function handleSearchEnter(e){
-  if(e.key === "Enter"){
+function handleSearchEnter(e) {
+  if (e.key === "Enter") {
     const value = e.target.value.toLowerCase();
 
     document.querySelectorAll(
       "#latest-jobs li, #latest-results li, #latest-admit li"
-    ).forEach(li=>{
+    ).forEach(li => {
       li.style.display = li.innerText.toLowerCase().includes(value)
         ? "list-item"
         : "none";

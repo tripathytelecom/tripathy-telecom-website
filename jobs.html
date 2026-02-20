@@ -309,6 +309,34 @@
         z-index: 9999;
       }
     }
+
+    /* NEW BADGE BLINK */
+    .new-badge-blink {
+      background: red;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-left: 5px;
+      animation: blinkText 1s infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @keyframes blinkText {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 

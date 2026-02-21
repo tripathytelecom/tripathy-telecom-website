@@ -1118,16 +1118,12 @@
                 if (formData.get(`q${q.id}`)) attempted++;
             });
 
-            // Time-based Submission Guard (40% of time must be used)
-            const timeElapsed = (new Date() - startTime) / 1000;
-            const minTimeRequired = testData.timeLimit * 0.4;
+            // New Attempt-based Submission Guard
+            const totalQuestions = testData.questions.length;
+            const minAttemptRequired = Math.ceil(totalQuestions * 0.5);
 
-            if (timeElapsed < minTimeRequired) {
-                const remainingSecs = Math.ceil(minTimeRequired - timeElapsed);
-                const remMins = Math.floor(remainingSecs / 60);
-                const remSecs = remainingSecs % 60;
-                const timeString = remMins > 0 ? `${remMins} মিনিট ${remSecs} সেকেন্ড` : `${remSecs} সেকেন্ড`;
-                alert(`আপনি খুব তাড়াতাড়ি সাবমিট করতে চাইছেন। আপনাকে আরও ${timeString} অপেক্ষা করতে হবে।`);
+            if (attempted < minAttemptRequired) {
+                alert(`সাবমিট করতে আপনাকে কমপক্ষে ৫০% প্রশ্ন অ্যাটেম্পট করতে হবে। \nআপনি এখন পর্যন্ত ${attempted} টি প্রশ্নের উত্তর দিয়েছেন। \nআপনাকে আরও ${minAttemptRequired - attempted} টি প্রশ্নের উত্তর দিতে হবে।`);
                 return;
             }
 

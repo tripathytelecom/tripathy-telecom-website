@@ -121,7 +121,7 @@
 
         /* ================= QUIZ SPECIFIC STYLES ================= */
         .container {
-            max-width: 800px;
+            max-width: 1050px;
             margin: 40px auto;
             padding: 0 20px;
         }
@@ -139,10 +139,159 @@
             -ms-user-select: none;
         }
 
+        /* Responsive Layout for Quiz */
+        .quiz-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (min-width: 900px) {
+            .quiz-layout {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .quiz-content {
+                flex: 2.5;
+            }
+
+            .quiz-sidebar {
+                flex: 1;
+                position: sticky;
+                top: 90px;
+                /* Below header */
+            }
+        }
+
+        .quiz-sidebar .quiz-card {
+            padding: 20px 15px;
+        }
+
+        /* Question Palette Styles */
+        .question-palette {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .palette-btn {
+            background-color: #f3f4f6;
+            color: #333;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            /* Rounded squares fit tighter sizes perfectly */
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+        }
+
+        .palette-btn:hover {
+            border-color: #ffd400;
+        }
+
+        .palette-btn.attempted {
+            background-color: #10b981;
+            color: white;
+            border-color: #059669;
+        }
+
+        .palette-btn.active {
+            box-shadow: 0 0 0 3px #ffd400;
+            transform: scale(1.1);
+        }
+
+        .palette-legend {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .circle-unattempted {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+        }
+
+        .circle-attempted {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #10b981;
+            border: 1px solid #059669;
+        }
+
+        /* Navigation Buttons */
+        .quiz-nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .nav-btn {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background-color: #cbd5e1;
+        }
+
+        .nav-btn.primary {
+            background-color: #ffd400;
+            color: #000;
+        }
+
+        .nav-btn.primary:hover:not(:disabled) {
+            background-color: #e6c000;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .question-item {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            display: none;
+            /* Hide all by default */
+        }
+
+        .question-item.active-question {
+            display: block;
+            /* Show only active */
+            animation: fadeIn 0.3s;
         }
 
         .question-text {
@@ -509,12 +658,48 @@
                 <button class="quit-btn" onclick="quitTest()">Quit Test</button>
             </div>
 
-            <div class="quiz-card">
-                <h2 id="quizTitle" style="text-align: center; margin-bottom: 20px;"></h2>
-                <form id="activeTestForm">
-                    <div id="questionsContainer"></div>
-                    <button type="submit" class="submit-btn" style="margin-top: 20px;">Submit Test</button>
-                </form>
+            <h2 id="quizTitle" style="text-align: center; margin-bottom: 20px;"></h2>
+
+            <div class="quiz-layout">
+                <!-- Left: Question Content -->
+                <div class="quiz-content">
+                    <div class="quiz-card">
+                        <form id="activeTestForm">
+                            <div id="questionsContainer"></div>
+
+                            <!-- Enhanced Navigation Buttons -->
+                            <div class="quiz-nav-buttons">
+                                <button type="button" class="nav-btn" id="prevBtn" onclick="prevQuestion()">←
+                                    Previous</button>
+                                <button type="button" class="nav-btn primary" id="nextBtn" onclick="nextQuestion()">Next
+                                    →</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right: Question Palette -->
+                <div class="quiz-sidebar">
+                    <div class="quiz-card">
+                        <h3 style="margin-top: 0; margin-bottom: 15px; text-align: center; color: #1e293b;">Question
+                            Palette</h3>
+                        <div class="palette-legend">
+                            <div class="legend-item">
+                                <span class="circle-attempted"></span> <span>Answered</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="circle-unattempted"></span> <span>Not Answered</span>
+                            </div>
+                        </div>
+                        <div id="questionPalette" class="question-palette">
+                            <!-- Palette buttons injected here -->
+                        </div>
+
+                        <button type="button" class="submit-btn" style="margin-top: 20px;"
+                            onclick="document.getElementById('activeTestForm').dispatchEvent(new Event('submit', {cancelable: true, bubbles: true}))">Submit
+                            Test</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1009,9 +1194,12 @@
             startTest(chapterIndex);
         }
 
+        let currentQuestionIndex = 0; // Added for Pagination
+
         // 3. Start Test
         function startTest(chapterIndex) {
             currentChapterIndex = chapterIndex;
+            currentQuestionIndex = 0; // Reset pagination
 
             let chapters = [];
             if (currentSubject && currentType) {
@@ -1040,14 +1228,17 @@
             testData.questions.forEach((q, idx) => {
                 const imageHtml = q.image ? `<div style="margin: 10px 0;"><img src="${q.image}" alt="Question Image" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 1px solid #ddd;"></div>` : '';
 
+                // First question is active by default
+                const activeClass = idx === 0 ? 'active-question' : '';
+
                 const questionHTML = `
-                <div class="question-item">
-                    <div class="question-text">${idx + 1}. ${q.question}</div>
+                <div class="question-item ${activeClass}" id="question-${idx}">
+                    <div class="question-text">Q${idx + 1}. ${q.question}</div>
                     ${imageHtml}
                     <div class="options-group">
                         ${q.options.map(opt => `
                             <label class="option-label">
-                                <input type="radio" name="q${q.id}" value="${opt}"> ${opt}
+                                <input type="radio" name="q${q.id}" value="${opt}" onchange="markAttempted(${idx})"> ${opt}
                             </label>
                         `).join('')}
                     </div>
@@ -1056,8 +1247,81 @@
                 container.innerHTML += questionHTML;
             });
 
+            // Initialize Palette
+            initQuestionPalette(testData.questions.length);
+            updateNavButtons(testData.questions.length);
+
             switchView('quiz');
         }
+
+        // ================= PAGINATION & PALETTE LOGIC =================
+
+        function initQuestionPalette(totalQuestions) {
+            const paletteItemBox = document.getElementById('questionPalette');
+            paletteItemBox.innerHTML = '';
+
+            for (let i = 0; i < totalQuestions; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'palette-btn';
+                if (i === 0) btn.classList.add('active');
+                btn.innerText = i + 1;
+                btn.id = 'palette-btn-' + i;
+                btn.onclick = () => goToQuestion(i, totalQuestions);
+                paletteItemBox.appendChild(btn);
+            }
+        }
+
+        function markAttempted(qIndex) {
+            const btn = document.getElementById('palette-btn-' + qIndex);
+            if (btn && !btn.classList.contains('attempted')) {
+                btn.classList.add('attempted');
+            }
+        }
+
+        function updateQuestionView(totalQuestions) {
+            // Hide all questions
+            document.querySelectorAll('.question-item').forEach(el => el.classList.remove('active-question'));
+            // Remove active from all palette buttons
+            document.querySelectorAll('.palette-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show current question
+            document.getElementById('question-' + currentQuestionIndex).classList.add('active-question');
+
+            // Highlight current palette button
+            const activePaletteBtn = document.getElementById('palette-btn-' + currentQuestionIndex);
+            if (activePaletteBtn) activePaletteBtn.classList.add('active');
+
+            updateNavButtons(totalQuestions);
+        }
+
+        function updateNavButtons(totalQuestions) {
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === totalQuestions - 1;
+        }
+
+        function nextQuestion() {
+            const totalQuestions = document.querySelectorAll('.question-item').length;
+            if (currentQuestionIndex < totalQuestions - 1) {
+                currentQuestionIndex++;
+                updateQuestionView(totalQuestions);
+            }
+        }
+
+        function prevQuestion() {
+            const totalQuestions = document.querySelectorAll('.question-item').length;
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                updateQuestionView(totalQuestions);
+            }
+        }
+
+        function goToQuestion(index, totalQuestions) {
+            currentQuestionIndex = index;
+            updateQuestionView(totalQuestions);
+        }
+
+        // ================= END PAGINATION =================
 
         // Timer Logic
         function startTimer() {

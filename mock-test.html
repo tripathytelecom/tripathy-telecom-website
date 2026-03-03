@@ -1443,8 +1443,12 @@
             const unattempted = total - attempted;
             const wrong = attempted - correct;
 
-            // Calculate final score with 1/3 negative marking
-            const finalScore = (correct - (wrong / 3)).toFixed(2);
+            // Calculate final score with 1/3 negative marking (except WBSSC Group C 2026)
+            let penalty = wrong / 3;
+            if (testData.chapterName === "WBSSC Group C 2026 (Exam dt: 01/03/2026)") {
+                penalty = 0;
+            }
+            const finalScore = (correct - penalty).toFixed(2);
             const percentage = (total > 0) ? ((finalScore / total) * 100).toFixed(2) : 0;
 
             // Determine Feedback

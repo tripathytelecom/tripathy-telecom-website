@@ -1222,11 +1222,27 @@
 
             const testData = chapters[chapterIndex];
 
-            // Setup Timer
-            timeLeft = testData.timeLimit;
-            startTime = new Date(); // Record start time
-            updateTimerDisplay();
-            startTimer();
+            const isPracticeSet = currentCategory === "Practice Set";
+
+            // Setup Timer and Layout
+            const timerBox = document.getElementById('timerBox');
+            const sidebar = document.querySelector('.quiz-sidebar');
+            const quizContent = document.querySelector('.quiz-content');
+
+            if (isPracticeSet) {
+                if (timerBox) timerBox.style.display = 'none';
+                if (timerInterval) clearInterval(timerInterval);
+                if (sidebar) sidebar.style.display = 'none';
+                if (quizContent) quizContent.style.width = '100%';
+            } else {
+                if (timerBox) timerBox.style.display = 'block';
+                timeLeft = testData.timeLimit;
+                startTime = new Date(); // Record start time
+                updateTimerDisplay();
+                startTimer();
+                if (sidebar) sidebar.style.display = 'block';
+                if (quizContent) quizContent.style.width = ''; // Revert to default
+            }
 
             // Setup Questions
             document.getElementById('quizTitle').innerText = testData.chapterName;
@@ -1239,10 +1255,16 @@
                 // First question is active by default
                 const activeClass = idx === 0 ? 'active-question' : '';
 
-                const questionHTML = `
-                <div class="question-item ${activeClass}" id="question-${idx}">
-                    <div class="question-text">Q${idx + 1}. ${q.question}</div>
-                    ${imageHtml}
+                let innerContent = "";
+                if (isPracticeSet) {
+                    innerContent = `
+                        <div style="margin-top:20px; padding:15px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px;">
+                            <p style="color:#166534; font-weight:bold; margin-bottom:10px; font-size:1.1rem;">✅ উত্তর: ${q.answer}</p>
+                            ${q.solution && q.solution !== q.answer ? `<p style="color:#374151; font-size:0.95em; margin-top:5px;"><strong>💡 বিস্তারিত:</strong> ${q.solution}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    innerContent = `
                     <div class="options-group">
                         ${q.options.map(opt => `
                             <label class="option-label">
@@ -1250,13 +1272,27 @@
                             </label>
                         `).join('')}
                     </div>
+                    `;
+                }
+
+                const questionHTML = `
+                <div class="question-item ${activeClass}" id="question-${idx}">
+                    <div class="question-text">Q${idx + 1}. ${q.question}</div>
+                    ${imageHtml}
+                    ${innerContent}
                 </div>
                 `;
                 container.innerHTML += questionHTML;
             });
 
-            // Initialize Palette
-            initQuestionPalette(testData.questions.length);
+            if (!isPracticeSet) {
+                // Initialize Palette
+                initQuestionPalette(testData.questions.length);
+            } else {
+                // Clear palette for safety
+                const paletteItemBox = document.getElementById('questionPalette');
+                if (paletteItemBox) paletteItemBox.innerHTML = '';
+            }
             updateNavButtons(testData.questions.length);
 
             switchView('quiz');

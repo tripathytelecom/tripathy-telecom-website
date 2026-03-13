@@ -1706,6 +1706,52 @@
             }
         }
 
+        function updateLatestNotice() {
+            const noticeText = document.querySelector('.notice-text');
+            if (!noticeText || !mockTestData) return;
+
+            let updates = [];
+
+            // 1. Check Practice Set (Highest Priority)
+            if (mockTestData["Practice Set"]) {
+                const practiceSets = mockTestData["Practice Set"];
+                if (practiceSets.length > 0) {
+                    const latest = practiceSets[practiceSets.length - 1];
+                    updates.push(`প্র্যাকটিস সেট: <b>${latest.chapterName}</b>`);
+                }
+                if (practiceSets.length > 1) {
+                    const secondLatest = practiceSets[practiceSets.length - 2];
+                    updates.push(`<b>${secondLatest.chapterName}</b>`);
+                }
+            }
+
+            // 2. Check Math -> Chapter-wise Mock
+            if (mockTestData["Math"] && mockTestData["Math"]["Chapter-wise Mock"]) {
+                const mathMocks = mockTestData["Math"]["Chapter-wise Mock"];
+                if (mathMocks.length > 0) {
+                    const latestMath = mathMocks[mathMocks.length - 1];
+                    updates.push(`গণিত: <b>${latestMath.chapterName}</b>`);
+                }
+            }
+
+            // 3. Check GK -> Subjects -> Chapter-wise Mock
+            if (mockTestData["GK"]) {
+                Object.keys(mockTestData["GK"]).forEach(subject => {
+                    const content = mockTestData["GK"][subject];
+                    if (content && content["Chapter-wise Mock"] && content["Chapter-wise Mock"].length > 0) {
+                        const latestGK = content["Chapter-wise Mock"][content["Chapter-wise Mock"].length - 1];
+                        updates.push(`${subject}: <b>${latestGK.chapterName}</b>`);
+                    }
+                });
+            }
+
+            if (updates.length > 0) {
+                // Limit to last 4 unique/important updates for the marquee
+                const displayUpdates = updates.slice(0, 4);
+                noticeText.innerHTML = `নতুন আপডেট: ${displayUpdates.join(' এবং ')} যোগ করা হয়েছে। ভালোভাবে প্র্যাকটিস করুন! 🎉`;
+            }
+        }
+
 
         // Initialize
         window.addEventListener('DOMContentLoaded', () => {
@@ -1729,6 +1775,7 @@
                 })
                 .then(data => {
                     mockTestData = data;
+                    updateLatestNotice();
                     checkLogin(); // Check auth instead of direct showCategories
                 })
                 .catch(err => {

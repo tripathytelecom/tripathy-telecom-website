@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Biodata - Tripathy Telecom</title>
+
+    <!-- OneSignal -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
+                appId: "030ab637-e25e-4a1f-8193-cdac0c397245",
+            });
+        });
+    </script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2.page-title {
+            text-align: center;
+            color: #084298;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ffd400;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn-submit {
+            background-color: #084298;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0a58ca;
+        }
+
+        .btn-print {
+            background-color: #ffd400;
+            color: #000;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            display: none;
+            /* Hidden initially */
+        }
+
+        .btn-print:hover {
+            background-color: #e6bf00;
+        }
+
+        /* BIODATA PREVIEW STYLES */
+        #biodataPreview {
+            display: none;
+            /* Hidden initially */
+            margin-top: 40px;
+            border: 2px solid #ccc;
+            padding: 40px;
+            background: #fff;
+            font-family: 'Times New Roman', Times, serif;
+            position: relative;
+        }
+
+        .photo-box {
+            width: 3.5cm;
+            height: 4.5cm;
+            border: 2px solid #084298;
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 6px;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .resume-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background-color: #084298;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .resume-header h1 {
+            margin: 0;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .resume-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .resume-table td {
+            padding: 12px 10px;
+            vertical-align: top;
+            border-bottom: 1px solid #eee;
+        }
+
+        .resume-table td:first-child {
+            width: 35%;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .resume-table td:nth-child(2) {
+            width: 5%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .resume-table td:last-child {
+            width: 60%;
+            color: #444;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #084298;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+            color: #084298;
+        }
+
+        .declaration {
+            margin-top: 40px;
+            font-size: 16px;
+            text-align: justify;
+        }
+
+        .signature-area {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .edu-table th,
+        .edu-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .edu-table th {
+            background-color: #f9f9f9;
+            font-size: 14px;
+        }
+
+        .edu-table input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .preview-edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .preview-edu-table th,
+        .preview-edu-table td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .preview-edu-table th {
+            font-weight: bold;
+            color: #222;
+            text-transform: uppercase;
+            font-size: 14px;
+            background-color: #f4f4f4;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #biodataPreview,
+            #biodataPreview * {
+                visibility: visible;
+            }
+
+            #biodataPreview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                margin: 0;
+                padding: 20px;
+                box-sizing: border-box;
+                box-shadow: none;
+            }
+
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                background: transparent;
+            }
+        }
+
+        /* Hide elements on desktop */
+        .mobile-only {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-only {
+                display: block;
+            }
+
+            .desktop-only {
+                display: none;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP NAV (Copied from existing pages) -->
+    <header class="top-header desktop-only">
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Tripathy Telecom Logo" style="height: 55px;">
+            </a>
+        </div>
+        <nav class="header-menu">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="products.html">Products</a>
+            <a href="recharge.html">Recharge</a>
+            <a href="pan-card.html">PAN Card</a>
+            <a href="contact.html">Contact</a>
+            <a href="jobs.html" class="blink-job">Jobs</a>
+            <a href="biodata.html" style="color: #ffffff; border-bottom: 2px solid #ffffff;">Biodata</a>
+        </nav>
+    </header>
+
+    <!-- MOBILE HEADER -->
+    <div class="mobile-top-header mobile-only"
+        style="display: flex; justify-content: space-between; align-items: center; background: #000; padding: 10px 12px;">
+        <img src="logo.png" style="height: 38px;" onclick="location.href='index.html'">
+        <a href="index.html" style="color: #ffd400; text-decoration: none; font-weight: bold;">HOME</a>
+    </div>
+
+    <div class="container" id="formContainer">
+        <a href="biodata.html"
+            style="text-decoration: none; color: #084298; font-weight: bold; margin-bottom: 15px; display: inline-block;">⬅
+            Back to Formats</a>
+        <h2 class="page-title">Generate Biodata (Format 3 - Technical)</h2>
+        <p style="text-align: center; color: #555; margin-bottom: 25px;">Fill the form below to generate and print your
+            professional Biodata.</p>
+
+        <form id="biodataForm">
+            <div class="section-title" style="margin-top: 0;">Personal Details</div>
+            <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                    <label>Full Name *</label>
+                    <input type="text" id="bName" required placeholder="Enter Your Full Name">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Upload Photo</label>
+                    <input type="file" id="bPhoto" accept="image/*">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Father's Name *</label>
+                    <input type="text" id="bFather" required placeholder="Enter Father's Name">
+                </div>
+                <div class="form-group">
+                    <label>Mother's Name *</label>
+                    <input type="text" id="bMother" required placeholder="Enter Mother's Name">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Date of Birth *</label>
+                    <input type="text" id="bDob" required placeholder="DD/MM/YYYY">
+                </div>
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <select id="bGender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Religion</label>
+                    <input type="text" id="bReligion" placeholder="e.g., Hinduism, Islam, etc.">
+                </div>
+                <div class="form-group">
+                    <label>Nationality</label>
+                    <input type="text" id="bNationality" value="Indian">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Marital Status</label>
+                    <select id="bMarital">
+                        <option value="Unmarried">Unmarried</option>
+                        <option value="Married">Married</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Category (Caste)</label>
+                    <input type="text" id="bCategory" placeholder="e.g., General, SC, ST, OBC">
+                </div>
+            </div>
+
+            <div class="section-title">Contact Information</div>
+            <div class="form-group">
+                <label>Address *</label>
+                <textarea id="bAddress" rows="3" required placeholder="Vill/Town, PO, PS, Dist, PIN Code..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="number" id="bMobile" required placeholder="10-digit Mobile Number">
+                </div>
+                <div class="form-group">
+                    <label>Email ID</label>
+                    <input type="email" id="bEmail" placeholder="example@email.com">
+                </div>
+            </div>
+
+            <div class="section-title">Education & Other Details</div>
+            <div class="form-group" style="overflow-x: auto;">
+                <label>Educational Qualification *</label>
+                <table class="edu-table" id="eduInputTable">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Board/University</th>
+                            <th>Passing Year</th>
+                            <th>Full Marks</th>
+                            <th>Marks Obtained</th>
+                            <th>Percentage</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" class="edu-course" placeholder="E.g. Madhyamik"></td>
+                            <td><input type="text" class="edu-board" placeholder="E.g. WBBSE"></td>
+                            <td><input type="text" class="edu-year" placeholder="2020"></td>
+                            <td><input type="number" class="edu-full" oninput="calcPercent(this)"></td>
+                            <td><input type="number" class="edu-obt" oninput="calcPercent(this)"></td>
+                            <td><input type="text" class="edu-perc" readonly placeholder="%"></td>
+                            <td><button type="button" onclick="addEduRow()"
+                                    style="padding: 5px 10px; font-size: 14px; cursor: pointer; background: #084298; color: white; border: none; border-radius: 4px;">➕</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Technical / Professional Qualification</div>
+            <div class="form-group" style="overflow-x: auto;">
+                <label>Technical Qualification *</label>
+                <table class="edu-table" id="techInputTable">
+                    <thead>
+                        <tr>
+                            <th>Tech Course / Certification</th>
+                            <th>Institute / Body</th>
+                            <th>Passing Year</th>
+                            <th>Percentage / Grade</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" class="tech-course" placeholder="E.g. Full Stack Dev"></td>
+                            <td><input type="text" class="tech-inst" placeholder="E.g. NIIT"></td>
+                            <td><input type="text" class="tech-year" placeholder="YYYY"></td>
+                            <td><input type="text" class="tech-grade" placeholder="e.g. 85% or 'A'"></td>
+                            <td><button type="button" onclick="addTechRow()"
+                                    style="padding: 5px 10px; font-size: 14px; cursor: pointer; background: #084298; color: white; border: none; border-radius: 4px;">➕</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <label>Experience (If Any)</label>
+                <textarea id="bExperience" rows="2" placeholder="Describe your work experience"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Languages Known</label>
+                <input type="text" id="bLanguages" placeholder="e.g., Bengali, English, Hindi">
+            </div>
+
+            <button type="button" class="btn-submit" onclick="generatePreview()">Generate Biodata Preview</button>
+            <button type="button" class="btn-print" id="printBtn" onclick="window.print()">🖨️ Print Biodata</button>
+        </form>
+
+        <!-- BIODATA PREVIEW AREA -->
+        <div id="biodataPreview">
+            <div class="photo-box">
+                <span id="photoPlaceholder"
+                    style="color:#aaa; font-size:12px; text-align:center;">Passport<br>Photo</span>
+                <img id="pPhoto" src="" alt="Profile Photo">
+            </div>
+            <div class="resume-header">
+                <h1>BIODATA</h1>
+            </div>
+
+            <!-- Profile Details -->
+            <table class="resume-table">
+                <tr>
+                    <td>Name</td>
+                    <td>:</td>
+                    <td id="pName"></td>
+                </tr>
+                <tr>
+                    <td>Father's Name</td>
+                    <td>:</td>
+                    <td id="pFather"></td>
+                </tr>
+                <tr>
+                    <td>Mother's Name</td>
+                    <td>:</td>
+                    <td id="pMother"></td>
+                </tr>
+                <tr>
+                    <td>Date of Birth</td>
+                    <td>:</td>
+                    <td id="pDob"></td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>:</td>
+                    <td id="pGender"></td>
+                </tr>
+                <tr>
+                    <td>Religion</td>
+                    <td>:</td>
+                    <td id="pReligion"></td>
+                </tr>
+                <tr>
+                    <td>Nationality</td>
+                    <td>:</td>
+                    <td id="pNationality"></td>
+                </tr>
+                <tr>
+                    <td>Marital Status</td>
+                    <td>:</td>
+                    <td id="pMarital"></td>
+                </tr>
+                <tr>
+                    <td>Category / Caste</td>
+                    <td>:</td>
+                    <td id="pCategory"></td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td>:</td>
+                    <td id="pAddress"></td>
+                </tr>
+                <tr>
+                    <td>Mobile Number</td>
+                    <td>:</td>
+                    <td id="pMobile"></td>
+                </tr>
+                <tr id="rowEmail">
+                    <td>Email ID</td>
+                    <td>:</td>
+                    <td id="pEmail"></td>
+                </tr>
+            </table>
+
+            <div class="section-title" style="margin-top: 30px;">Educational Qualification</div>
+            <table class="preview-edu-table" id="pEduTable">
+                <thead>
+                    <tr>
+                        <th>Course / Exam Name</th>
+                        <th>Board / University</th>
+                        <th>Passing Year</th>
+                        <th>Full Marks</th>
+                        <th>Marks Obtained</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div class="section-title" id="titleTechPreview" style="margin-top: 30px; display: none;">Technical
+                Qualification</div>
+            <table class="preview-edu-table" id="pTechTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th style="width: 35%;">Tech Course / Certification</th>
+                        <th style="width: 35%;">Institute / Body</th>
+                        <th style="width: 15%;">Passing Year</th>
+                        <th style="width: 15%;">Percentage / Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <table class="resume-table">
+                <tr id="rowExperience">
+                    <td>Experience</td>
+                    <td>:</td>
+                    <td id="pExperience" style="white-space: pre-wrap;"></td>
+                </tr>
+                <tr>
+                    <td>Languages Known</td>
+                    <td>:</td>
+                    <td id="pLanguages"></td>
+                </tr>
+            </table>
+
+            <div class="declaration">
+                <strong>DECLARATION:</strong><br>
+                I hereby declare that all the details furnished above are true to the best of my knowledge and belief.
+            </div>
+
+            <div class="signature-area">
+                <div>Date: <span id="pDate"></span><br>Place: _______________</div>
+                <div style="text-align: right; margin-top:20px;">________________________<br>Signature</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="desktop-only"
+        style="background: #000; color: #ffd400; text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 50px;">
+        <div style="margin-bottom: 10px;">
+            <a href="about.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">About Us</a> |
+            <a href="privacy-policy.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Privacy
+                Policy</a>
+            |
+            <a href="terms.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Terms & Conditions</a> |
+            <a href="contact.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Contact Us</a>
+        </div>
+        © 2025 TRIPATHY TELECOM | All Rights Reserved
+    </footer>
+
+    <!-- MOBILE BOTTOM MENU -->
+    <div class="mobile-bottom-menu mobile-only"
+        style="display: flex; justify-content: space-around; background: #000; padding: 10px; position: fixed; bottom: 0; width: 100%; border-top: 2px solid #ffd400;">
+        <a href="index.html" style="color: #ffd400; text-decoration: none; font-size: 24px;">🏠</a>
+        <a href="recharge.html" style="color: #ffd400; text-decoration: none; font-size: 24px;">📱</a>
+        <a href="pan-card.html" style="color: #ffd400; text-decoration: none; font-size: 24px;">🪪</a>
+        <a href="contact.html" style="color: #ffd400; text-decoration: none; font-size: 24px;">📞</a>
+    </div>
+
+    <script>
+        function calcPercent(element) {
+            let row = element.closest('tr');
+            let full = parseFloat(row.querySelector('.edu-full').value) || 0;
+            let obt = parseFloat(row.querySelector('.edu-obt').value) || 0;
+            let percInput = row.querySelector('.edu-perc');
+
+            if (full > 0 && obt > 0) {
+                let perc = (obt / full) * 100;
+                percInput.value = perc.toFixed(2) + ' %';
+            } else {
+                percInput.value = '';
+            }
+        }
+
+        function addEduRow() {
+            let tbody = document.querySelector('#eduInputTable tbody');
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" class="edu-course" placeholder="E.g. HS"></td>
+                <td><input type="text" class="edu-board" placeholder="E.g. WBCHSE"></td>
+                <td><input type="text" class="edu-year" placeholder="YYYY"></td>
+                <td><input type="number" class="edu-full" oninput="calcPercent(this)"></td>
+                <td><input type="number" class="edu-obt" oninput="calcPercent(this)"></td>
+                <td><input type="text" class="edu-perc" readonly placeholder="%"></td>
+                <td><button type="button" onclick="this.closest('tr').remove()" style="padding: 5px 10px; font-size: 14px; cursor: pointer; background: #dc3545; color: white; border: none; border-radius: 4px;">❌</button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function addTechRow() {
+            let tbody = document.querySelector('#techInputTable tbody');
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" class="tech-course" placeholder="E.g. AutoCAD"></td>
+                <td><input type="text" class="tech-inst" placeholder="E.g. CADD Centre"></td>
+                <td><input type="text" class="tech-year" placeholder="YYYY"></td>
+                <td><input type="text" class="tech-grade" placeholder="e.g. 85% or 'A'"></td>
+                <td><button type="button" onclick="this.closest('tr').remove()" style="padding: 5px 10px; font-size: 14px; cursor: pointer; background: #dc3545; color: white; border: none; border-radius: 4px;">❌</button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function generatePreview() {
+            // Validate required fields
+            const requiredFields = ['bName', 'bFather', 'bMother', 'bDob', 'bGender', 'bAddress', 'bMobile'];
+            let isValid = true;
+            requiredFields.forEach(id => {
+                if (!document.getElementById(id).value) {
+                    isValid = false;
+                    document.getElementById(id).style.borderColor = 'red';
+                } else {
+                    document.getElementById(id).style.borderColor = '#ccc';
+                }
+            });
+
+            if (!isValid) {
+                alert("Please fill all required (*) fields.");
+                return;
+            }
+
+            // Handle Photo
+            const photoInput = document.getElementById('bPhoto');
+            const pPhoto = document.getElementById('pPhoto');
+            const placeholder = document.getElementById('photoPlaceholder');
+
+            if (photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    pPhoto.src = e.target.result;
+                    pPhoto.style.display = 'block';
+                    placeholder.style.display = 'none';
+                };
+                reader.readAsDataURL(photoInput.files[0]);
+            } else {
+                pPhoto.src = '';
+                pPhoto.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+
+            // Map values to preview
+            document.getElementById('pName').innerText = document.getElementById('bName').value.toUpperCase();
+            document.getElementById('pFather').innerText = document.getElementById('bFather').value.toUpperCase();
+            document.getElementById('pMother').innerText = document.getElementById('bMother').value.toUpperCase();
+            document.getElementById('pDob').innerText = document.getElementById('bDob').value;
+            document.getElementById('pGender').innerText = document.getElementById('bGender').value;
+
+            document.getElementById('pReligion').innerText = document.getElementById('bReligion').value || 'N/A';
+            document.getElementById('pNationality').innerText = document.getElementById('bNationality').value || 'Indian';
+            document.getElementById('pMarital').innerText = document.getElementById('bMarital').value;
+            document.getElementById('pCategory').innerText = document.getElementById('bCategory').value || 'General';
+
+            document.getElementById('pAddress').innerText = document.getElementById('bAddress').value.toUpperCase();
+            document.getElementById('pMobile').innerText = document.getElementById('bMobile').value;
+
+            let email = document.getElementById('bEmail').value;
+            if (email) {
+                document.getElementById('pEmail').innerText = email;
+                document.getElementById('rowEmail').style.display = 'table-row';
+            } else {
+                document.getElementById('rowEmail').style.display = 'none';
+            }
+
+            // Map Education Table
+            let pEduTbody = document.querySelector('#pEduTable tbody');
+            pEduTbody.innerHTML = '';
+            let eduRows = document.querySelectorAll('#eduInputTable tbody tr');
+            let hasEdu = false;
+
+            eduRows.forEach(row => {
+                let course = row.querySelector('.edu-course').value;
+                if (course.trim() !== '') {
+                    hasEdu = true;
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${course.toUpperCase()}</td>
+                        <td>${row.querySelector('.edu-board').value.toUpperCase()}</td>
+                        <td>${row.querySelector('.edu-year').value}</td>
+                        <td>${row.querySelector('.edu-full').value}</td>
+                        <td>${row.querySelector('.edu-obt').value}</td>
+                        <td>${row.querySelector('.edu-perc').value}</td>
+                    `;
+                    pEduTbody.appendChild(tr);
+                }
+            });
+
+            if (!hasEdu) {
+                alert("Please add at least one educational qualification.");
+                return;
+            }
+
+            // Map Technical Table
+            let pTechTbody = document.querySelector('#pTechTable tbody');
+            pTechTbody.innerHTML = '';
+            let techRows = document.querySelectorAll('#techInputTable tbody tr');
+            let hasTech = false;
+
+            techRows.forEach(row => {
+                let course = row.querySelector('.tech-course').value;
+                if (course.trim() !== '') {
+                    hasTech = true;
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${course.toUpperCase()}</td>
+                        <td>${row.querySelector('.tech-inst').value.toUpperCase()}</td>
+                        <td>${row.querySelector('.tech-year').value}</td>
+                        <td>${row.querySelector('.tech-grade').value.toUpperCase()}</td>
+                    `;
+                    pTechTbody.appendChild(tr);
+                }
+            });
+
+            if (hasTech) {
+                document.getElementById('titleTechPreview').style.display = 'block';
+                document.getElementById('pTechTable').style.display = 'table';
+            } else {
+                document.getElementById('titleTechPreview').style.display = 'none';
+                document.getElementById('pTechTable').style.display = 'none';
+            }
+
+            let exp = document.getElementById('bExperience').value;
+            if (exp) {
+                document.getElementById('pExperience').innerText = exp.toUpperCase();
+                document.getElementById('rowExperience').style.display = 'table-row';
+            } else {
+                document.getElementById('rowExperience').style.display = 'none';
+            }
+
+            document.getElementById('pLanguages').innerText = document.getElementById('bLanguages').value || 'Bengali, English';
+
+            // Set current date
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = today.getFullYear();
+            document.getElementById('pDate').innerText = dd + '/' + mm + '/' + yyyy;
+
+            // Show preview and print button
+            document.getElementById('biodataPreview').style.display = 'block';
+            document.getElementById('printBtn').style.display = 'block';
+
+            // Scroll to preview
+            document.getElementById('biodataPreview').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>

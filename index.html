@@ -390,9 +390,16 @@
     }
 
     .service-icon {
-      font-size: 45px;
+      height: 55px;
       margin-bottom: 15px;
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .service-icon img {
+      max-height: 100%;
+      display: block;
     }
 
     .service-box h4 {
@@ -1336,7 +1343,7 @@
       <!-- Mobile Recharge -->
       <a href="recharge.html" class="service-link">
         <div class="service-box">
-          <div class="service-icon">📱</div>
+          <div class="service-icon"><img src="images/icon_mobile.png" alt="Mobile"></div>
           <h4>Mobile Recharge</h4>
         </div>
       </a>
@@ -1344,15 +1351,23 @@
       <!-- DTH Recharge -->
       <a href="recharge.html" class="service-link">
         <div class="service-box">
-          <div class="service-icon">📺</div>
+          <div class="service-icon"><img src="images/icon_dth.png" alt="DTH"></div>
           <h4>DTH Recharge</h4>
+        </div>
+      </a>
+
+      <!-- Bill Payment -->
+      <a href="recharge.html" class="service-link">
+        <div class="service-box">
+          <div class="service-icon"><img src="images/icon_electricity.png" alt="Bill Payment"></div>
+          <h4>Bill Payment</h4>
         </div>
       </a>
 
       <!-- PAN Card -->
       <a href="pan-card.html" class="service-link">
         <div class="service-box">
-          <div class="service-icon">🧾</div>
+          <div class="service-icon"><img src="images/icon_pancard.png" alt="PAN Card"></div>
           <h4>PAN Card Apply</h4>
         </div>
       </a>
@@ -1360,7 +1375,7 @@
       <!-- Biodata -->
       <a href="biodata.html" class="service-link">
         <div class="service-box">
-          <div class="service-icon">📄</div>
+          <div class="service-icon"><img src="images/icon_biodata.png" alt="Biodata"></div>
           <h4>Biodata</h4>
         </div>
       </a>
@@ -1368,23 +1383,15 @@
       <!-- Aadhaar Services -->
       <a href="#" class="service-link">
         <div class="service-box">
-          <div class="service-icon">🆔</div>
+          <div class="service-icon"><img src="images/icon_aadhaar.png" alt="Aadhaar"></div>
           <h4>Aadhaar Services</h4>
-        </div>
-      </a>
-
-      <!-- Bill Payment -->
-      <a href="#" class="service-link">
-        <div class="service-box">
-          <div class="service-icon">💡</div>
-          <h4>Bill Payment</h4>
         </div>
       </a>
 
       <!-- Banking -->
       <a href="#" class="service-link">
         <div class="service-box">
-          <div class="service-icon">🏦</div>
+          <div class="service-icon"><img src="images/icon_bank.png" alt="Banking"></div>
           <h4>Banking Services</h4>
         </div>
       </a>
@@ -1392,7 +1399,7 @@
       <!-- Insurance -->
       <a href="#" class="service-link">
         <div class="service-box">
-          <div class="service-icon">🛵</div>
+          <div class="service-icon"><img src="images/icon_insurance.png" alt="Insurance"></div>
           <h4>Insurance</h4>
         </div>
       </a>
@@ -1400,7 +1407,7 @@
       <!-- Cyber Cafe -->
       <a href="#" class="service-link">
         <div class="service-box">
-          <div class="service-icon">🖨️</div>
+          <div class="service-icon"><img src="images/icon_cybercafe.png" alt="Cyber Cafe"></div>
           <h4>Cyber Cafe</h4>
         </div>
       </a>

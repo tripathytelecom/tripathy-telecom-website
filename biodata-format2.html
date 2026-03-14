@@ -214,6 +214,56 @@
             font-weight: bold;
         }
 
+        .edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .edu-table th,
+        .edu-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .edu-table th {
+            background-color: #f9f9f9;
+            font-size: 14px;
+        }
+
+        .edu-table input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .preview-edu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .preview-edu-table th,
+        .preview-edu-table td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .preview-edu-table th {
+            font-weight: bold;
+            color: #222;
+            text-transform: uppercase;
+            font-size: 14px;
+            background-color: #f4f4f4;
+        }
+
         /* PRINT STYLES */
         @media print {
             body * {
@@ -386,10 +436,34 @@
             </div>
 
             <div class="section-title">Education & Other Details</div>
-            <div class="form-group">
+            <div class="form-group" style="overflow-x: auto;">
                 <label>Educational Qualification *</label>
-                <textarea id="bEducation" rows="3" required
-                    placeholder="E.g., Madhyamik Passed from WBBSE in 2020..."></textarea>
+                <table class="edu-table" id="eduInputTable">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Board/University</th>
+                            <th>Passing Year</th>
+                            <th>Full Marks</th>
+                            <th>Marks Obtained</th>
+                            <th>Percentage</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" class="edu-course" placeholder="E.g. Madhyamik"></td>
+                            <td><input type="text" class="edu-board" placeholder="E.g. WBBSE"></td>
+                            <td><input type="text" class="edu-year" placeholder="2020"></td>
+                            <td><input type="number" class="edu-full" oninput="calcPercent(this)"></td>
+                            <td><input type="number" class="edu-obt" oninput="calcPercent(this)"></td>
+                            <td><input type="text" class="edu-perc" readonly placeholder="%"></td>
+                            <td><button type="button" onclick="addEduRow()"
+                                    style="padding: 5px 10px; font-size: 14px; cursor: pointer; background: #084298; color: white; border: none; border-radius: 4px;">➕</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="form-group">
@@ -479,11 +553,25 @@
                     <td>:</td>
                     <td id="pEmail"></td>
                 </tr>
-                <tr>
-                    <td>Education Qualification</td>
-                    <td>:</td>
-                    <td id="pEducation" style="white-space: pre-wrap;"></td>
-                </tr>
+            </table>
+
+            <div class="section-title" style="margin-top: 30px;">Educational Qualification</div>
+            <table class="preview-edu-table" id="pEduTable">
+                <thead>
+                    <tr>
+                        <th>Course / Exam Name</th>
+                        <th>Board / University</th>
+                        <th>Passing Year</th>
+                        <th>Full Marks</th>
+                        <th>Marks Obtained</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <table class="resume-table">
                 <tr id="rowExperience">
                     <td>Experience</td>
                     <td>:</td>
@@ -533,9 +621,38 @@
     </div>
 
     <script>
+        function calcPercent(element) {
+            let row = element.closest('tr');
+            let full = parseFloat(row.querySelector('.edu-full').value) || 0;
+            let obt = parseFloat(row.querySelector('.edu-obt').value) || 0;
+            let percInput = row.querySelector('.edu-perc');
+
+            if (full > 0 && obt > 0) {
+                let perc = (obt / full) * 100;
+                percInput.value = perc.toFixed(2) + ' %';
+            } else {
+                percInput.value = '';
+            }
+        }
+
+        function addEduRow() {
+            let tbody = document.querySelector('#eduInputTable tbody');
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" class="edu-course" placeholder="E.g. HS"></td>
+                <td><input type="text" class="edu-board" placeholder="E.g. WBCHSE"></td>
+                <td><input type="text" class="edu-year" placeholder="YYYY"></td>
+                <td><input type="number" class="edu-full" oninput="calcPercent(this)"></td>
+                <td><input type="number" class="edu-obt" oninput="calcPercent(this)"></td>
+                <td><input type="text" class="edu-perc" readonly placeholder="%"></td>
+                <td><button type="button" onclick="this.closest('tr').remove()" style="padding: 5px 10px; font-size: 14px; cursor: pointer; background: #dc3545; color: white; border: none; border-radius: 4px;">❌</button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
         function generatePreview() {
             // Validate required fields
-            const requiredFields = ['bName', 'bFather', 'bMother', 'bDob', 'bGender', 'bAddress', 'bMobile', 'bEducation'];
+            const requiredFields = ['bName', 'bFather', 'bMother', 'bDob', 'bGender', 'bAddress', 'bMobile'];
             let isValid = true;
             requiredFields.forEach(id => {
                 if (!document.getElementById(id).value) {
@@ -593,7 +710,33 @@
                 document.getElementById('rowEmail').style.display = 'none';
             }
 
-            document.getElementById('pEducation').innerText = document.getElementById('bEducation').value.toUpperCase();
+            // Map Education Table
+            let pEduTbody = document.querySelector('#pEduTable tbody');
+            pEduTbody.innerHTML = '';
+            let eduRows = document.querySelectorAll('#eduInputTable tbody tr');
+            let hasEdu = false;
+
+            eduRows.forEach(row => {
+                let course = row.querySelector('.edu-course').value;
+                if (course.trim() !== '') {
+                    hasEdu = true;
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${course.toUpperCase()}</td>
+                        <td>${row.querySelector('.edu-board').value.toUpperCase()}</td>
+                        <td>${row.querySelector('.edu-year').value}</td>
+                        <td>${row.querySelector('.edu-full').value}</td>
+                        <td>${row.querySelector('.edu-obt').value}</td>
+                        <td>${row.querySelector('.edu-perc').value}</td>
+                    `;
+                    pEduTbody.appendChild(tr);
+                }
+            });
+
+            if (!hasEdu) {
+                alert("Please add at least one educational qualification.");
+                return;
+            }
 
             let exp = document.getElementById('bExperience').value;
             if (exp) {

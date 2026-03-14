@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make Biodata - Tripathy Telecom</title>
-
+    <title>Select Biodata Format - Tripathy Telecom</title>
     <!-- OneSignal -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
@@ -27,220 +26,101 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 30px auto;
             background: #fff;
-            padding: 30px;
+            padding: 40px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         h2.page-title {
-            text-align: center;
             color: #084298;
             margin-bottom: 20px;
             border-bottom: 2px solid #ffd400;
             padding-bottom: 10px;
+            display: inline-block;
         }
 
-        .form-group {
+        .format-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .format-card {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 30px 20px;
+            width: 320px;
+            text-align: center;
+            transition: 0.3s;
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .format-card:hover {
+            border-color: #084298;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .format-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .format-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
             margin-bottom: 15px;
         }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 15px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .btn-submit {
+        .btn-select {
+            display: inline-block;
             background-color: #084298;
             color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
             font-size: 16px;
             font-weight: bold;
             width: 100%;
-            margin-top: 20px;
+            box-sizing: border-box;
+            margin-top: 15px;
+            transition: 0.2s;
         }
 
-        .btn-submit:hover {
+        .btn-select:hover {
             background-color: #0a58ca;
         }
 
-        .btn-print {
-            background-color: #ffd400;
-            color: #000;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
+        .format-preview-img {
             width: 100%;
-            margin-top: 10px;
-            display: none;
-            /* Hidden initially */
-        }
-
-        .btn-print:hover {
-            background-color: #e6bf00;
-        }
-
-        /* BIODATA PREVIEW STYLES */
-        #biodataPreview {
-            display: none;
-            /* Hidden initially */
-            margin-top: 40px;
-            border: 2px solid #ccc;
-            padding: 40px;
-            background: #fff;
-            font-family: 'Times New Roman', Times, serif;
-            position: relative;
-        }
-
-        .photo-box {
-            width: 3.5cm;
-            height: 4.5cm;
-            border: 1px solid #777;
-            position: absolute;
-            top: 40px;
-            right: 40px;
+            height: 200px;
+            background: #eaeaea;
+            border: 1px dashed #ccc;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            background: #fff;
+            color: #888;
+            font-style: italic;
+            border-radius: 4px;
         }
 
-        .photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
+        .desktop-only {
+            display: block;
         }
 
-        .resume-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .resume-header h1 {
-            margin: 0;
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-decoration: underline;
-        }
-
-        .resume-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .resume-table td {
-            padding: 8px 0;
-            vertical-align: top;
-        }
-
-        .resume-table td:first-child {
-            width: 35%;
-            font-weight: bold;
-            color: #222;
-        }
-
-        .resume-table td:nth-child(2) {
-            width: 5%;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .resume-table td:last-child {
-            width: 60%;
-            color: #444;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed #aaa;
-            padding-bottom: 5px;
-            text-transform: uppercase;
-            color: #222;
-        }
-
-        .declaration {
-            margin-top: 40px;
-            font-size: 16px;
-            text-align: justify;
-        }
-
-        .signature-area {
-            margin-top: 60px;
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-        }
-
-        /* PRINT STYLES */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            #biodataPreview,
-            #biodataPreview * {
-                visibility: visible;
-            }
-
-            #biodataPreview {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                border: none;
-                margin: 0;
-                padding: 20px;
-                box-sizing: border-box;
-                box-shadow: none;
-            }
-
-            .container {
-                box-shadow: none;
-                margin: 0;
-                padding: 0;
-                background: transparent;
-            }
-        }
-
-        /* Hide elements on desktop */
         .mobile-only {
             display: none;
         }
@@ -253,18 +133,12 @@
             .desktop-only {
                 display: none;
             }
-
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- TOP NAV (Copied from existing pages) -->
+    <!-- TOP NAV -->
     <header class="top-header desktop-only">
         <div class="logo">
             <a href="index.html">
@@ -290,215 +164,35 @@
         <a href="index.html" style="color: #ffd400; text-decoration: none; font-weight: bold;">HOME</a>
     </div>
 
-    <div class="container" id="formContainer">
-        <h2 class="page-title">Generate Biodata</h2>
-        <p style="text-align: center; color: #555; margin-bottom: 25px;">Fill the form below to generate and print your
-            professional Biodata.</p>
+    <div class="container">
+        <h2 class="page-title">Choose Biodata Format</h2>
+        <br>
+        <p style="color: #555; font-size: 16px;">Select a layout design below to start filling in your details and print
+            your professional Biodata.</p>
 
-        <form id="biodataForm">
-            <div class="section-title" style="margin-top: 0;">Personal Details</div>
-            <div class="form-row">
-                <div class="form-group" style="flex: 2;">
-                    <label>Full Name *</label>
-                    <input type="text" id="bName" required placeholder="Enter Your Full Name">
+        <div class="format-grid">
+            <!-- Format 1 -->
+            <div class="format-card">
+                <div>
+                    <div class="format-icon">📄</div>
+                    <div class="format-title">Format 1 (Classic)</div>
+                    <p style="font-size:14px; color:#666; margin-bottom: 20px; line-height: 1.5;">Standard tabular
+                        format with the photo on the right. Simple, clean, and perfect for general purposes.</p>
                 </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>Upload Photo</label>
-                    <input type="file" id="bPhoto" accept="image/*">
+                <a href="biodata-format1.html" class="btn-select">Select Format 1</a>
+            </div>
+
+            <!-- Format 2 -->
+            <div class="format-card">
+                <div>
+                    <div class="format-icon">📑</div>
+                    <div class="format-title">Format 2 (Modern)</div>
+                    <p style="font-size:14px; color:#666; margin-bottom: 20px; line-height: 1.5;">Stylish layout
+                        featuring a bold blue header and subtle row dividers. Ideal for a slightly modern look.</p>
                 </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Father's Name *</label>
-                    <input type="text" id="bFather" required placeholder="Enter Father's Name">
-                </div>
-                <div class="form-group">
-                    <label>Mother's Name *</label>
-                    <input type="text" id="bMother" required placeholder="Enter Mother's Name">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Date of Birth *</label>
-                    <input type="text" id="bDob" required placeholder="DD/MM/YYYY">
-                </div>
-                <div class="form-group">
-                    <label>Gender *</label>
-                    <select id="bGender" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Religion</label>
-                    <input type="text" id="bReligion" placeholder="e.g., Hinduism, Islam, etc.">
-                </div>
-                <div class="form-group">
-                    <label>Nationality</label>
-                    <input type="text" id="bNationality" value="Indian">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Marital Status</label>
-                    <select id="bMarital">
-                        <option value="Unmarried">Unmarried</option>
-                        <option value="Married">Married</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Category (Caste)</label>
-                    <input type="text" id="bCategory" placeholder="e.g., General, SC, ST, OBC">
-                </div>
-            </div>
-
-            <div class="section-title">Contact Information</div>
-            <div class="form-group">
-                <label>Address *</label>
-                <textarea id="bAddress" rows="3" required placeholder="Vill/Town, PO, PS, Dist, PIN Code..."></textarea>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Mobile Number *</label>
-                    <input type="number" id="bMobile" required placeholder="10-digit Mobile Number">
-                </div>
-                <div class="form-group">
-                    <label>Email ID</label>
-                    <input type="email" id="bEmail" placeholder="example@email.com">
-                </div>
-            </div>
-
-            <div class="section-title">Education & Other Details</div>
-            <div class="form-group">
-                <label>Educational Qualification *</label>
-                <textarea id="bEducation" rows="3" required
-                    placeholder="E.g., Madhyamik Passed from WBBSE in 2020..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Experience (If Any)</label>
-                <textarea id="bExperience" rows="2" placeholder="Describe your work experience"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Languages Known</label>
-                <input type="text" id="bLanguages" placeholder="e.g., Bengali, English, Hindi">
-            </div>
-
-            <button type="button" class="btn-submit" onclick="generatePreview()">Generate Biodata Preview</button>
-            <button type="button" class="btn-print" id="printBtn" onclick="window.print()">🖨️ Print Biodata</button>
-        </form>
-
-        <!-- BIODATA PREVIEW AREA -->
-        <div id="biodataPreview">
-            <div class="photo-box">
-                <span id="photoPlaceholder"
-                    style="color:#aaa; font-size:12px; text-align:center;">Passport<br>Photo</span>
-                <img id="pPhoto" src="" alt="Profile Photo">
-            </div>
-            <div class="resume-header">
-                <h1>BIODATA</h1>
-            </div>
-
-            <!-- Profile Details -->
-            <table class="resume-table">
-                <tr>
-                    <td>Name</td>
-                    <td>:</td>
-                    <td id="pName"></td>
-                </tr>
-                <tr>
-                    <td>Father's Name</td>
-                    <td>:</td>
-                    <td id="pFather"></td>
-                </tr>
-                <tr>
-                    <td>Mother's Name</td>
-                    <td>:</td>
-                    <td id="pMother"></td>
-                </tr>
-                <tr>
-                    <td>Date of Birth</td>
-                    <td>:</td>
-                    <td id="pDob"></td>
-                </tr>
-                <tr>
-                    <td>Gender</td>
-                    <td>:</td>
-                    <td id="pGender"></td>
-                </tr>
-                <tr>
-                    <td>Religion</td>
-                    <td>:</td>
-                    <td id="pReligion"></td>
-                </tr>
-                <tr>
-                    <td>Nationality</td>
-                    <td>:</td>
-                    <td id="pNationality"></td>
-                </tr>
-                <tr>
-                    <td>Marital Status</td>
-                    <td>:</td>
-                    <td id="pMarital"></td>
-                </tr>
-                <tr>
-                    <td>Category / Caste</td>
-                    <td>:</td>
-                    <td id="pCategory"></td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td>:</td>
-                    <td id="pAddress"></td>
-                </tr>
-                <tr>
-                    <td>Mobile Number</td>
-                    <td>:</td>
-                    <td id="pMobile"></td>
-                </tr>
-                <tr id="rowEmail">
-                    <td>Email ID</td>
-                    <td>:</td>
-                    <td id="pEmail"></td>
-                </tr>
-                <tr>
-                    <td>Education Qualification</td>
-                    <td>:</td>
-                    <td id="pEducation" style="white-space: pre-wrap;"></td>
-                </tr>
-                <tr id="rowExperience">
-                    <td>Experience</td>
-                    <td>:</td>
-                    <td id="pExperience" style="white-space: pre-wrap;"></td>
-                </tr>
-                <tr>
-                    <td>Languages Known</td>
-                    <td>:</td>
-                    <td id="pLanguages"></td>
-                </tr>
-            </table>
-
-            <div class="declaration">
-                <strong>DECLARATION:</strong><br>
-                I hereby declare that all the details furnished above are true to the best of my knowledge and belief.
-            </div>
-
-            <div class="signature-area">
-                <div>Date: <span id="pDate"></span><br>Place: _______________</div>
-                <div style="text-align: right; margin-top:20px;">________________________<br>Signature</div>
+                <a href="biodata-format2.html" class="btn-select">Select Format 2</a>
             </div>
         </div>
-
     </div>
 
     <!-- FOOTER -->
@@ -507,8 +201,7 @@
         <div style="margin-bottom: 10px;">
             <a href="about.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">About Us</a> |
             <a href="privacy-policy.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Privacy
-                Policy</a>
-            |
+                Policy</a> |
             <a href="terms.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Terms & Conditions</a> |
             <a href="contact.html" style="color: #ffd400; text-decoration: none; margin: 0 10px;">Contact Us</a>
         </div>
@@ -523,95 +216,6 @@
         <a href="pan-card.html" style="color: #ffd400; text-decoration: none; font-size: 24px;">🪪</a>
         <a href="contact.html" style="color: #ffd400; text-decoration: none; font-size: 24px;">📞</a>
     </div>
-
-    <script>
-        function generatePreview() {
-            // Validate required fields
-            const requiredFields = ['bName', 'bFather', 'bMother', 'bDob', 'bGender', 'bAddress', 'bMobile', 'bEducation'];
-            let isValid = true;
-            requiredFields.forEach(id => {
-                if (!document.getElementById(id).value) {
-                    isValid = false;
-                    document.getElementById(id).style.borderColor = 'red';
-                } else {
-                    document.getElementById(id).style.borderColor = '#ccc';
-                }
-            });
-
-            if (!isValid) {
-                alert("Please fill all required (*) fields.");
-                return;
-            }
-
-            // Handle Photo
-            const photoInput = document.getElementById('bPhoto');
-            const pPhoto = document.getElementById('pPhoto');
-            const placeholder = document.getElementById('photoPlaceholder');
-
-            if (photoInput.files && photoInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    pPhoto.src = e.target.result;
-                    pPhoto.style.display = 'block';
-                    placeholder.style.display = 'none';
-                };
-                reader.readAsDataURL(photoInput.files[0]);
-            } else {
-                pPhoto.src = '';
-                pPhoto.style.display = 'none';
-                placeholder.style.display = 'block';
-            }
-
-            // Map values to preview
-            document.getElementById('pName').innerText = document.getElementById('bName').value.toUpperCase();
-            document.getElementById('pFather').innerText = document.getElementById('bFather').value.toUpperCase();
-            document.getElementById('pMother').innerText = document.getElementById('bMother').value.toUpperCase();
-            document.getElementById('pDob').innerText = document.getElementById('bDob').value;
-            document.getElementById('pGender').innerText = document.getElementById('bGender').value;
-
-            document.getElementById('pReligion').innerText = document.getElementById('bReligion').value || 'N/A';
-            document.getElementById('pNationality').innerText = document.getElementById('bNationality').value || 'Indian';
-            document.getElementById('pMarital').innerText = document.getElementById('bMarital').value;
-            document.getElementById('pCategory').innerText = document.getElementById('bCategory').value || 'General';
-
-            document.getElementById('pAddress').innerText = document.getElementById('bAddress').value.toUpperCase();
-            document.getElementById('pMobile').innerText = document.getElementById('bMobile').value;
-
-            let email = document.getElementById('bEmail').value;
-            if (email) {
-                document.getElementById('pEmail').innerText = email;
-                document.getElementById('rowEmail').style.display = 'table-row';
-            } else {
-                document.getElementById('rowEmail').style.display = 'none';
-            }
-
-            document.getElementById('pEducation').innerText = document.getElementById('bEducation').value.toUpperCase();
-
-            let exp = document.getElementById('bExperience').value;
-            if (exp) {
-                document.getElementById('pExperience').innerText = exp.toUpperCase();
-                document.getElementById('rowExperience').style.display = 'table-row';
-            } else {
-                document.getElementById('rowExperience').style.display = 'none';
-            }
-
-            document.getElementById('pLanguages').innerText = document.getElementById('bLanguages').value || 'Bengali, English';
-
-            // Set current date
-            let today = new Date();
-            let dd = String(today.getDate()).padStart(2, '0');
-            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            let yyyy = today.getFullYear();
-            document.getElementById('pDate').innerText = dd + '/' + mm + '/' + yyyy;
-
-            // Show preview and print button
-            document.getElementById('biodataPreview').style.display = 'block';
-            document.getElementById('printBtn').style.display = 'block';
-
-            // Scroll to preview
-            document.getElementById('biodataPreview').scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
 </body>
 
 </html>

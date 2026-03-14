@@ -365,20 +365,48 @@
 
     .services {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 25px;
+      justify-content: center;
+      margin-top: 20px;
     }
 
     .service-box {
       background: #fff;
-      padding: 20px;
-      border-radius: 8px;
+      padding: 25px 15px;
+      border-radius: 12px;
       text-align: center;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .service-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .service-icon {
+      font-size: 45px;
+      margin-bottom: 15px;
+      display: inline-block;
     }
 
     .service-box h4 {
-      margin: 10px 0;
+      margin: 0;
+      color: #333;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    /* Important: Remove default anchor styling from service links */
+    .service-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
 
     .why {
@@ -1305,30 +1333,77 @@
   <section class="section">
     <h3>Our Services</h3>
     <div class="services">
-      <div class="service-box">
-        <h4>📱 Mobile Recharge</h4>
-      </div>
-      <div class="service-box">
-        <h4>📺 DTH Recharge</h4>
-      </div>
-      <div class="service-box">
-        <h4>🧾 PAN Card Apply / Correction</h4>
-      </div>
-      <div class="service-box">
-        <h4>🆔 Aadhaar Services</h4>
-      </div>
-      <div class="service-box">
-        <h4>💡 Electricity / Gas / Water Bill</h4>
-      </div>
-      <div class="service-box">
-        <h4>🏦 Banking / Account Services</h4>
-      </div>
-      <div class="service-box">
-        <h4>🛵 Insurance (Bike / Car / Life)</h4>
-      </div>
-      <div class="service-box">
-        <h4>🖨️ Cyber Cafe Services</h4>
-      </div>
+      <!-- Mobile Recharge -->
+      <a href="recharge.html" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">📱</div>
+          <h4>Mobile Recharge</h4>
+        </div>
+      </a>
+
+      <!-- DTH Recharge -->
+      <a href="recharge.html" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">📺</div>
+          <h4>DTH Recharge</h4>
+        </div>
+      </a>
+
+      <!-- PAN Card -->
+      <a href="pan-card.html" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">🧾</div>
+          <h4>PAN Card Apply</h4>
+        </div>
+      </a>
+
+      <!-- Biodata -->
+      <a href="biodata.html" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">📄</div>
+          <h4>Biodata</h4>
+        </div>
+      </a>
+
+      <!-- Aadhaar Services -->
+      <a href="#" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">🆔</div>
+          <h4>Aadhaar Services</h4>
+        </div>
+      </a>
+
+      <!-- Bill Payment -->
+      <a href="#" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">💡</div>
+          <h4>Bill Payment</h4>
+        </div>
+      </a>
+
+      <!-- Banking -->
+      <a href="#" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">🏦</div>
+          <h4>Banking Services</h4>
+        </div>
+      </a>
+
+      <!-- Insurance -->
+      <a href="#" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">🛵</div>
+          <h4>Insurance</h4>
+        </div>
+      </a>
+
+      <!-- Cyber Cafe -->
+      <a href="#" class="service-link">
+        <div class="service-box">
+          <div class="service-icon">🖨️</div>
+          <h4>Cyber Cafe</h4>
+        </div>
+      </a>
     </div>
   </section>
 
